@@ -1,0 +1,43 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit product [ID: {{product.basic_id}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="product_form" class="form-horizontal" role="form" novalidate>
+            <!--<form-element label="Specific ID" mod="product">
+                <input type="text" class="form-control" name="specific_id" placeholder="Specific ID#" ng-model="product.specific_id" focus/>
+            </form-element>-->
+            <form-element label="Basic Brg ID" mod="product">
+                <input type="text" class="form-control" name="basic_id" placeholder="" ng-model="product.basic_id" ng-disabled=true focus/>
+            </form-element>
+            <form-element label="Type" mod="product">
+            <input type="text" class="form-control" name="type" placeholder="Type e.g. CRB TRB SRB DGBB QJ" ng-model="product.type" focus/>
+            </form-element>
+            <form-element label="Construction" mod="product">
+                <input type="text" name="construction" class="form-control" placeholder="Construction e.g. NU NJ NCF NNCF QJ IOR" ng-model="product.construction"/>
+            </form-element>
+            <form-element label="Base PN" mod="product">
+                <input type="text" name="id" class="form-control" placeholder="Base PN" ng-model="product.base_pn"/>
+            </form-element>
+	    
+
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveProduct(product);"
+                                ng-disabled="product_form.$invalid || enableUpdate"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>

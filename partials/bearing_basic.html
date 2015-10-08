@@ -1,0 +1,59 @@
+<h4 class="blog-post-title">Basic Bearing Table</h4>
+<hr/>
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);">&nbsp;Add New Basic Bearing Record</button>
+
+<div class="table-responsive">
+<div class="panel panel-primary">
+  <div class="panel-heading">List of bearings
+      <div class="sw-search" >
+            <div class="nav-search" id="nav-search">
+                    Filter: <span class="input-icon">
+                        <input placeholder="Filter products list ..." class="nav-search-input" ng-model="filterProduct" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:300px;" focus>
+                        <i class="search-icon fa fa-search nav-search-icon"></i>
+                    </span>
+            </div>
+        </div>
+    </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+    <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+    <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+    
+    <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+
+<!--This is where the structure of each row is built 
+Revise column header in productCtrl.js
+revise query in index.php-->
+
+<!-- TODO NEED TO load bearing basic table-->
+
+
+    <tr ng-repeat="c in products | filter:filterProduct | orderBy:'basic_id'" id="{{c.basic_id}}"> <!--animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+        <td>{{c.basic_id}}</td><td>{{c.type}}</td><td>{{c.construction}}</td><td>{{c.base_pn}}</td>
+       
+       <!-- TODO add edit/copy/delete buttons to this column for each record -->
+        <td style="width:100px">
+        	<div class="btn-group">
+              		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
+              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
+              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+        	</div>
+        
+        </td>
+       
+       
+       <!-- <td>
+            <button class="btn" ng-class="{Active:'btn-success', Inactive:''}[c.status]" ng-click="changeProductStatus(c);">{{c.status}}</button>
+        </td> -->
+        <!--<td style="width:100px">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default fa fa-edit" ng-click="open(c);"></button>
+              <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteProduct(c);"></button>
+            </div>
+        </td>-->
+    </tr>
+    </table>
+</div>
+</div>
+</div>
+              

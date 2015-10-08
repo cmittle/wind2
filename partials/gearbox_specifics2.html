@@ -1,0 +1,82 @@
+<h4 class="blog-post-title">Gearbox Specifics Table -Remap database connection</h4>
+<hr/>
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);">&nbsp;Add New Gearbox Specific Record</button>
+
+<div class="table-responsive">
+<div class="panel panel-primary">
+  <div class="panel-heading">
+  	 Gearbox ID: <span class="input-icon">
+  	 
+  	 <!-- TODO need to turn this into a pulldown menu instead of data entry -->
+	        <!--<input class="nav-search-input" ng-model="gb_id" autocomplete="off" type="text" style="width:100px;" ng-change="getgb()" focus>-->
+	        
+	        <!--this loads the list of available gearboxes from the gearbox_basic table and presents it in a pulldown menu -->
+	     <!--   if you select another gearbox it will then send the gbid to a server query to return only the list of bearings for that gearbox-->
+			<!--TODO figure out how to order this list   
+				this way kind of works but I can't get value= yet, or multiple fields displayed (n.mfg + n.model) -->
+	        
+	        <!-- TODO need to figure out how to properly use track by or change ng-model acordingly-->
+	        <select  style="color:black" ng-model="gb_id" ng-change="getgb()" ng-options="n.name for n in concatGbArray | orderBy:'name' track by n.id"> <!--  | orderBy:'name' -->
+	        <option value="">Select Gearbox</option>
+	        <!--  THIS worked in case I need to revert back No sorting
+	        <select  style="color:black" ng-model="gb_id" ng-change="getgb()" > 
+		  <option ng-repeat="n in gbBasicList" value="{{n.id}}">{{n.mfg}} {{n.model}}</option> -->
+		  
+	        </select>
+	        
+	        <!-- <input class="nav-search-input" ng-model="filterProduct" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:100px;" focus>-->
+	        <i class="search-icon fa fa-search nav-search-icon"></i>
+	    </span>
+  
+      <div class="sw-search" >
+            <div class="nav-search" id="nav-search">
+                    Filter: <span class="input-icon">
+                        <input placeholder="Filter products list ..." class="nav-search-input" ng-model="filterProduct2" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:200px;" focus>
+                        <i class="search-icon fa fa-search nav-search-icon"></i>
+                    </span>
+            </div>
+        </div>
+    </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+    <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+    <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+    
+    <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+
+<!--This is where the structure of each row is built 
+Revise column header in productCtrl.js
+revise query in index.php-->
+
+<!-- TODO NEED TO load GEARBOX specifics table  | filter:{gb_id:filterProduct:strict} -->
+
+<!-- filter:{gb_id:filterProduct} | -->
+
+    <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'id'" id="{{c.id}}"> <!--animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+        <td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.pos_id}}</td><td>{{c.position}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
+       <!-- TODO add edit/copy/delete buttons to this column for each record -->
+        <td style="width:100px">
+        	<div class="btn-group">
+              		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
+              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
+              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+        	</div>
+        
+        </td>
+       
+       
+       <!-- <td>
+            <button class="btn" ng-class="{Active:'btn-success', Inactive:''}[c.status]" ng-click="changeProductStatus(c);">{{c.status}}</button>
+        </td> -->
+        <!--<td style="width:100px">
+            <div class="btn-group">
+              <button type="button" class="btn btn-default fa fa-edit" ng-click="open(c);"></button>
+              <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteProduct(c);"></button>
+            </div>
+        </td>-->
+    </tr>
+    </table>
+</div>
+</div>
+</div>
+              

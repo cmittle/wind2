@@ -1,0 +1,51 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit product [ID: {{product.id}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="product_form" class="form-horizontal" role="form" novalidate>
+            <!--<form-element label="Specific ID" mod="product">
+                <input type="text" class="form-control" name="specific_id" placeholder="Specific ID#" ng-model="product.specific_id" focus/>
+            </form-element>-->
+            <form-element label="Gearbox ID" mod="product">
+                <input type="text" class="form-control" name="position" placeholder="Basic Bearing ID#" ng-model="product.gearbox_id" ng-disabled="product.specific_id" focus/>
+            </form-element>
+            <form-element label="Position" mod="product">
+            <input type="text" class="form-control" name="position" placeholder="Position e.g. PC-RS, HSS-GS, HSIS-RS etc..." ng-model="product.position" focus/>
+            </form-element>
+            <form-element label="Brg Basic ID" mod="product">
+                <input type="text" name="bearing_basic_id" class="form-control" ng-model="product.bearing_basic_id"/>
+            </form-element>
+            <form-element label="Brg Basic PN" mod="product">
+                <input type="text" name="bearing_basic_pn" class="form-control" placeholder="Brg Basic PN e.g. NU 2326, 32964DF" ng-model="product.bearing_basic_pn"/>
+            </form-element>
+	    <form-element label="Recommended Clearance" mod="product">
+                <input type="text" name="rec_clearance" class="form-control" placeholder="Recommended clearance for this gb e.g. C0, C3, CNL, C3P etc..." ng-model="product.rec_clearance"/>
+            </form-element>
+            <form-element label="Qty/Gb" mod="product">
+                <input type="text" name="qty_per_gb" class="form-control" placeholder="" ng-model="product.qty_per_gb"/>
+            </form-element>
+            <form-element label="Notes" mod="product">
+            <textarea class="form-control" name="notes" placeholder="Notes" ng-model="product.notes">{{product.notes}}</textarea> <!-- I think I can remove the two way binding here -->
+            </form-element>
+
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveProduct(product);"
+                                ng-disabled="product_form.$invalid || enableUpdate"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>
