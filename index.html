@@ -1,62 +1,124 @@
 <!DOCTYPE html>
-<html ng-app="myApp">
-<body ng-cloak="">
-  <title>Product Manager Web Application</title>
-  <meta name="Description" content="Product Manager Web Application created with AngularJS and PHP">
-  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-  <link rel="stylesheet" href="css/custom.css" type="text/css" />
-  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-  <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
-  <div class="blog-masthead">
-      <div class="container">
-        <nav class="blog-nav">
-          <a class="blog-nav-item active" href="#">Inventory</a>
-          <a class="blog-nav-item pull-right" href="http://www.angularcode.com/product-inventory-management-using-angularjs-mysql-and-php-restful-api">Tutorial</a>
-          <a class="blog-nav-item pull-right" href="http://www.angularcode.com/download-link/?url=https://app.box.com/s/pqr0wo3osvoahyh7qtsa">Download</a>
-        </nav>
-      </div>
+<html lang="en" ng-app="myApp">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Cory's Wind Pages</title>
+
+    <!-- Bootstrap Core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom CSS -->
+    <link href="css/simple-sidebar.css" rel="stylesheet">
+
+    <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+        <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+        <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+
+</head>
+
+<body>
+
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <div id="sidebar-wrapper">
+            <ul class="sidebar-nav">
+                <li class="sidebar-brand">
+                    <a href="#">
+                        Start Bootstrap
+                    </a>
+                </li>
+                <li>
+                    <!--http://localhost:8383/wind2_html/-->    
+                    <a href="#/gearbox_basic">Gearbox</a> 
+                </li>
+                <li>
+                    <a href="#">Generators</a>
+                </li>
+                <li>
+                    <a href="#">Turbines</a>
+                </li>
+                <li>
+                    <a href="#">Customers</a>
+                </li>
+                <li>
+                    <a href="#/bearing_basic">Bearing Basics</a>
+                </li>
+                <li>
+                    <a href="#">Services</a>
+                </li>
+                <li>
+                    <a href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <div class="container-fluid">
+                <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Tu</a>
+                <div class="row">
+                    <div class="col-lg-12">
+                        <h1>Wind Home Page</h1>
+                        <!--<div class="container">-->
+<!--                            <div class="page-content">-->
+                              <div ng-view="" id="ng-view"></div>
+<!--                            </div>-->
+                        <!--</div>-->  
+                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
     </div>
+    <!-- /#wrapper -->
 
+    <!-- jQuery -->
+    <!--<script src="js/jquery.js"></script>-->
+    <script src="js/angular.min.js"></script>
+    <script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>
+    <script src="js/angular-route.min.js"></script>
+    <script src="js/angular-animate.min.js"></script>
+    
+    
+    <!-- AngularJS custom codes -->
+    <script src="app/app.js"></script>
+    <script src="app/data.js"></script>
+    <script src="app/directives.js"></script>
+    <script src="app/bearingSpecificsCtrl.js"></script>
+    <script src="app/bearingBasicCtrl.js"></script>
+    <script src="app/gearboxBasicCtrl.js"></script>
+    <script src="app/gearboxSpecificsCtrl.js"></script>
+    <script src="app/gearboxSpecificsCtrl2.js"></script>
 
+    <!-- Bootstrap Core JavaScript -->
+    <script src="js/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/underscore.min.js"></script>
+    
+    <!-- Menu Toggle Script -->
+    <script>
+    $("#menu-toggle").click(function(e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+    </script>
 
-<div class="container">
-    <div class="page-content">
-      <div ng-view="" id="ng-view"></div>
-    </div>
-</div>  
-	
-	
-	
-	
-	
-			
-
-
-<!-- Libraries -->
-<script src="js/angular.min.js"></script>
-<script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>
-<script src="js/angular-route.min.js"></script>
-<script src="js/angular-animate.min.js"></script>
-<!-- I think I will need to import JQuery to do the disapearing sidebar-->
-<!-- <script src="js/jquery.js"></script>-->
-
-<!-- AngularJS custom codes -->
-<script src="app/app.js"></script>
-<script src="app/data.js"></script>
-<script src="app/directives.js"></script>
-<!--<script src="app/productsCtrl.js"></script>-->
-<script src="app/bearingSpecificsCtrl.js"></script>
-<script src="app/bearingBasicCtrl.js"></script>
-<script src="app/gearboxBasicCtrl.js"></script>
-<script src="app/gearboxSpecificsCtrl.js"></script>
-<script src="app/gearboxSpecificsCtrl2.js"></script>
-
-<!-- Some Bootstrap Helper Libraries -->
-
-<script src="js/jquery.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/underscore.min.js"></script>
-<!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-<script src="js/ie10-viewport-bug-workaround.js"></script>
 </body>
+
 </html>
