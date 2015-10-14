@@ -42,7 +42,8 @@
 	
 	//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
 	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-	$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
+	//TODO I don't think I need this bidning in this script
+        $stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
 
         // execute the query
         $stmt->execute();

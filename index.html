@@ -38,12 +38,17 @@
             <ul class="sidebar-nav">
                 <li class="sidebar-brand">
                     <a href="#">
-                        Start Bootstrap
+                        Menu
                     </a>
                 </li>
                 <li>  
                     <a href="#/gearbox_basic">Gearbox</a> 
                 </li>
+                
+                	<li ng-repeat="a in concatGbArray">
+                    		{{a.name}}
+                	</li>
+                
                 <li>
                     <a href="#">Generators</a>
                 </li>
@@ -73,6 +78,11 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Wind Home Page</h1>
+                        <ul>
+                	<li ng-repeat="(country,goals) in tm">
+                    		{{country}}
+                	</li>
+                </ul>
                         <!--<div class="container">-->
 <!--                            <div class="page-content">-->
                               <div ng-view="" id="ng-view"></div>
@@ -102,6 +112,7 @@
     <script src="app/app.js"></script>
     <script src="app/data.js"></script>
     <script src="app/directives.js"></script>
+    <script src="app/homePageCtrl.js"></script>
     <script src="app/bearingSpecificsCtrl.js"></script>
     <script src="app/bearingBasicCtrl.js"></script>
     <script src="app/gearboxBasicCtrl.js"></script>

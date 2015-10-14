@@ -89,6 +89,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 		//this runs the initial gb basic query when the page is loaded so I can populate the pulldown menu
 		
 		$scope.getgbbasic();
+                console.log("init gearbox specifics");
 		//this runs the initial gb specifics query when the page is loaded
 		
 		//DO NOT run this function on init().  as gb_id.id is not valid until selected from the pulldown menu
