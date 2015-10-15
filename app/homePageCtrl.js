@@ -29,14 +29,14 @@ $scope.getgbbasic = function() {
 		            }
 		        
 		     })
-		     .success(function (data) {
+                     //TODO change "data" to "response"
+                     //     change names of objects and arrays to make more sense for this controller
+		     .then(function (data) {
 		          $scope.gbBasicList = data;
-		          console.log("homePage basic");
-		          console.log(data[0]);
-		          //$scope.gb_id = data [0];
-		          angular.forEach (data, function (value, key){
-		          	//console.log(key + ':' + value['mfg'] + ' ' + value['model']);
-		          	//this creates a new gbObject with concatenated mfg name and model number
+		          console.log("gb basic THEN");
+		          console.log(data.data[0]);
+		          angular.forEach (data.data, function (value, key){
+		          	//this creates a temporary object with concatenated mfg ID and mfg Name
 		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
 		          	$scope.gbObject= {id: (value['id']), name:(value['mfg'])}; // + ' ' + value['model']
 		          	//add new gb to array in forEach loop to gb master list to be sorted.
@@ -47,12 +47,10 @@ $scope.getgbbasic = function() {
 		          	
 		          });
 		          console.log($scope.concatGbArray[0]);
-		          console.log("test");
-		          console.log($scope.concatGbArray);
-		          $scope.gbMfgArray = $scope.concatGbArray;
-		          console.log("gb mfg array");
-		          console.log($scope.gbMfgArray);
-		     }); 
+		     }, function (data) {
+		     	console.log("failure of getgbbasic function status:");
+		     	console.log(data.status);
+		     });
 	};
 
 $scope.init = function () {
