@@ -52,6 +52,8 @@ revise query in index.php-->
 
 <!-- filter:{gb_id:filterProduct} | -->
 
+    <button ng-click="clicky()">CLICK ME!!?</button>
+
     <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'id'" id="{{c.id}}"> <!--animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
         <td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.pos_id}}</td><td>{{c.position}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
        <!-- TODO add edit/copy/delete buttons to this column for each record -->

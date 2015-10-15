@@ -1,4 +1,6 @@
 var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate']);
+//(function (angular) {
+//    angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate'])
 
 app.config(['$routeProvider',
   function($routeProvider) {
@@ -6,8 +8,8 @@ app.config(['$routeProvider',
     
     .when('/', {
       title: 'Home Page',
-      templateUrl: 'partials/home.html',
-      controller: 'homePageCtrl'
+      templateUrl: 'partials/home.html'//,
+      //controller: 'homePageCtrl'
     })
     .when('/bearing_specifics', {
       title: 'Bearings Specifics',
@@ -50,4 +52,4 @@ app.config(['$routeProvider',
       redirectTo: '/'
     });;
 }]);
-    
+//    }(window.angular));
