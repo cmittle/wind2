@@ -42,13 +42,23 @@
                     </a>
                 </li>
                 <li>  
-                    <a href="#/gearbox_basic">Gearbox</a> 
+                    <a href="#/gearbox_basic" ng-click="showHideGearbox()">Gearbox</a> 
+                    
+                <!--This establishes the list of gearbox mfg's-->
+                <!--TODO figure out how to hide gb mfg list when the word Gearbox is clicked -->
                 <ul>
-                            <li ng-repeat="m in concatGbArray" ng-click="getGearboxModels([m.id])"> <!--ng-click="clicky()" -->
+                            <li ng-repeat="m in concatGbArray" ng-click="showGbModels([m.id])"> <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
                     		<a href="#/gearbox/mfg">{{m.name}}</a> <!--This makes every gb mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
-                		<ul>
-                			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id }:strict" ng-click="clicky()"> 
-                			<a> {{mo.model}}</a>
+                		<!--This establishes the list of gearbox model per gearbox mfg-->
+                		<ul > 
+                			<!--this repeats a list item for of the gearboxes in the gbModelArray for each GB MFG listed above
+                			          orderBy sorts models into alphabetical order
+                			          filter mfg: m.id only shows li elements who's mfg variable for the specific model record match the m.id value of the gbMfg li we're currently on
+                			          filter view: true only shows li elements who have a view element that says true, this is used to toggle which mfg model list is displayed on the page
+                			                  by changing this value when a different mfg is selected (see showGbModels function) 
+                			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
+                			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
+                			<a > {{mo.model}}</a>
                 			</li>
                 		</ul> 
                 	</li>

@@ -4,23 +4,42 @@ $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and
 
 $scope.gbMfgArray = [];  //move to here once I get the ng-repeat to work
 $scope.gbModelArray = [];  //load all of the gb model numbers at once then filter under each list item
+
+/* DELETE these variables and functions they were only used for testing/implemntation
 $scope.strict = true;
+$scope.test = false;
+$scope.check = function(z) {
+	console.log("z is " + z);
+	if (z == $scope.currentGb) {
+		return true;
+	} else {
+	return false;
+	};
+};
+$scope.showGearboxMfgList = true;
+$scope.showHideGb = function () {
+	$scope.showGearboxMfgList = false;
+};*/
 
-$scope.tm = {
-    "India": "2",
-    "England": "2",
-    "Brazil": "3",
-    "UK": "1",
-    "USA": "3",
-    "Syria": "2"
+
+$scope.clicky = function (y) {
+	console.log(y);	
+	
 };
 
-$scope.clicky = function () {
-	console.log("CLICKY");
-};
-$scope.getGearboxModels = function(x) {
-	console.log("get gb models");
-	console.log(x);
+$scope.showGbModels = function(x) {
+	//this function takes the gbMfgId from the clicked mfg name on the page and changes the "view" property of that gb model to true if the gbmfg for that model matches
+			//eg if gbMfg Hansen is selected (id = 5) then all models that list Hansen (id=5) in the mfg property have the view property changed to true
+	angular.forEach($scope.gbModelArray, function (ea, key) {
+	//this loops 
+		if (ea.mfg == x) {
+			ea.view = true;
+		} else {
+			ea.view = false;
+		};
+	});
+	
+	
 };
 
 /*Data.get('gearbox_basic').then(function(data){
@@ -50,12 +69,13 @@ $scope.getgbmodels = function() {
                      //     change names of objects and arrays to make more sense for this controller
 		     .then(function (data) {
 		          $scope.g = data;
-		          console.log("gb MODEL BASCI THEN");
-		          console.log(data.data[0]);
+		          //console.log("gb MODEL BASCI THEN");
+		          //console.log(data.data[0]);
 		          angular.forEach (data.data, function (value, key){
 		          	//this creates a temporary object with concatenated mfg ID and mfg Name
 		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
-		          	$scope.b= {model: (value['model']), mfg:(value['mfg'])}; // + ' ' + value['model']
+		          	//$scope.b= {model: (value['model']), mfg:(value['mfg'])}; // + ' ' + value['model']
+		          	$scope.b= {model: (value['model']), mfg:(value['mfg']), view:(false)};
 		          	//add new gb to array in forEach loop to gb master list to be sorted.
 		          	$scope.gbModelArray = $scope.gbModelArray.concat($scope.b);
 		          	//console.log($scope.gbObject);
@@ -63,6 +83,7 @@ $scope.getgbmodels = function() {
 		          	
 		          	
 		          });
+		          console.log("look here for view variable in object");
 		          console.log($scope.gbModelArray);
 		     }, function (data) {
 		     	console.log("failure of getmodellist function status:");

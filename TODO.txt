@@ -1,0 +1,11 @@
+
+1.	modify add/edit pages for brg mfg and gb mfg to have pull down menus rather than user entry
+2.	remove a lot of console.log calls and minimize notes
+3.	review $http.get calls and push them back into utilizing the Data.get factory -be carefull about return type of gb mfg as this will affect how it's displayed on the side bar
+4.	need to figure out dynamic routing for gearbox specific pages base/url/:gbmfg/:model, this will also apply to towers, gens, main brgs, etc..
+5.	
+6.	
+7.	
+8.	
+9.	
+10.	
