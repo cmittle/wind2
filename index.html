@@ -7,8 +7,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
-    <meta name="author" content="">
-
+    <meta name="author" content="Cory Mittleider">
+    <!--This makes Google not index the site or follow the links on this site -->
+    <meta name="robots" content="noindex,nofollow">
+    
     <title>Cory's Wind Pages</title>
 
     <!-- Bootstrap Core CSS -->
@@ -42,22 +44,24 @@
                     </a>
                 </li>
                 <li>  
-                    <a href="#/gearbox_basic" ng-click="showHideGearbox()">Gearbox</a> 
+                	<a  ng-click="toggleGbMfgList()" > Gearbox </a>
+                    <!--<a href="#/gearbox_basic" ng-click="showHideGearbox()">Gearbox</a> --> 
                     
                 <!--This establishes the list of gearbox mfg's-->
-                <!--TODO figure out how to hide gb mfg list when the word Gearbox is clicked -->
-                <ul>
-                            <li ng-repeat="m in concatGbArray" ng-click="showGbModels([m.id])"> <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
+                <!--When gb mfg name is clicked the id is given to the controler to expand/collapse the model list below it.-->
+                <!--ng-if removes this list from the DOM when false which is better for performance. -->
+                <ul ng-if="showGbMfgList">
+                            <li ng-repeat="m in concatGbArray " style="color:white" ng-click="showGbModels([m.id])"> <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
                     		<a href="#/gearbox/mfg">{{m.name}}</a> <!--This makes every gb mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
                 		<!--This establishes the list of gearbox model per gearbox mfg-->
-                		<ul > 
+                		<ul> 
                 			<!--this repeats a list item for of the gearboxes in the gbModelArray for each GB MFG listed above
                 			          orderBy sorts models into alphabetical order
                 			          filter mfg: m.id only shows li elements who's mfg variable for the specific model record match the m.id value of the gbMfg li we're currently on
                 			          filter view: true only shows li elements who have a view element that says true, this is used to toggle which mfg model list is displayed on the page
                 			                  by changing this value when a different mfg is selected (see showGbModels function) 
                 			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
-                			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
+                			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
                 			<a > {{mo.model}}</a>
                 			</li>
                 		</ul> 
