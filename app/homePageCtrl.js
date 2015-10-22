@@ -6,29 +6,13 @@ $scope.gbMfgArray = [];  //move to here once I get the ng-repeat to work
 $scope.gbModelArray = [];  //load all of the gb model numbers at once then filter under each list item
 $scope.showGbMfgList = false;  //this is used to show/hide the list of gb mfgs below the "Gearbox" heading
 
-
-/* DELETE these variables and functions they were only used for testing/implemntation
-$scope.strict = true;
-$scope.test = false;
-$scope.check = function(z) {
-	console.log("z is " + z);
-	if (z == $scope.currentGb) {
-		return true;
-	} else {
-	return false;
-	};
-};
-$scope.showGearboxMfgList = true;
-$scope.showHideGb = function () {
-	$scope.showGearboxMfgList = false;
-};*/
-
-
+/* DELETE test function
 $scope.clicky = function (y) {
 	console.log(y);	
 	
-};
+};*/
 
+// expand/collapse model list below selected gearbox mfg
 $scope.showGbModels = function(x) {
 	//this function takes the gbMfgId from the clicked mfg name on the page and changes the "view" property of that gb model to true if the gbmfg for that model matches
 			//eg if gbMfg Hansen is selected (id = 5) then all models that list Hansen (id=5) in the mfg property have the view property changed to true
@@ -43,6 +27,7 @@ $scope.showGbModels = function(x) {
 	
 };
 
+// expand/collaps top level "Gearbox" label in sidebar
 $scope.toggleGbMfgList = function () {
 	//This is used to toggle showGbMfgList variable
 	$scope.showGbMfgList = !$scope.showGbMfgList;	
@@ -81,7 +66,8 @@ $scope.getgbmodels = function() {
 		          	//this creates a temporary object with concatenated mfg ID and mfg Name
 		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
 		          	//$scope.b= {model: (value['model']), mfg:(value['mfg'])}; // + ' ' + value['model']
-		          	$scope.b= {model: (value['model']), mfg:(value['mfg']), view:(false)};
+		          	//$scope.b= {model: (value['model']), mfg:(value['mfg']), view:(false)};
+		          	$scope.b= {model: (value['model']), mfg:(value['mfg']), id: (value['id']), view:(false)};
 		          	//add new gb to array in forEach loop to gb master list to be sorted.
 		          	$scope.gbModelArray = $scope.gbModelArray.concat($scope.b);
 		          	//console.log($scope.gbObject);

@@ -5,26 +5,8 @@
 <div class="table-responsive">
 <div class="panel panel-primary">
   <div class="panel-heading">
-  	 Gearbox ID: <span class="input-icon">
+  	 Gearbox : {{urlMfg}} {{urlModel}}<span class="input-icon">
   	 
-  	 <!-- TODO need to turn this into a pulldown menu instead of data entry -->
-	        <!--<input class="nav-search-input" ng-model="gb_id" autocomplete="off" type="text" style="width:100px;" ng-change="getgb()" focus>-->
-	        
-	        <!--this loads the list of available gearboxes from the gearbox_basic table and presents it in a pulldown menu -->
-	     <!--   if you select another gearbox it will then send the gbid to a server query to return only the list of bearings for that gearbox-->
-			<!--TODO figure out how to order this list   
-				this way kind of works but I can't get value= yet, or multiple fields displayed (n.mfg + n.model) -->
-	        
-	        <!-- TODO need to figure out how to properly use track by or change ng-model acordingly-->
-	        <select  style="color:black" ng-model="gb_id" ng-change="getgb()" ng-options="n.name for n in concatGbArray | orderBy:'name' track by n.id"> <!--  | orderBy:'name' -->
-	        <option value="">Select Gearbox</option>
-	        <!--  THIS worked in case I need to revert back No sorting
-	        <select  style="color:black" ng-model="gb_id" ng-change="getgb()" > 
-		  <option ng-repeat="n in gbBasicList" value="{{n.id}}">{{n.mfg}} {{n.model}}</option> -->
-		  
-	        </select>
-	        
-	        <!-- <input class="nav-search-input" ng-model="filterProduct" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:100px;" focus>-->
 	        <i class="search-icon fa fa-search nav-search-icon"></i>
 	    </span>
   

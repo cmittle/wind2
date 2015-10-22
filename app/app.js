@@ -48,6 +48,13 @@ app.config(['$routeProvider',
       templateUrl: 'partials/gearbox_basic.html',
       controller: 'gearboxBasicCtrl'
     })
+    //This is the dynamic gearbox mfg / model page loader
+    .when('/gearbox/:mfg/:model', {
+      templateUrl: 'partials/gearbox_specifics2.html',
+      controller: 'gearboxSpecificsCtrl2'
+      //title: 'Gearbox model xx',
+      //controller: 'testRouteCtrl'
+    })
     .otherwise({
       redirectTo: '/'
     });;

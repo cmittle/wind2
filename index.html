@@ -8,9 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Cory Mittleider">
-    <!--This makes Google not index the site or follow the links on this site -->
+        <!--This makes Google not index the site or follow the links on this site -->
     <meta name="robots" content="noindex,nofollow">
-    
+
     <title>Cory's Wind Pages</title>
 
     <!-- Bootstrap Core CSS -->
@@ -51,8 +51,9 @@
                 <!--When gb mfg name is clicked the id is given to the controler to expand/collapse the model list below it.-->
                 <!--ng-if removes this list from the DOM when false which is better for performance. -->
                 <ul ng-if="showGbMfgList">
-                            <li ng-repeat="m in concatGbArray " style="color:white" ng-click="showGbModels([m.id])"> <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
-                    		<a href="#/gearbox/mfg">{{m.name}}</a> <!--This makes every gb mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
+                            <li ng-repeat="m in concatGbArray " style="color:white"> <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
+                    		<a  ng-click="showGbModels([m.id])">{{m.name}}</a> <!--href="#/gearbox/mfg"  -->
+                    		<!--This makes every gb mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
                 		<!--This establishes the list of gearbox model per gearbox mfg-->
                 		<ul> 
                 			<!--this repeats a list item for of the gearboxes in the gbModelArray for each GB MFG listed above
@@ -62,18 +63,13 @@
                 			                  by changing this value when a different mfg is selected (see showGbModels function) 
                 			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
                 			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
-                			<a > {{mo.model}}</a>
+                			<!--dynamic url built by model loaded.  When selected will take to logical subpage ..gearbox/gbmfg/gbmodel and show bearing list -->
+                			<a ng-href="#/gearbox/{{mo.mfg}}/{{mo.id}}" > {{mo.model}}</a>
                 			</li>
                 		</ul> 
                 	</li>
                 </ul>
-                <ul>
-                	<!--This OrderBy and Filter works save as backup -->
-                		<!-- <li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: 10 }:strict" ng-click="clicky()">  -->
-                       <!--     <li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: 10 }:strict" ng-click="clicky()"> 
-                    		<a href="#/gearbox/mfg">{{mo.model}}</a> 
-                	</li> -->
-                </ul> 
+                
                 <li>
                     <a href="#">Generators</a>
                 </li>
@@ -141,6 +137,7 @@
     <script src="app/gearboxBasicCtrl.js"></script>
     <script src="app/gearboxSpecificsCtrl.js"></script>
     <script src="app/gearboxSpecificsCtrl2.js"></script>
+    
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/jquery.min.js"></script>
