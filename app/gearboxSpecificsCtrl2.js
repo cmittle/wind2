@@ -2,6 +2,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     $scope.product = {};
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $routeParams.model;  //model number passed in url
+    $scope.urlModelName;
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
     //this calls the gearbox.php file I created
     
@@ -84,6 +85,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 		     }); 
 	};
 	
+
 	/*$scope.getgbmfg = function() {
 		//this gets the list of gearbox mfg names from the database to display at the top of the page
 		$http
