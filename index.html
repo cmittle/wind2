@@ -42,7 +42,10 @@
                     <a href="#">
                         Menu
                     </a>
-                </li>
+                 </li>      
+                       <!-- This shows a loading wheel until the gbModel Array is populated-->
+			<p ng-hide="gbModelArray.length>-1" ><i style="color:white" class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</p>
+                
                 <li>  
                 	<a  ng-click="toggleGbMfgList()" > Gearbox </a>
                     <!--<a href="#/gearbox_basic" ng-click="showHideGearbox()">Gearbox</a> --> 
@@ -99,8 +102,8 @@
                 <div class="row" >
                     
                     <div class="col-lg-12">
-                        <h1">Wind Home Page</h1>
-                        
+                        <h1>Wind Home Page</h1>
+                        	
                        
                         <!--<div class="container">-->
 <!--                            <div class="page-content">-->
@@ -137,7 +140,6 @@
     <script src="app/gearboxBasicCtrl.js"></script>
     <script src="app/gearboxSpecificsCtrl.js"></script>
     <script src="app/gearboxSpecificsCtrl2.js"></script>
-    
 
     <!-- Bootstrap Core JavaScript -->
     <script src="js/jquery.min.js"></script>
