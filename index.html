@@ -67,7 +67,7 @@
                 			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
                 			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
                 			<!--dynamic url built by model loaded.  When selected will take to logical subpage ..gearbox/gbmfg/gbmodel and show bearing list -->
-                			<a ng-href="#/gearbox/{{mo.mfg}}/{{mo.id}}" > {{mo.model}}</a>
+                			<a ng-href="#/gearbox/{{m.name}}/{{mo.model}}" > {{mo.model}}</a>  <!--this is from when I was using a mfg id# and model id#{{mo.mfg}} {{mo.id}} -->
                 			</li>
                 		</ul> 
                 	</li>
