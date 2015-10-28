@@ -6,21 +6,23 @@
 <div class="table-responsive">
 <div class="panel panel-primary">
   <div class="panel-heading">
-  	 <h3>Gearbox : {{urlMfg}} {{urlModel}}</h3> 
+  	 <h3 ng-if="urlModel">Gearbox : {{urlMfg}} {{urlModel}}</h3> 
   	 
-  	 <!--<span class="input-icon"> 
+  	<span class="input-icon"> 
   	 
 	        <i class="search-icon fa fa-search nav-search-icon"></i>
 	    </span> 
   
-      <div class="sw-search" >
+      <div class="sw-search" ng-if="!urlModel">
+      
             <div class="nav-search" id="nav-search">
                     Filter: <span class="input-icon">
                         <input placeholder="Filter products list ..." class="nav-search-input" ng-model="filterProduct2" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:200px;" focus>
                         <i class="search-icon fa fa-search nav-search-icon"></i>
                     </span>
+                    <br>
             </div>
-        </div>-->
+        </div>
     </div>
   <div class="panel-body">
     <table class="table table-striped">
@@ -31,7 +33,7 @@
 
 
 
-    <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" id="{{c.pos_id}}"> <!--animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+    <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > <!--id="{{c.id}}"   animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
         <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
        <!-- OLD column layout -->
        <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
