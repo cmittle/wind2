@@ -1,21 +1,15 @@
 
 
 1.	need to rewrite php calls to go through Data service rathe than raw get calls
-	a.	make sure they are still async calls when I do this
-	b.	can i make the same call with variables and without? ie call gbmfg query blanks to return all, and with an id# just to get name?
-2.	modify add/edi pages to have pull down for gb mfg and brg mfg rather than user entry
+	a.	have removed the need to load database name, username and password in every file, but still need to route through Data service.
+	b.	make sure they are still async calls when I do this
+	c.	can i make the same call with variables and without? ie call gbmfg query blanks to return all, and with an id# just to get name?
+
+2.	modify add/edit pages to have pull down for gb mfg and brg mfg rather than user entry
+	a.	modify database mfg list accordingly
 3.	using 1(b) I need to load gearbox specific page with Title at top of page (ie Winergy 4410, or Moventas PLH1100 etc...)
-	a.	need to figure out how to store large html block in database for model specific pages
-	b.	implement ng-WYSIWYG or whatever editor into page to allow for editing of notes on model
+	a.	implement ng-WYSIWYG or whatever editor into page to allow for editing of notes on model
+4.	figure out how to display specific part numbers below / beside the basic brg pn for each gearbox specifics page
 
 
 
-
-4.	need to figure out dynamic routing for gearbox specific pages base/url/:gbmfg/:model, this will also apply to towers, gens, main brgs, etc..
-	a. have this figured out for gearbox/mfg/model, need to extend into gens, towers etc...
-5.	
-6.	
-7.	
-8.	
-9.	
-10.	
