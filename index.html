@@ -67,7 +67,7 @@
                 			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
                 			<li ng-repeat="mo in gbModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
                 			<!--dynamic url built by model loaded.  When selected will take to logical subpage ..gearbox/gbmfg/gbmodel and show bearing list -->
-                			<a ng-href="#/gearbox/{{m.name}}/{{mo.model}}" > {{mo.model}}</a>  <!--this is from when I was using a mfg id# and model id#{{mo.mfg}} {{mo.id}} -->
+                			<a ng-href="#/gearbox/{{m.name}}/{{mo.model}}" > {{mo.model}}</a>  <!--{{mo.id}} -->
                 			</li>
                 		</ul> 
                 	</li>
@@ -83,11 +83,15 @@
                     <a href="#">Customers</a>
                 </li>
                 <li>
-                    <a href="#/bearing_basic">Bearing Basics</a>
+                    <a ng-click="toggleMasterEdit()">Master Edit</a>
                 </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
+                <ul ng-if="showMasterEdit">
+                	<li style="color:white"> <a href="#/bearing_basic">Bearing Basic</a></li>
+                	<li style="color:white"> <a href="#/bearing_specifics">Bearing Specific</a></li>
+                	<li style="color:white"> <a href="#/gearbox_basic">Gearbox Basic</a></li>
+                	<li style="color:white"> <a href="#/gearbox_specifics2">Gearbox Specific</a></li>
+                	<li style="color:white"> <a href="#/"></a></li>
+                </ul>
                 <li>
                     <a href="#">Contact</a>
                 </li>
@@ -102,7 +106,7 @@
                 <div class="row" >
                     
                     <div class="col-lg-12">
-                        <h1>Wind Home Page</h1>
+                        <h1>Wind Home Page</h1> <br>
                         	
                        
                         <!--<div class="container">-->
@@ -110,6 +114,13 @@
                               <div ng-view="" id="ng-view"></div>
 <!--                            </div>-->
                         <!--</div>-->  
+                        <p style="font-size:150%"> This is the temporary landing page for my Wind information database</p>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
                         <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
                         <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
                         

@@ -7,8 +7,8 @@ app.config(['$routeProvider',
     $routeProvider
     
     .when('/', {
-      title: 'Home Page',
-      templateUrl: 'partials/home.html'//,
+      title: 'Home Page'//,
+      //templateUrl: 'partials/home.html'//,
       //controller: 'homePageCtrl'
     })
     .when('/bearing_specifics', {

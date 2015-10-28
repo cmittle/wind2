@@ -103,11 +103,11 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     
     
  $scope.columns = [ 
-                    {text:"ID",predicate:"id",sortable:true},
-                    {text:"GB ID",predicate:"gb_id",sortable:true},
-                    {text:"Pos ID",predicate:"pos_id",sortable:true},
+                    //{text:"ID",predicate:"id",sortable:true},
+                    //{text:"GB ID",predicate:"gb_id",sortable:true},
+                    //{text:"Pos ID",predicate:"pos_id",sortable:true},
                     {text:"Position",predicate:"position",sortable:true,},
-                    {text:"Brg Basic ID",predicate:"bearing_basic_id",sortable:true},
+                    //{text:"Brg Basic ID",predicate:"bearing_basic_id",sortable:true},
                     {text:"Brg Basic PN",predicate:"bearing_basic_pn",sortable:true},
                     {text:"Rec Clearance",predicate:"rec_clearance",sortable:true},
                     {text:"Qty/GB",predicate:"qty_per_gb",sortable:true},
@@ -120,4 +120,3 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 $scope.init();
 
 });
-
