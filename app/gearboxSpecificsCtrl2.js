@@ -79,8 +79,37 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 		     }); 
 	};
 	
-
-	
+//This opens the modal to add a new item to this gearbox.
+//TODO figure out how to pre-load current gearbox model on modal
+	    $scope.open = function (p,size) {
+	    	//console.log("scope.open");
+	        var modalInstance = $modal.open({
+	          templateUrl: 'partials/gearbox_specifics_edit.html',
+	          controller: 'gearboxSpecificsEditCtrl',
+	          size: size,
+	          resolve: {
+	            item: function () {
+	              return p;
+	            }
+	          }
+	        });
+	        modalInstance.result.then(function(selectedObject) {
+	        console.log("Modal Result");
+	            if(selectedObject.save == "insert"){
+	            	console.log("Insert");
+	                $scope.products.push(selectedObject);
+	                $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
+	                //$scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
+	            }else if(selectedObject.save == "update"){
+	            	console.log("Update");
+	                p.description = selectedObject.description;
+	                p.price = selectedObject.price;
+	                p.stock = selectedObject.stock;
+	                p.packing = selectedObject.packing;
+	            }
+	        });
+	    };
+		
 	
 	
 	//an initialization function so that getgb can be a separate function and called each time as necessary
@@ -119,4 +148,57 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 //this initializes the display when the page is loaded
 $scope.init();
 
+});
+
+app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, item, Data) {
+
+  $scope.product = angular.copy(item);
+        
+        $scope.cancel = function () {
+            $modalInstance.dismiss('Close');
+        };
+        $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
+        $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
+
+        var original = item;
+        $scope.isClean = function() {
+            return angular.equals(original, $scope.product);
+        }
+        $scope.saveProduct = function (product) {
+            product.uid = $scope.uid;
+            //window.alert("Clicked1 ");
+            //console.log("save button clicked");
+            //console.log(product);
+            if(product.id > 0){ // this is true if this editing a current product
+                console.log("product.id >0 " + product.id + " product");
+                console.log(product);
+                Data.put('gearbox_specifics/' + product.id, product).then(function (result) {
+                    if(result.status != 'error'){
+                        var x = angular.copy(product);
+                        x.save = 'update';
+                        $modalInstance.close(x);
+                    }else{
+                        console.log(result);
+                    }
+                    //window.alert("Clicked 5 " + specific_id);
+                });
+            }else{  //this is where it goes for a new product
+            	console.log("product.specific_id <0 ");
+            	//console.log(product);
+                //product.status = 'Active';
+                Data.post('gearbox_specifics', product).then(function (result) {
+                    if(result.status != 'error'){
+                    	//window.alert("Clicked 7");
+                        var x = angular.copy(product);
+                        x.save = 'insert';
+                        x.id = result.data;
+                        $modalInstance.close(x);
+                    }else{
+                    	//window.alert("Clicked 8" + result);
+                        console.log("Data.post - else");
+                        console.log(result);
+                    }
+                });
+            }
+        };
 });

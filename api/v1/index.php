@@ -118,7 +118,8 @@ $app->post('/products', function() use ($app) {
     echoResponse(200, $rows);
 });*/
 
-//haven't yet verified this "edit" functionality
+//TODO none of these EDIT functions work
+//ALl throw 501 error
 $app->put('/bearing_specifics/:specific_id', function($specific_id) use ($app) { 
     $data = json_decode($app->request->getBody());
     $condition = array('specific_id'=>$specific_id);
@@ -140,6 +141,18 @@ $app->put('/bearing_basic/:basic_id', function($id) use ($app) {
         $rows["message"] = "Product information updated successfully.";
     echoResponse(200, $rows);
 });
+$app->put('/gearbox_specifics/:id', function($id) use ($app) { 
+    $data = json_decode($app->request->getBody());
+    $condition = array('id'=>$id);
+    $mandatory = array();
+    global $db;
+    $rows = $db->update("gearbox_specifics", $data, $condition, $mandatory);
+    if($rows["status"]=="success")
+        $rows["message"] = "Product information updated successfully.";
+    echoResponse(200, $rows);
+    
+});
+
 /* OLD PUT METHOD
 $app->put('/products/:id', function($id) use ($app) { 
     $data = json_decode($app->request->getBody());
