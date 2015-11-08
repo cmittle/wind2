@@ -85,7 +85,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 	    	//console.log("scope.open");
 	        var modalInstance = $modal.open({
 	          templateUrl: 'partials/gearbox_specifics_edit.html',
-	          controller: 'gearboxSpecificsEditCtrl',
+	          controller: 'gearboxSpecificsEditCtrl2',
 	          size: size,
 	          resolve: {
 	            item: function () {
@@ -101,11 +101,16 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 	                $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
 	                //$scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
 	            }else if(selectedObject.save == "update"){
-	            	console.log("Update");
-	                p.description = selectedObject.description;
+	            	console.log("Update  selectedObject=");
+	            	console.log(selectedObject);
+	            	//This should update the view but does not yet.  Compare to products page to see if I did something differently
+	                p = selectedObject;
+	                console.log("Update  p=");
+	            	console.log(p);
+	                /*p.description = selectedObject.description;
 	                p.price = selectedObject.price;
 	                p.stock = selectedObject.stock;
-	                p.packing = selectedObject.packing;
+	                p.packing = selectedObject.packing; */
 	            }
 	        });
 	    };
@@ -150,7 +155,7 @@ $scope.init();
 
 });
 
-app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, item, Data) {
+app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $http, item, Data) {
 
   $scope.product = angular.copy(item);
         
@@ -172,7 +177,29 @@ app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, ite
             if(product.id > 0){ // this is true if this editing a current product
                 console.log("product.id >0 " + product.id + " product");
                 console.log(product);
-                Data.put('gearbox_specifics/' + product.id, product).then(function (result) {
+                //change Data.put to Data.post see if that works...
+           	$http({
+			    method: 'POST',
+			    url: 'api/v1/gearboxEdit.php',
+			    data: product
+		     }).then(function (data) {
+		          //product.description = $scope.testVar; //update the view after database update is successful
+		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
+		          x.save = 'update';
+		          $modalInstance.close(x); //close Edit modal when completed
+		          
+		          console.log("SUCCESS  $scope.product = ");
+		          console.log($scope.product);
+		          
+		     }) .catch(function (data) {
+		     	console.log(data.data);
+		     	console.log("FAILED");
+	     	});      
+                
+                
+                
+           //This was the packaged Data.put - update that never worked     
+         /*       Data.put('gearbox_specifics/' + product.id, product).then(function (result) {
                     if(result.status != 'error'){
                         var x = angular.copy(product);
                         x.save = 'update';
@@ -181,7 +208,7 @@ app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, ite
                         console.log(result);
                     }
                     //window.alert("Clicked 5 " + specific_id);
-                });
+                });*/
             }else{  //this is where it goes for a new product
             	console.log("product.specific_id <0 ");
             	//console.log(product);
