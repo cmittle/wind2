@@ -184,6 +184,16 @@ $scope.init();
 app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $http, item, Data) {
 
   $scope.product = angular.copy(item);
+  $scope.basicbrglist;
+        
+        $scope.getbasicbrg = function () {
+        	Data.get('bearing_basic').then(function(data){
+    		//	This requests the query '/bearing_basic' as declared in index.php
+        	$scope.basicbrglist = data.data;
+        	console.log("basic brg list = ");
+        	console.log($scope.basicbrglist);
+    });
+        };
         
         $scope.cancel = function () {
             $modalInstance.dismiss('Close');
@@ -244,4 +254,6 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
                 });
             }
         };
+        $scope.getbasicbrg();
+        
 });

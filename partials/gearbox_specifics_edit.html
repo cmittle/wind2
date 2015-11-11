@@ -19,8 +19,15 @@
             <form-element label="Position" mod="product">
             <input type="text" class="form-control" name="position" placeholder="" ng-model="product.position" focus/>
             </form-element>
+            <form-element label="Brg Basic ID" mod="product"> --Be Carefull with this
+            	<select  style="color:black" ng-model="product.bearing_basic_id"> 
+            	  <option></option>
+            	  <option ng-repeat="option in basicbrglist | orderBy:'construction + base_pn'" value="{{option.basic_id}}">{{option.construction}} {{option.base_pn}} ({{option.basic_id}})</option> 
+		</select>
+                <!--<input type="text" name="bearing_basic_id" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/> -->
+            </form-element>
             <form-element label="Brg Basic ID" mod="product">
-                <input type="text" name="bearing_basic_id" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/>
+                <input type="text" name="bearing_basic_id" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/> 
             </form-element>
             <form-element label="Brg Basic PN" mod="product">
                 <input type="text" name="bearing_basic_pn" class="form-control" placeholder="" ng-model="product.bearing_basic_pn"/>
