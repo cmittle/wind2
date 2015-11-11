@@ -79,6 +79,37 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 		     }); 
 	};
 	
+		$scope.deleteProduct = function(product){
+		        if(confirm("Are you sure to remove the product")){
+		            console.log("delete product = ");
+		            console.log(product);
+		    $http({
+			    method: 'GET',
+			    url: 'api/v1/delete.php',
+			    params: {type: 'delete', t: 'gbs', id: product.id}
+		     }).then(function (data) {
+		          //product.description = $scope.testVar; //update the view after database update is successful
+		          //var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
+		          //x.save = 'update';
+		          //$modalInstance.close(x); //close Edit modal when completed
+		          $scope.getgb(); //call this to update view on screen; there is probably a better way just to update 1 record, should look at this later
+		          //console.log("SUCCESS  $scope.product = ");
+		          //console.log($scope.product);
+		          
+		     }) .catch(function (data) {
+		     	console.log(data.data);
+		     	console.log("Delete item FAILED");
+	     	});
+		            
+		            
+		            
+		            //original delete code..
+		            //Data.delete("products/"+product.id).then(function(result){
+		            //    $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
+		            //});
+		        }
+		    };
+	
 //This opens the modal to add a new item to this gearbox.
 //TODO figure out how to pre-load current gearbox model on modal
 	    $scope.open = function (p,size) {
@@ -99,18 +130,13 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 	            	console.log("Insert");
 	                $scope.products.push(selectedObject);
 	                $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
-	                //$scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
 	            }else if(selectedObject.save == "update"){
-	            	console.log("Update  selectedObject=");
-	            	console.log(selectedObject);
 	            	//This should update the view but does not yet.  Compare to products page to see if I did something differently
-	                p = selectedObject;
-	                console.log("Update  p=");
-	            	console.log(p);
-	                /*p.description = selectedObject.description;
-	                p.price = selectedObject.price;
-	                p.stock = selectedObject.stock;
-	                p.packing = selectedObject.packing; */
+	            	//console.log("c = ");
+	            	//console.log(c);
+	                //c = selectedObject;  //c represents the item in the view; this updates the view based on the change that was just submitted
+	            	//c.notes = selectedObject.notes;
+	            	$scope.getgb(); //call this to update view on screen; there is probably a better way just to update 1 record, should look at this later
 	            }
 	        });
 	    };
@@ -170,14 +196,8 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
             return angular.equals(original, $scope.product);
         }
         $scope.saveProduct = function (product) {
-            product.uid = $scope.uid;
-            //window.alert("Clicked1 ");
-            //console.log("save button clicked");
-            //console.log(product);
+            //product.uid = $scope.uid;  //doesnt seem to do anything now
             if(product.id > 0){ // this is true if this editing a current product
-                console.log("product.id >0 " + product.id + " product");
-                console.log(product);
-                //change Data.put to Data.post see if that works...
            	$http({
 			    method: 'POST',
 			    url: 'api/v1/gearboxEdit.php',
@@ -210,12 +230,8 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
                     //window.alert("Clicked 5 " + specific_id);
                 });*/
             }else{  //this is where it goes for a new product
-            	console.log("product.specific_id <0 ");
-            	//console.log(product);
-                //product.status = 'Active';
                 Data.post('gearbox_specifics', product).then(function (result) {
                     if(result.status != 'error'){
-                    	//window.alert("Clicked 7");
                         var x = angular.copy(product);
                         x.save = 'insert';
                         x.id = result.data;
