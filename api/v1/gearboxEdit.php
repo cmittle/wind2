@@ -30,6 +30,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	$position = $_POST['position']; //human readable position
 	$qty_per_gb = $_POST['qty_per_gb']; //qty per gb e.g. 1, or 3
 	$rec_clearance = $_POST['rec_clearance']; //recommended clearance e.g. C0, C3, CNL, etc..
+	//$type = $_GET['type'];
 
 	//Check variables to see if they're blank
 	if (empty($_POST['id']))
@@ -51,6 +52,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	  $data['pos_id'] = $pos_id;
 	  $data['qty_per_gb'] = $qty_per_gb;
 	  $data['rec_clearance'] = $rec_clearance;
+	  //$data['type'] = $type;
 	}
 	// response back.
 	echo json_encode($data);  //This just echos what was updated
@@ -66,10 +68,18 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 //push all variables into database 
 	//update all of these variables
 	//$sql = "UPDATE  products SET  description = :description, price = :price, stock = :stock, packing = :packing WHERE  id =:pid"; 
-	//Try some of the variables for now, after verify it works add all of them.
-	$sql = "UPDATE  gearbox_specifics SET  position = :position WHERE  id =:id"; 
+	//Maybe I shouldn't update the gb_id, this would change what gearbox the bearing is listed in.
+	$sql = "UPDATE  gearbox_specifics SET  
+		position = :position, 
+		bearing_basic_id = :bearing_basic_id,
+		bearing_basic_pn = :bearing_basic_pn,
+		rec_clearance = :rec_clearance,
+		qty_per_gb = :qty_per_gb,
+		gb_id = :gb_id,
+		pos_id = :pos_id,
+		notes = :notes		 
+		WHERE  id =:id"; 
 	
-	// , basic_bearing_id = :basic_bearing_id, basic_bearing_pn = :basic_bearing_pn, rec_clearance = :rec_clearance
 	// use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
 	$stmt = $db->prepare( $sql );
 	
@@ -77,14 +87,14 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
 	//bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
 	$stmt->bindValue(':id', $id, PDO::PARAM_INT);//Bind int variable
-//	$stmt->bindValue(':bearing_basic_id', $bearing_basic_id, PDO::PARAM_STR); //Bind String variable
-//	$stmt->bindValue(':bearing_basic_pn', $bearing_basic_pn, PDO::PARAM_STR);//Bind STR variable
-//	$stmt->bindValue(':gb_id', $gb_id, PDO::PARAM_STR);//Bind str variable
-//	$stmt->bindValue(':notes', $notes, PDO::PARAM_STR);//Bind str variable
-//	$stmt->bindValue(':pos_id', $pos_id, PDO::PARAM_STR);//Bind str variable
+	$stmt->bindValue(':bearing_basic_id', $bearing_basic_id, PDO::PARAM_STR); //Bind String variable
+	$stmt->bindValue(':bearing_basic_pn', $bearing_basic_pn, PDO::PARAM_STR);//Bind STR variable
+	$stmt->bindValue(':gb_id', $gb_id, PDO::PARAM_STR);//Bind str variable
+	$stmt->bindValue(':notes', $notes, PDO::PARAM_STR);//Bind str variable
+	$stmt->bindValue(':pos_id', $pos_id, PDO::PARAM_STR);//Bind str variable
 	$stmt->bindValue(':position', $position, PDO::PARAM_STR);//Bind str variable
-//	$stmt->bindValue(':qty_per_gb', $qty_per_gb, PDO::PARAM_STR);//Bind str variable
-//	$stmt->bindValue(':rec_clearance', $rec_clearance, PDO::PARAM_STR);//Bind str variable
+	$stmt->bindValue(':qty_per_gb', $qty_per_gb, PDO::PARAM_STR);//Bind str variable
+	$stmt->bindValue(':rec_clearance', $rec_clearance, PDO::PARAM_STR);//Bind str variable
 	
         // execute the query
         $stmt->execute();
