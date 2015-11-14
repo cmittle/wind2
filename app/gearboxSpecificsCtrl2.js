@@ -181,18 +181,33 @@ $scope.init();
 
 });
 
-app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $http, item, Data) {
+app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $http, $routeParams, item, Data) {
 
   $scope.product = angular.copy(item);
   $scope.basicbrglist;
-        
+  $scope.urlModel = $routeParams.model;  //model number passed in url
+  $scope.submitted = false;
+       
         $scope.getbasicbrg = function () {
         	Data.get('bearing_basic').then(function(data){
     		//	This requests the query '/bearing_basic' as declared in index.php
         	$scope.basicbrglist = data.data;
         	console.log("basic brg list = ");
         	console.log($scope.basicbrglist);
-    });
+        	console.log("current model is =");
+        	console.log($scope.urlModel);
+    		});
+        };
+
+        $scope.loadModel = function() {
+      		console.log("TEST 1");
+      		console.log(item.id);
+        	if (item.id>0) {
+        		console.log("TEST 2");
+        		product.gb_id = $scope.urlModel;
+        		//console.log("product.gb_id = ");
+        		//console.log(product.gb_id);
+        	};
         };
         
         $scope.cancel = function () {
@@ -201,13 +216,16 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
         $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
 
+
         var original = item;
         $scope.isClean = function() {
             return angular.equals(original, $scope.product);
         }
         $scope.saveProduct = function (product) {
             //product.uid = $scope.uid;  //doesnt seem to do anything now
+            $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
             if(product.id > 0){ // this is true if this editing a current product
+            	
            	$http({
 			    method: 'POST',
 			    url: 'api/v1/gearboxEdit.php',
@@ -216,6 +234,7 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
 		          //product.description = $scope.testVar; //update the view after database update is successful
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
+		          $scope.submitted = false; //set back to false to show submit button again
 		          $modalInstance.close(x); //close Edit modal when completed
 		          
 		          console.log("SUCCESS  $scope.product = ");
@@ -225,26 +244,13 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
 		     	console.log(data.data);
 		     	console.log("FAILED");
 	     	});      
-                
-                
-                
-           //This was the packaged Data.put - update that never worked     
-         /*       Data.put('gearbox_specifics/' + product.id, product).then(function (result) {
-                    if(result.status != 'error'){
-                        var x = angular.copy(product);
-                        x.save = 'update';
-                        $modalInstance.close(x);
-                    }else{
-                        console.log(result);
-                    }
-                    //window.alert("Clicked 5 " + specific_id);
-                });*/
             }else{  //this is where it goes for a new product
                 Data.post('gearbox_specifics', product).then(function (result) {
                     if(result.status != 'error'){
                         var x = angular.copy(product);
                         x.save = 'insert';
                         x.id = result.data;
+                        $scope.submitted = false; //set back to false to show submit button again
                         $modalInstance.close(x);
                     }else{
                     	//window.alert("Clicked 8" + result);
@@ -253,7 +259,10 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
                     }
                 });
             }
+            
+            //$scope.submitted = false; //set back to false to show submit button again
         };
         $scope.getbasicbrg();
+        //$scope.loadModel();
         
 });

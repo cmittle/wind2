@@ -11,7 +11,7 @@
                 <input type="text" class="form-control" name="id" placeholder="" ng-model="product.id" ng-disabled=true focus/>
             </form-element>
             <form-element label="GB Model#" mod="product">
-                <input type="text" class="form-control" name="gb_id" placeholder="" ng-model="product.gb_id" focus/>
+                <input type="text" class="form-control" name="gb_id" placeholder="" ng-model="product.gb_id" focus/> <!-- ng-disabled=true  -->
             </form-element>
             <form-element label="Pos ID" mod="product">
                 <input type="text" class="form-control" name="order" placeholder="" ng-model="product.pos_id" focus/>
@@ -48,13 +48,15 @@
             <div class="modal-footer">
                 <form-element label="">
                     <div class="text-right">
-                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <a class="btn btn-sm" ng-click="cancel()" ng-if="!submitted"><i class="ace-icon fa fa-reply"></i>Cancel</a>
                         <button ng-click="saveProduct(product);"
+                        	ng-if="!submitted"
                                 ng-disabled="product_form.$invalid || enableUpdate"
                                 class="btn btn-sm btn-primary"
                                 type="submit">
                             <i class="ace-icon fa fa-check"></i>{{buttonText}}
                         </button>
+                        <p ng-if="submitted" ><i style="color:white" class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</p>
                     </div>
                 </form-element>
             </div>
