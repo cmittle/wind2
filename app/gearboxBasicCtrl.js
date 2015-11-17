@@ -1,5 +1,6 @@
 app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
     $scope.product = {};
+    $scope.showActions = true; //hide edit/delete/copy actions column by default
     Data.get('gearbox_basic').then(function(data){
     	//	This requests the query '/gearbox_basic' as declared in index.php
         $scope.products = data.data;
@@ -79,8 +80,8 @@ app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
                     {text:"ID",predicate:"id",sortable:true},
                     {text:"Mfg",predicate:"mfg",sortable:true},
                     {text:"Model",predicate:"model",sortable:true},
-                    {text:"Tower",predicate:"tower",sortable:true},
-                    {text:"Action",predicate:"",sortable:false}
+                    {text:"Tower",predicate:"tower",sortable:true}//,
+                    //{text:"Action",predicate:"",sortable:false}
                 ];
 /* $scope.columns = [
                     {text:"ID",predicate:"id",sortable:true,dataType:"number"},

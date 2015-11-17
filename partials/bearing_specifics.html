@@ -48,7 +48,7 @@ After adding additional filter box and basic brg id filter box, maybe I don't ne
         <td>{{c.bearing_basic_id}}</td><td>{{c.specific_id}}</td><td>{{c.specific_pn}}</td><td>{{c.mfg}}</td><td>{{c.id}}</td><td>{{c.od}}</td><td>{{c.width}}</td><td>{{c.clearance}}</td><td>{{c.cage}}</td><td>{{c.inner_ring}}</td><td>{{c.outer_ring}}</td><td>{{c.rollers}}</td><td>{{c.notes}}</td>
         
         <!-- TODO add edit/copy/delete buttons to this column for each record -->
-        <td style="width:100px">
+        <td ng-if="showActions" style="width:100px">
         	<div class="btn-group">
               		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
               		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>

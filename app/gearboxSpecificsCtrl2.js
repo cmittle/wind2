@@ -3,6 +3,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $routeParams.model;  //model number passed in url
     $scope.urlModelName;
+    $scope.showActions = true; //hide edit/delete/copy actions column by default
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
     //this calls the gearbox.php file I created
     
@@ -172,7 +173,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
                     {text:"Rec Clearance",predicate:"rec_clearance",sortable:true},
                     {text:"Qty/GB",predicate:"qty_per_gb",sortable:true},
                     {text:"Notes",predicate:"notes",sortable:true},
-                    {text:"Action",predicate:"",sortable:false}
+                    {text:"",predicate:"",sortable:false}
                 ];
 
 //call init function at bottom to run initalization after everything is declared

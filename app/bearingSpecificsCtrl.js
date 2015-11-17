@@ -1,5 +1,6 @@
 app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, Data) {
     $scope.product = {};
+    $scope.showActions = true; //hide edit/delete/copy actions column by default
     Data.get('bearing_specifics').then(function(data){
     	//	This requests the query '/bearing_specifics' as declared in index.php
         $scope.products = data.data;
@@ -45,8 +46,8 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, Data) 
                     {text:"Inner Ring",predicate:"inner_ring",sortable:true},
                     {text:"Outer Ring",predicate:"outer_ring",sortable:true},
                     {text:"Rollers",predicate:"rollers",sortable:true},
-                    {text:"Notes",predicate:"notes",sortable:true},
-                    {text:"Action",predicate:"",sortable:false}
+                    {text:"Notes",predicate:"notes",sortable:true}//,
+//                    {text:"Action",predicate:"",sortable:false}
                 ];
 
 });
@@ -66,7 +67,7 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
         var original = item;
         $scope.isClean = function() {
             return angular.equals(original, $scope.product);
-        }
+        } 
         $scope.saveProduct = function (product) {
             product.uid = $scope.uid;
             $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions

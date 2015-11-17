@@ -8,16 +8,16 @@
         <form name="product_form" class="form-horizontal" role="form" novalidate>
             
             <form-element label="ID" mod="product">
-                <input type="text" class="form-control" name="id" placeholder="" ng-model="product.id" ng-disabled=true focus/>
+                <input type="text" class="form-control" name="id" maxlength="15" tooltip="max length 15 charaters"  placeholder="" ng-model="product.id" ng-disabled=true focus/>
             </form-element>
             <form-element label="GB Model#" mod="product">
-                <input type="text" class="form-control" name="gb_id" placeholder="" ng-model="product.gb_id" focus/> <!-- ng-disabled=true  -->
+                <input type="text" class="form-control" name="gb_id" maxlength="20" tooltip="max length 20 charaters" placeholder="" ng-model="product.gb_id" focus/> <!-- ng-disabled=true  -->
             </form-element>
             <form-element label="Pos ID" mod="product">
-                <input type="text" class="form-control" name="order" placeholder="" ng-model="product.pos_id" focus/>
+                <input type="text" class="form-control" name="order" maxlength="6" tooltip="max length 6 charaters" placeholder="" ng-model="product.pos_id" focus/>
             </form-element>
             <form-element label="Position" mod="product">
-            <input type="text" class="form-control" name="position" placeholder="" ng-model="product.position" focus/>
+            <input type="text" class="form-control" name="position" maxlength="20" tooltip="max length 20 charaters" placeholder="e.g. PC-RS, LSIS-GS, etc..." ng-model="product.position" focus/>
             </form-element>
             <form-element label="Brg Basic ID" mod="product"> --Be Carefull with this
             	<select  style="color:black" ng-model="product.bearing_basic_id"> 
@@ -27,19 +27,19 @@
                 <!--<input type="text" name="bearing_basic_id" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/> -->
             </form-element>
             <form-element label="Brg Basic ID" mod="product">
-                <input type="text" name="bearing_basic_id" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/> 
+                <input type="text" name="bearing_basic_id" maxlength="15" tooltip="max length 15 charaters" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/> 
             </form-element>
             <form-element label="Brg Basic PN" mod="product">
-                <input type="text" name="bearing_basic_pn" class="form-control" placeholder="" ng-model="product.bearing_basic_pn"/>
+                <input type="text" name="bearing_basic_pn" maxlength="30" tooltip="max length 30 charaters" class="form-control" placeholder="" ng-model="product.bearing_basic_pn"/>
             </form-element>
             <form-element label="Rec Clearance" mod="product">
-                <input type="text" class="form-control" name="rec_clearance" placeholder="" ng-model="product.rec_clearance" focus/>
+                <input type="text" class="form-control" name="rec_clearance" maxlength="15" tooltip="max length 15 charaters" placeholder="" ng-model="product.rec_clearance" focus/>
             </form-element>
-	    <form-element label="Qty/GB" mod="product">
-                <input type="text" class="form-control" name="qty_per_gb" placeholder="" ng-model="product.qty_per_gb" focus/>
+	    <form-element label="Qty" mod="product">
+                <input type="text" class="form-control" name="qty_per_gb" maxlength="2" tooltip="max length 2 charaters" placeholder="" ng-model="product.qty_per_gb" focus/>
             </form-element>
             <form-element label="Notes" mod="product">
-                <input type="text" class="form-control" name="notes" placeholder="" ng-model="product.notes" focus/>
+                <input type="text" class="form-control" name="notes" maxlength="250" tooltip="max length 250 charaters" placeholder="" ng-model="product.notes" focus/>
             </form-element>
 
 

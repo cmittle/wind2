@@ -1,5 +1,6 @@
 app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, Data) {
     $scope.product = {};
+    $scope.showActions = true; //hide edit/delete/copy actions column by default
     Data.get('bearing_basic').then(function(data){
     	//	This requests the query '/bearing_basic' as declared in index.php
         $scope.products = data.data;
@@ -79,8 +80,8 @@ app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, Data) {
                     {text:"Basic ID",predicate:"basic_id",sortable:true},
                     {text:"Type",predicate:"type",sortable:true},
                     {text:"Construction",predicate:"construction",sortable:true},
-                    {text:"Base PN",predicate:"base_pn",sortable:true},
-                    {text:"Action",predicate:"",sortable:false}
+                    {text:"Base PN",predicate:"base_pn",sortable:true}//,
+//                    {text:"Action",predicate:"",sortable:false}
                 ];
 /* $scope.columns = [
                     {text:"ID",predicate:"id",sortable:true,dataType:"number"},

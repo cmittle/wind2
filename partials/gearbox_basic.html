@@ -39,7 +39,7 @@ revise query in index.php-->
         <td>{{c.id}}</td><td>{{c.mfg}}</td><td>{{c.model}}</td><td>{{c.tower}}</td>       
        
        <!-- TODO add edit/copy/delete buttons to this column for each record -->
-        <td style="width:100px">
+        <td ng-if="showActions" style="width:100px">
         	<div class="btn-group">
               		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
               		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>

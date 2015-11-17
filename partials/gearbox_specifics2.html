@@ -32,34 +32,140 @@
     <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
 
 
-
-    <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > <!--id="{{c.id}}"   animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+<!--<tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > 
         <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
-       <!-- OLD column layout -->
-       <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
-       <!-- TODO add edit/copy/delete buttons to this column for each record -->
-        <td style="width:100px">
+       
+        <td ng-if="showActions" style="width:100px">
         	<div class="btn-group">
               		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
               		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
-              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> 
         	</div>
-        
+	        
         </td>
+      <h5> More stuff down here</h5>
+      <h5> Here t000</h5>
+      <h5> And MOre</h5>
        
-       
-       <!-- <td>
-            <button class="btn" ng-class="{Active:'btn-success', Inactive:''}[c.status]" ng-click="changeProductStatus(c);">{{c.status}}</button>
-        </td> -->
-        <!--<td style="width:100px">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default fa fa-edit" ng-click="open(c);"></button>
-              <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteProduct(c);"></button>
-            </div>
-        </td>-->
+    </tr>-->
+
+
+
+
+    <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > <!--id="{{c.id}}"   animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+    
+	        <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
+	       <!-- OLD column layout -->
+	       <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
+	       <!-- TODO add edit/copy/delete buttons to this column for each record -->
+	        <td ng-if="showActions" style="width:100px">
+	        	<div class="btn-group">
+	              		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
+	              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
+	              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+	        	</div>
+		        
+	        </td>
+	<tr><table> <!--some help with nested tables here http://www.yourhtmlsource.com/tables/nestingtables.html -->
+	      <td rowspan="5">
+		      <h5> More stuff down here</h5>
+		      <h5> Here t000</h5>
+		      <h5> And MOre</h5>
+	     </td>
+        </table></tr>
+        
     </tr>
     </table>
 </div>
 </div>
+
+<h3> ANOTHER TABLE </h3>
+<!--exapmle here http://webdesign.about.com/od/tables/f/nesting_tables.htm -->
+<table BORDER="1" CELLPADDING="10" style="padding:5px">
+	<tr>
+		<td>r1 c1</td>
+		<td>r1 c2</td>
+		<td>r1 c3</td>
+	</tr>
+	<tr>
+		<td>r2 c1</td>
+		<td>r2 c2</td>
+		<td>r2 c3</td>
+	</tr>
+	<tr>
+		<table BORDER="1" CELLPADDING="10" style="padding:5px"> <!-- NETSTED TABLE-->
+			<tr>
+				<td>nt r1 c1</td>
+				<td>nt r1 c2</td>
+			</tr>
+		</table>
+	</tr>
+	
+</table>
+<h3> ANOTHER TABLE </h3>
+<!--<table border="1">
+  <thead>
+    <tr>
+      <th>Status</th>
+      <th>Type of Loss Dollar</th>
+      <th>Reserve Amount</th>
+      <th>Paid Amount</th>
+      <th>Total This Loss</th>
+    </tr>
+  </thead>
+  
+  <tbody>
+    <tr>
+      <td rowspan="3">Open</td>
+      <td colspan="2">Medical</td>
+      <td><input type="text" /></td>
+      <td><input type="text" /></td>
+      <td rowspan="3">TOTAL</td>
+    </tr><tr>
+      <td>Indemnity</td>
+      <td><input type="text" /></td>
+      <td><input type="text" /></td>
+    </tr><tr>
+      <td>Expense</td>
+      <td><input type="text" /></td>
+      <td><input type="text" /></td>
+    </tr>
+  </tbody>
+</table> -->
+
+<!--<TABLE BORDER="3" CELLPADDING="10" CELLSPACING="10">
+<TD>
+<TABLE BORDER="3" CELLPADDING="3" CELLSPACING="3">
+           <TD>2nd Table</TD>
+           <TD>2nd Table</TD>
+           <TR>
+           <TD>2nd Table</TD>
+           <TD>2nd Table</TD>
+           </TR>
+           </TABLE>
+</TD>
+<TD> The cell next to this one has a smaller table inside of it, a table inside a table.</TD>
+<tr>
+	
+<TD> The cell next to this one has a smaller table inside of it, a table inside a table.</TD>
+<TD>
+<TABLE BORDER="3" CELLPADDING="3" CELLSPACING="3">
+	   <tr>
+	           <TD>2nd Table</TD>
+	           <TD>2nd Table</TD>
+           </tr>
+           <TR>
+	           <TD>2nd Table</TD>
+	           <TD>2nd Table</TD>
+           </TR>
+           </TABLE>
+</TD>
+
+</tr>
+</TABLE> -->
+    
+    
+
+
 </div>
               
