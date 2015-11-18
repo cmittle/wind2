@@ -1,7 +1,40 @@
 <h4 class="blog-post-title">Gearbox Specifics Table -Remap database connection</h4>
 <hr/>
+
+<label> Show bearing PN List
+	<input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()"></input> <!--ng-change="changeShowPn()" -->
+</label>
+<br>
+
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show SKF:
+	<input type="checkbox" ng-model="showSKF" ng-change="output()"></input>
+</label>
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show NSK:
+	<input type="checkbox" ng-model="showNSK"></input>
+</label>
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show FAG:
+	<input type="checkbox" ng-model="showFAG"></input>
+</label>
+</label>
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show Timken:
+	<input type="checkbox" ng-model="showTimken"></input>
+</label>
+<br>
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show Koyo:
+	<input type="checkbox" ng-model="showKoyo"></input>
+</label>
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show NTN:
+	<input type="checkbox" ng-model="showNTN"></input>
+</label>
+<label ng-show="showPartNumbers" style="padding-left:10px;"> Show Other:
+	<input type="checkbox" ng-model="showOther"></input>
+</label>
+<br><br>
+
 <!-- TODO make this add new item button work, and probably preload the information for the gearbox I'm currently viewing, also validate form when completed before submitted-->
 <button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add item to this gearbox</button> <!-- -->
+
+
 
 <div class="table-responsive">
 <div class="panel panel-primary">
@@ -32,29 +65,95 @@
     <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
 
 
-<!--<tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > 
-        <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
-       
-        <td ng-if="showActions" style="width:100px">
-        	<div class="btn-group">
-              		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
-              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
-              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> 
-        	</div>
-	        
-        </td>
-      <h5> More stuff down here</h5>
-      <h5> Here t000</h5>
-      <h5> And MOre</h5>
-       
-    </tr>-->
-
-
-
-
     <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > <!--id="{{c.id}}"   animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
     
-	        <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>
+	        <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td>
+	        
+	        <td ng-if="showSKF">
+	        	<table>
+	        		<tr>
+					<td>SKF:</td>
+				</tr>
+				<tr>  <!--ng-repeat here-->
+					<td style="white-space: nowrap; padding-right:10px">NCF 18/530 V/L4BCNL {{c.position}}</td>
+				</tr>
+				
+	        	</table>
+	        </td>	
+	        <td ng-if="showNSK">
+	        	<table>
+	        		<tr>
+					<td>NSK:</td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap; padding-right:10px">NCF1868V</td>
+				</tr>
+				
+	        	</table>
+	        	
+	        </td>
+	        <td ng-if="showFAG">
+	        	<table>
+	        		<tr>
+					<td>FAG:</td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap; padding-right:10px">F-808786B</td>
+				</tr>
+				
+	        	</table>
+	        	
+	        </td>
+	        <td ng-if="showTimken">
+	        	<table>
+	        		<tr>
+					<td>Timken:</td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap; padding-right:10px">WE-1310</td>
+				</tr>
+				
+	        	</table>
+	        	
+	        </td>
+	        <td ng-if="showKoyo">
+	        	<table>
+	        		<tr>
+					<td>Koyo:</td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap; padding-right:10px">Koyo PN</td>
+				</tr>
+				
+	        	</table>
+	        	
+	        </td>
+	        <td ng-if="showNTN">
+	        	<table>
+	        		<tr>
+					<td>NTN:</td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap; padding-right:10px">NTN PN</td>
+				</tr>
+				
+	        	</table>
+	        	
+	        </td>
+	        <td ng-if="showOther">
+	        	<table>
+	        		<tr>
+					<td>Other:</td>
+				</tr>
+				<tr>
+					<td style="white-space: nowrap; padding-right:10px">Other PN</td>
+				</tr>
+				
+	        	</table>
+	        	
+	        </td>
+	        <td>{{c.notes}}</td>
+	        
 	       <!-- OLD column layout -->
 	       <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
 	       <!-- TODO add edit/copy/delete buttons to this column for each record -->
@@ -69,103 +168,13 @@
 	<tr><table> <!--some help with nested tables here http://www.yourhtmlsource.com/tables/nestingtables.html -->
 	      <td rowspan="5">
 		      <h5> More stuff down here</h5>
-		      <h5> Here t000</h5>
-		      <h5> And MOre</h5>
+		      
 	     </td>
         </table></tr>
         
     </tr>
     </table>
 </div>
-</div>
-
-<h3> ANOTHER TABLE </h3>
-<!--exapmle here http://webdesign.about.com/od/tables/f/nesting_tables.htm -->
-<table BORDER="1" CELLPADDING="10" style="padding:5px">
-	<tr>
-		<td>r1 c1</td>
-		<td>r1 c2</td>
-		<td>r1 c3</td>
-	</tr>
-	<tr>
-		<td>r2 c1</td>
-		<td>r2 c2</td>
-		<td>r2 c3</td>
-	</tr>
-	<tr>
-		<table BORDER="1" CELLPADDING="10" style="padding:5px"> <!-- NETSTED TABLE-->
-			<tr>
-				<td>nt r1 c1</td>
-				<td>nt r1 c2</td>
-			</tr>
-		</table>
-	</tr>
-	
-</table>
-<h3> ANOTHER TABLE </h3>
-<!--<table border="1">
-  <thead>
-    <tr>
-      <th>Status</th>
-      <th>Type of Loss Dollar</th>
-      <th>Reserve Amount</th>
-      <th>Paid Amount</th>
-      <th>Total This Loss</th>
-    </tr>
-  </thead>
-  
-  <tbody>
-    <tr>
-      <td rowspan="3">Open</td>
-      <td colspan="2">Medical</td>
-      <td><input type="text" /></td>
-      <td><input type="text" /></td>
-      <td rowspan="3">TOTAL</td>
-    </tr><tr>
-      <td>Indemnity</td>
-      <td><input type="text" /></td>
-      <td><input type="text" /></td>
-    </tr><tr>
-      <td>Expense</td>
-      <td><input type="text" /></td>
-      <td><input type="text" /></td>
-    </tr>
-  </tbody>
-</table> -->
-
-<!--<TABLE BORDER="3" CELLPADDING="10" CELLSPACING="10">
-<TD>
-<TABLE BORDER="3" CELLPADDING="3" CELLSPACING="3">
-           <TD>2nd Table</TD>
-           <TD>2nd Table</TD>
-           <TR>
-           <TD>2nd Table</TD>
-           <TD>2nd Table</TD>
-           </TR>
-           </TABLE>
-</TD>
-<TD> The cell next to this one has a smaller table inside of it, a table inside a table.</TD>
-<tr>
-	
-<TD> The cell next to this one has a smaller table inside of it, a table inside a table.</TD>
-<TD>
-<TABLE BORDER="3" CELLPADDING="3" CELLSPACING="3">
-	   <tr>
-	           <TD>2nd Table</TD>
-	           <TD>2nd Table</TD>
-           </tr>
-           <TR>
-	           <TD>2nd Table</TD>
-	           <TD>2nd Table</TD>
-           </TR>
-           </TABLE>
-</TD>
-
-</tr>
-</TABLE> -->
-    
-    
-
-
+</div>  
 </div>
               

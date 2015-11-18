@@ -4,22 +4,27 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     $scope.urlModel = $routeParams.model;  //model number passed in url
     $scope.urlModelName;
     $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.showPartNumbers = false; //hide bearing specific part numbers column by default
+    $scope.showSKF = false; //
+    $scope.showNSK = false; //
+    $scope.showFAG = false; //
+    $scope.showTimken = false; // initially false for Timken
+    $scope.showKoyo = false; // initially false for Koyo
+    $scope.showNTN = false; // initially false for NTN
+    $scope.showOther = false; //initially false for Other
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
     //this calls the gearbox.php file I created
     
 
-    //This works if I need to revert back to this
-   /* $http.get('api/v1/gearbox.php?dt=3').
-        success(function(data) {
-        //console.log("test 4444");
-            $scope.products = data;
-            console.log(data);
-            //console.log("it worked");
-        }); */
+	$scope.changeShowPn = function () {
+	//only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
+		$scope.showSKF = $scope.showPartNumbers;
+		$scope.showNSK = $scope.showPartNumbers;
+		$scope.showFAG = $scope.showPartNumbers;
+	};
 
 	
-	//$scope.gb_id = 3; //only need this if I want a default gearbox to load on this screen
-	$scope.gbBasicList;
+	$scope.gbBasicList; //creat empty gbBasicList
 	$scope.sortGbList; //create empty gb list
 	$scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
 	
@@ -28,36 +33,29 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 	$scope.getgb = function() {
 	
 		$http
-			//poing to relative url of query and pass required params/variables.  This information can be used to constrain the query.
+			//gbid from URL only requests results from table that are used in that gearbox
 		    .get('api/v1/gearbox.php', {
 		        params: {
-		            //gearbox id number to request only correct results from the database
 		            gbid: $scope.urlModel
-		            //gbid: $scope.gb_id.id
 		            }
-		        
 		     })
 		     .success(function (data) {
 		          $scope.products = data;
 		          console.log("gb specifics");
-		          //console.log($scope.concatGbArray.id);
 		          console.log(data);
 		          
 		     }); 
 		     //console.log("gb_id.id:" + $scope.gb_id.id + " d " + $scope.gb_id.name);
 	};
-	
-	$scope.getgbbasic = function() {
-		//this gets the list of gearbox names from the gearbox_basic database table to give to the pulldown menu at the top of the page
+
+// I think I can remove this block this functionalit has been moved to homepage controller	
+/*	$scope.getgbbasic = function() {
+		//this gets the list of gearbox mfg names and model numbers to populate the sidebar menu
 		$http
 			//poing to relative url of query and pass required params/variables.  This information can be used to constrain the query.
 		    .get('api/v1/gearboxBasic.php', {
 		        params: {
-		            //can put 
-		            //rather than filtering after we get all results
-		            //gbid: $scope.gb_id
-		            }
-		        
+		            } 
 		     })
 		     .success(function (data) {
 		          $scope.gbBasicList = data;
@@ -76,9 +74,10 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 		          	
 		          	
 		          });
-		          console.log($scope.concatGbArray[0]);
+		          console.log("getgbbasic()");
+		          console.log($scope.concatGbArray);
 		     }); 
-	};
+	};*/
 	
 		$scope.deleteProduct = function(product){
 		        if(confirm("Are you sure to remove the product")){
@@ -148,7 +147,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 	$scope.init = function () {
 		//this runs the initial gb basic query when the page is loaded so I can populate the pulldown menu
 		
-		$scope.getgbbasic();
+//		$scope.getgbbasic();
 		$scope.getgb();
                 //console.log("Init display route params");
                 //console.log("URL Mfg = " + $scope.urlMfg);
@@ -171,7 +170,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
                     //{text:"Brg Basic ID",predicate:"bearing_basic_id",sortable:true},
                     {text:"Brg Basic PN",predicate:"bearing_basic_pn",sortable:true},
                     {text:"Rec Clearance",predicate:"rec_clearance",sortable:true},
-                    {text:"Qty/GB",predicate:"qty_per_gb",sortable:true},
+                    {text:"Qty",predicate:"qty_per_gb",sortable:true},
                     {text:"Notes",predicate:"notes",sortable:true},
                     {text:"",predicate:"",sortable:false}
                 ];
