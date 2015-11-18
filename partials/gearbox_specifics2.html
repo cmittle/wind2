@@ -2,32 +2,31 @@
 <hr/>
 
 <label> Show bearing PN List
-	<input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()"></input> <!--ng-change="changeShowPn()" -->
+    <input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()"> <!--ng-change="changeShowPn()" -->
 </label>
 <br>
 
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show SKF:
-	<input type="checkbox" ng-model="showSKF" ng-change="output()"></input>
+    <input type="checkbox" ng-model="showSKF" ng-change="output()">
 </label>
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show NSK:
-	<input type="checkbox" ng-model="showNSK"></input>
+    <input type="checkbox" ng-model="showNSK">
 </label>
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show FAG:
-	<input type="checkbox" ng-model="showFAG"></input>
-</label>
+    <input type="checkbox" ng-model="showFAG">
 </label>
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show Timken:
-	<input type="checkbox" ng-model="showTimken"></input>
+    <input type="checkbox" ng-model="showTimken">
 </label>
 <br>
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show Koyo:
-	<input type="checkbox" ng-model="showKoyo"></input>
+    <input type="checkbox" ng-model="showKoyo">
 </label>
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show NTN:
-	<input type="checkbox" ng-model="showNTN"></input>
+    <input type="checkbox" ng-model="showNTN">
 </label>
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show Other:
-	<input type="checkbox" ng-model="showOther"></input>
+    <input type="checkbox" ng-model="showOther">
 </label>
 <br><br>
 
@@ -37,144 +36,125 @@
 
 
 <div class="table-responsive">
-<div class="panel panel-primary">
-  <div class="panel-heading">
-  	 <h3 ng-if="urlModel">Gearbox : {{urlMfg}} {{urlModel}}</h3> 
-  	 
-  	<span class="input-icon"> 
-  	 
-	        <i class="search-icon fa fa-search nav-search-icon"></i>
-	    </span> 
-  
-      <div class="sw-search" ng-if="!urlModel">
-      
-            <div class="nav-search" id="nav-search">
-                    Filter: <span class="input-icon">
-                        <input placeholder="Filter products list ..." class="nav-search-input" ng-model="filterProduct2" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:200px;" focus>
-                        <i class="search-icon fa fa-search nav-search-icon"></i>
-                    </span>
-                    <br>
+    <div class="panel panel-primary">
+      <div class="panel-heading">
+             <h3 ng-if="urlModel">Gearbox : {{urlMfg}} {{urlModel}}</h3> 
+
+            <span class="input-icon"> 
+
+                    <i class="search-icon fa fa-search nav-search-icon"></i>
+                </span> 
+
+          <div class="sw-search" ng-if="!urlModel">
+
+                <div class="nav-search" id="nav-search">
+                        Filter: <span class="input-icon">
+                            <input placeholder="Filter products list ..." class="nav-search-input" ng-model="filterProduct2" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:200px;" focus>
+                            <i class="search-icon fa fa-search nav-search-icon"></i>
+                        </span>
+                        <br>
+                </div>
             </div>
         </div>
-    </div>
-  <div class="panel-body">
-    <table class="table table-striped">
-    <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
-    <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
-    
-    <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+                <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+
+                <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
 
 
-    <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > <!--id="{{c.id}}"   animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
-    
-	        <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td>
-	        
-	        <td ng-if="showSKF">
-	        	<table>
-	        		<tr>
-					<td>SKF:</td>
-				</tr>
-				<tr>  <!--ng-repeat here-->
-					<td style="white-space: nowrap; padding-right:10px">NCF 18/530 V/L4BCNL {{c.position}}</td>
-				</tr>
-				
-	        	</table>
-	        </td>	
-	        <td ng-if="showNSK">
-	        	<table>
-	        		<tr>
-					<td>NSK:</td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap; padding-right:10px">NCF1868V</td>
-				</tr>
-				
-	        	</table>
-	        	
-	        </td>
-	        <td ng-if="showFAG">
-	        	<table>
-	        		<tr>
-					<td>FAG:</td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap; padding-right:10px">F-808786B</td>
-				</tr>
-				
-	        	</table>
-	        	
-	        </td>
-	        <td ng-if="showTimken">
-	        	<table>
-	        		<tr>
-					<td>Timken:</td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap; padding-right:10px">WE-1310</td>
-				</tr>
-				
-	        	</table>
-	        	
-	        </td>
-	        <td ng-if="showKoyo">
-	        	<table>
-	        		<tr>
-					<td>Koyo:</td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap; padding-right:10px">Koyo PN</td>
-				</tr>
-				
-	        	</table>
-	        	
-	        </td>
-	        <td ng-if="showNTN">
-	        	<table>
-	        		<tr>
-					<td>NTN:</td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap; padding-right:10px">NTN PN</td>
-				</tr>
-				
-	        	</table>
-	        	
-	        </td>
-	        <td ng-if="showOther">
-	        	<table>
-	        		<tr>
-					<td>Other:</td>
-				</tr>
-				<tr>
-					<td style="white-space: nowrap; padding-right:10px">Other PN</td>
-				</tr>
-				
-	        	</table>
-	        	
-	        </td>
-	        <td>{{c.notes}}</td>
-	        
-	       <!-- OLD column layout -->
-	       <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
-	       <!-- TODO add edit/copy/delete buttons to this column for each record -->
-	        <td ng-if="showActions" style="width:100px">
-	        	<div class="btn-group">
-	              		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
-	              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
-	              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
-	        	</div>
-		        
-	        </td>
-	<tr><table> <!--some help with nested tables here http://www.yourhtmlsource.com/tables/nestingtables.html -->
-	      <td rowspan="5">
-		      <h5> More stuff down here</h5>
-		      
-	     </td>
-        </table></tr>
-        
-    </tr>
-    </table>
-</div>
-</div>  
+                <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > <!--id="{{c.id}}"   animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+
+                    <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td>
+
+                    <td ng-if="showSKF">
+                        <table>
+                            <tr>
+                                <td>SKF:</td>
+                            </tr>
+                            <tr>  <!--ng-repeat here-->
+                                <td style="white-space: nowrap; padding-right:10px">NCF 18/530 V/L4BCNL {{c.position}}</td>
+                            </tr>
+                        </table>
+                    </td>	
+                    <td ng-if="showNSK">
+                        <table>
+                            <tr>
+                                <td>NSK:</td>
+                            </tr>
+                            <tr>
+                                <td style="white-space: nowrap; padding-right:10px">NCF1868V</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showFAG">
+                        <table>
+                            <tr>
+                                <td>FAG:</td>
+                            </tr>
+                            <tr>
+                                <td style="white-space: nowrap; padding-right:10px">F-808786B</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showTimken">
+                        <table>
+                            <tr>
+                                <td>Timken:</td>
+                            </tr>
+                            <tr>
+                                <td style="white-space: nowrap; padding-right:10px">WE-1310</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showKoyo">
+                        <table>
+                            <tr>
+                                <td>Koyo:</td>
+                            </tr>
+                            <tr>
+                                <td style="white-space: nowrap; padding-right:10px">Koyo PN</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showNTN">
+                        <table>
+                            <tr>
+                                <td>NTN:</td>
+                            </tr>
+                            <tr>
+                                <td style="white-space: nowrap; padding-right:10px">NTN PN</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showOther">
+                        <table>
+                            <tr>
+                                <td>Other:</td>
+                            </tr>
+                            <tr>
+                                <td style="white-space: nowrap; padding-right:10px">Other PN</td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>{{c.notes}}</td>
+
+                   <!-- OLD column layout -->
+                   <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
+                   <!-- TODO add edit/copy/delete buttons to this column for each record -->
+                    <td ng-if="showActions" style="width:100px">
+                        <div class="btn-group">
+                            <button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
+                            <button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
+                            <button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+                        </div>
+                    </td>
+
+
+                </tr>
+            </table>
+        </div>
+    </div>  
 </div>
               
