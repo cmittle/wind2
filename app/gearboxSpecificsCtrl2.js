@@ -12,6 +12,8 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     $scope.showKoyo = false; // initially false for Koyo
     $scope.showNTN = false; // initially false for NTN
     $scope.showOther = false; //initially false for Other
+    $scope.bearingSpecifics = []; //empty array will hold bearing specifics data
+    //$scope.concatGbArray = []; //empty array to hold concatenated bearing specifics data
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
     //this calls the gearbox.php file I created
     
@@ -40,12 +42,62 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
              })
              .success(function (data) {
                   $scope.products = data;
-                  console.log("gb specifics");
-                  console.log(data);
+                  //console.log("gb specifics");
+                  //console.log(data);
+                  $scope.getBearingSpecifics(data); //run this after I recieve this list
              }); 
                  //console.log("gb_id.id:" + $scope.gb_id.id + " d " + $scope.gb_id.name);
     };
 
+    $scope.getBearingSpecifics = function (a) {
+        //NEED TO write for each to loop through answers of each record in "a" array 
+        //will build bearingSpecificsArray of objects which can be ng-repeated in view
+        	
+		angular.forEach (a, function (item, key) {
+			console.log("item = ");
+	        	console.log(item);	
+			     	$http  //gbid from URL only requests results from table that are used in that gearbox
+			            .get('api/v1/bearingSpecifics.php', {
+			                params: {
+			                    bearing_basic_id: item.bearing_basic_id
+			                    }
+			             })
+			             .success(function (data) {
+			                  $scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
+			             });
+	     	});
+	     
+	     
+	     //FOR EACH example to steal from
+	/*     angular.forEach (data.data, function (value, key){
+		          	//this creates a temporary object with concatenated mfg ID and mfg Name
+		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
+		          	//$scope.b= {model: (value['model']), mfg:(value['mfg'])}; // + ' ' + value['model']
+		          	//$scope.b= {model: (value['model']), mfg:(value['mfg']), view:(false)};
+		          	$scope.b= {model: (value['model']), mfg:(value['mfg']), id: (value['id']), view:(false)};
+		          	//add new gb to array in forEach loop to gb master list to be sorted.
+		          	$scope.gbModelArray = $scope.gbModelArray.concat($scope.b);
+		          	//console.log($scope.gbObject);
+		          	//Rather than make an array of objects I think I just need to make an Object, each id can correspond to a mode	          	
+		          });*/
+	     
+	     
+	     
+	//THIS WORKED if I need to revert     
+	/*        $http  //gbid from URL only requests results from table that are used in that gearbox
+	            .get('api/v1/bearingSpecifics.php', {
+	                params: {
+	                    bearing_basic_id: a[9].bearing_basic_id
+	                    }
+	             })
+	             .success(function (data) {
+	                  $scope.bearingSpecifics = data;
+	                  //$scope.products = data;
+	                  //console.log("bearing specific find 1");
+	                  //console.log($scope.bearingSpecifics);
+	             }); */
+	                 //console.log("gb_id.id:" + $scope.gb_id.id + " d " + $scope.gb_id.name);
+    };
 // I think I can remove this block this functionalit has been moved to homepage controller	
 /*	$scope.getgbbasic = function() {
             //this gets the list of gearbox mfg names and model numbers to populate the sidebar menu
