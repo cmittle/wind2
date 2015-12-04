@@ -3,7 +3,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $routeParams.model;  //model number passed in url
     $scope.urlModelName;
-    $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.showActions = false; //hide edit/delete/copy actions column by default
     $scope.showPartNumbers = false; //hide bearing specific part numbers column by default
     $scope.showSKF = false; //
     $scope.showNSK = false; //

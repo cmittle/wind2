@@ -11,6 +11,12 @@ app.config(['$routeProvider',
       //templateUrl: 'partials/home.html'//,
       //controller: 'homePageCtrl'
     })
+    //This is the beginning of the login page implementation
+    .when('/login', {
+      title: 'Login',
+      templateUrl: 'partials/login.html',
+      controller: 'authCtrl'  //need to import in index.html when ready
+    })
     .when('/bearing_specifics', {
       title: 'Bearings Specifics',
       /*templateUrl: 'partials/products.html',*/
@@ -28,7 +34,7 @@ app.config(['$routeProvider',
       title: 'Gearbox Specifics Page',
       templateUrl: 'partials/gearbox_specifics.html',
       // Dont forget to add a comma "," when you uncomment the controller.
-      controller: 'gearboxSpecificsCtrl'
+      controller: 'gearboxSpecificsCtrl2'
     })
     .when('/gearbox_specifics2', {
       title: 'Gearbox Specifics2 Page -Remap Database interface',
