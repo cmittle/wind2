@@ -7,9 +7,9 @@ app.config(['$routeProvider',
     $routeProvider
     
     .when('/', {
-      title: 'Home Page'//,
-      //templateUrl: 'partials/home.html'//,
-      //controller: 'homePageCtrl'
+      title: 'Home Page',
+      templateUrl: 'partials/home.html',
+      controller: 'homePageCtrl'
     })
     //This is the beginning of the login page implementation
     .when('/login', {
