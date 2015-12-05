@@ -8,7 +8,9 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
         console.log(customer);
         $http.post('api/v1/authentication.php', {
 //        Data.post('login', {
-            customer: customer
+            //customer: customer
+            email: customer.email,
+            password: customer.password
         }).then(function (results) {
            // Data.toast(results);
             if (results.status == "success") {

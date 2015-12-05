@@ -8,39 +8,76 @@
     echoResponse(200, $session);
 });*/
 
+    require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
 
     require_once 'passwordHash.php';
-    //it doesn't like this.  Have to look again how to retrieve passed data
-    $r = json_decode($app->request->getBody());
-    verifyRequiredParams(array('email', 'password'),$r->customer);
-    $response = array();
-    $db = new DbHandler();
-    $password = $r->customer->password;
-    $email = $r->customer->email;
-    $user = $db->getOneRecord("select uid,name,password,email,created from customers_auth where phone='$email' or email='$email'");
-    if ($user != NULL) {
+	
+	//not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
+	$dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8';
+	
+	// connect to the database
+	$db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+        
+        // got this code block from here http://tutsnare.com/post-form-data-using-angularjs/;  Also referenced here http://www.cleverweb.nl/javascript/a-simple-search-with-angularjs-and-php/
+	$_POST = json_decode(file_get_contents('php://input'), true);
+	//use this to extract variables from json package sent with $http.post request
+	//$customer = $_POST['customer']; //could send "customer" object then pull email and password out, but couldnt figure out how to get these attributes out...
+	$email = $_POST['email']; 
+	$password = $_POST['password']; 
+	
+	
+	// response back to client  //Diagnotstics
+	//echo json_encode($email);
+	//echo json_encode($password);
+	//echo json_encode($customer);
+	
+	//build SQL script
+	//$sql ="DELETE FROM gearbox_specifics WHERE id =:id";
+	$sql = "SELECT * FROM  users_auth WHERE email =:email LIMIT 0 , 30";
+			
+	// use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
+	$stmt = $db->prepare( $sql );
+	
+	//this binds the input variables to php variables
+	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
+	//bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
+	$stmt->bindValue(':email', $email, PDO::PARAM_STR); //Bind String variable
+	
+	// execute the query
+        $stmt->execute();
+	
+	//PDO method to fetch
+	$user = $stmt->fetch();
+
+        // convert to json
+       // $json = json_encode( $user );  //diagnostic to see which user was selected
+       // echo $json;
+	
+	//start to evaluate if password is correct
+	if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
-        $response['status'] = "success";
-        $response['message'] = 'Logged in successfully.';
-        $response['name'] = $user['name'];
-        $response['uid'] = $user['uid'];
-        $response['email'] = $user['email'];
-        $response['createdAt'] = $user['created'];
-        if (!isset($_SESSION)) {
-            session_start();
+	        $response['status'] = "success";
+	        $response['message'] = 'Logged in successfully.';
+	        $response['name'] = $user['name'];
+	        $response['uid'] = $user['uid'];
+	        $response['email'] = $user['email'];
+	        $response['createdAt'] = $user['created'];
+	      //  if (!isset($_SESSION)) {
+	      //      session_start();
+	      //  }
+	      //  $_SESSION['uid'] = $user['uid'];
+	      //  $_SESSION['email'] = $email;
+	      //  $_SESSION['name'] = $user['name'];
+	        } else {
+	            $response['status'] = "error";
+	            $response['message'] = 'Login failed. Incorrect credentials';
+	        }
+	    }else {
+	            $response['status'] = "error";
+	            $response['message'] = 'No such user is registered';
         }
-        $_SESSION['uid'] = $user['uid'];
-        $_SESSION['email'] = $email;
-        $_SESSION['name'] = $user['name'];
-        } else {
-            $response['status'] = "error";
-            $response['message'] = 'Login failed. Incorrect credentials';
-        }
-    }else {
-            $response['status'] = "error";
-            $response['message'] = 'No such user is registered';
-        }
-    echoResponse(200, $response);
+        
+	echo json_encode($response);
 
 
 
