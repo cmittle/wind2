@@ -10,6 +10,6 @@
 3.	using 1(b) I need to load gearbox specific page with Title at top of page (ie Winergy 4410, or Moventas PLH1100 etc...)
 	a.	implement ng-WYSIWYG or whatever editor into page to allow for editing of notes on model
 4.	figure out how to display specific part numbers below / beside the basic brg pn for each gearbox specifics page
-
+5.      need to rewrite all $http calls to use .then rather than .success (depricated), and should have error call back on all with console.log("thorough description of problem and where it came from")
 
 

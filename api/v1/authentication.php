@@ -9,7 +9,9 @@
 });*/
 
     require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
-
+    //require_once 'jwt_helper.php'; //Token helper class for access control
+    require_once '.././libs/jwt_helper.php';
+    //require '.././libs/Slim/Slim.php'
     require_once 'passwordHash.php';
 	
 	//not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
@@ -21,7 +23,6 @@
         // got this code block from here http://tutsnare.com/post-form-data-using-angularjs/;  Also referenced here http://www.cleverweb.nl/javascript/a-simple-search-with-angularjs-and-php/
 	$_POST = json_decode(file_get_contents('php://input'), true);
 	//use this to extract variables from json package sent with $http.post request
-	//$customer = $_POST['customer']; //could send "customer" object then pull email and password out, but couldnt figure out how to get these attributes out...
 	$email = $_POST['email']; 
 	$password = $_POST['password']; 
 	
@@ -32,7 +33,6 @@
 	//echo json_encode($customer);
 	
 	//build SQL script
-	//$sql ="DELETE FROM gearbox_specifics WHERE id =:id";
 	$sql = "SELECT * FROM  users_auth WHERE email =:email LIMIT 0 , 30";
 			
 	// use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
@@ -62,6 +62,15 @@
 	        $response['uid'] = $user['uid'];
 	        $response['email'] = $user['email'];
 	        $response['createdAt'] = $user['created'];
+	        //create Token for access control
+	        //from example here https://coderwall.com/p/8wrxfw/goodbye-php-sessions-hello-json-web-tokens
+	        $token = array();
+		$token['id'] = $id;
+		//echo JWT::encode($token, 'secret_server_key');
+	        $response['token'] = JWT::encode($token, 'secret_server_key'); //send token back as part of success response for client local storage
+	        
+	        
+	        
 	      //  if (!isset($_SESSION)) {
 	      //      session_start();
 	      //  }
