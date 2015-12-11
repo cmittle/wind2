@@ -54,8 +54,8 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
         //will build bearingSpecificsArray of objects which can be ng-repeated in view
         	
 		angular.forEach (a, function (item, key) {
-			console.log("item = ");
-	        	console.log(item);	
+			//console.log("item = ");
+	        	//console.log(item);	
 			     	$http  //gbid from URL only requests results from table that are used in that gearbox
 			            .get('api/v1/bearingSpecifics.php', {
 			                params: {

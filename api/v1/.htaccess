@@ -1,3 +1,7 @@
 RewriteEngine On 
 RewriteCond %{REQUEST_FILENAME} !-f 
 RewriteRule ^(.*)$ %{ENV:BASE}index.php [QSA,L]
+
+
+#this was added so I can extract the token out of the HTTP request headers in the individual php files
+SetEnvIf Authorization "(.*)" HTTP_AUTHORIZATION=$1

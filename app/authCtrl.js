@@ -7,7 +7,7 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
         //console.log("customer:");
         //console.log(customer);
         //when performing another login first wipe previous token
-        $window.sessionStorage.accessToken = 0;
+        //$window.sessionStorage.accessToken = 0;
         $http.post('api/v1/authentication.php', {
             email: customer.email,
             password: customer.password

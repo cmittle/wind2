@@ -56,6 +56,8 @@
 	//start to evaluate if password is correct
 	if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
+        	//$date = new DateTime();
+        	//$_SESSION['secret_server_key'] = $date->format('U'); //need to figure out how to make available to a "session" in php, then time out
 	        $response['status'] = "success";
 	        $response['message'] = 'Logged in successfully.';
 	        $response['name'] = $user['name'];
@@ -67,9 +69,11 @@
 	        $token = array();
 		$token['id'] = $id;
 		//echo JWT::encode($token, 'secret_server_key');
-	        $response['token'] = JWT::encode($token, 'secret_server_key'); //send token back as part of success response for client local storage
-	        
-	        
+	        //Use SECRET_KEY defined in config.php file.  Still think I should use something unique to the session generated at time of login for highest security, will look at this later
+	        //Need to figure out how to make token expire after....maybe 10 minutes or something.
+	        $response['token'] = JWT::encode($token, SECRET_KEY); //send token back as part of success response for client local storage
+	        //echo json_encode($_SESSION['secret_server_key']);
+	        //echo json_encode(SECRET_KEY);
 	        
 	      //  if (!isset($_SESSION)) {
 	      //      session_start();

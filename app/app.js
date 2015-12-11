@@ -65,4 +65,30 @@ app.config(['$routeProvider',
       redirectTo: '/'
     });;
 }]);
+
+app.factory('authInterceptor', function ($rootScope, $q, $window) {
+  return {
+    request: function (config) {
+      config.headers = config.headers || {};
+      if ($window.sessionStorage.accessToken) {
+        config.headers.Authorization = 'Bearer ' + $window.sessionStorage.accessToken;
+        //console.log(config.headers.Authorization);
+      }
+      return config;
+    },
+    response: function (response) {
+      if (response.status === 401) {
+        // handle the case where the user is not authenticated
+      }
+      return response || $q.when(response);
+    }
+  };
+});
+
+app.config(function ($httpProvider) {
+  $httpProvider.interceptors.push('authInterceptor');
+});
+
+
+
 //    }(window.angular));
