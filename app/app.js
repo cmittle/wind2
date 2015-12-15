@@ -2,7 +2,7 @@ var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate']);
 //(function (angular) {
 //    angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate'])
 
-app.config(['$routeProvider',
+app.config(['$routeProvider', 
   function($routeProvider) {
     $routeProvider
     
@@ -21,45 +21,124 @@ app.config(['$routeProvider',
       title: 'Bearings Specifics',
       /*templateUrl: 'partials/products.html',*/
       templateUrl: 'partials/bearing_specifics.html',
-      controller: 'bearingSpecificsCtrl'
-      /*controller: 'productsCtrl2'*/
+      controller: 'bearingSpecificsCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
     })
     .when('/bearing_basic', {
       title: 'Bearing Basic Page',
       templateUrl: 'partials/bearing_basic.html',
-      controller: 'bearingBasicCtrl'
-      /*controller: 'productsCtrl2'*/
+      controller: 'bearingBasicCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
     })
     .when('/gearbox_specifics', {
       title: 'Gearbox Specifics Page',
       templateUrl: 'partials/gearbox_specifics.html',
       // Dont forget to add a comma "," when you uncomment the controller.
-      controller: 'gearboxSpecificsCtrl2'
+      controller: 'gearboxSpecificsCtrl2',  //may need to go back to old controller.
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
     })
     .when('/gearbox_specifics2', {
       title: 'Gearbox Specifics2 Page -Remap Database interface',
       templateUrl: 'partials/gearbox_specifics2.html',
-      controller: 'gearboxSpecificsCtrl2'//,
-      //init: 'getgb()'
+      controller: 'gearboxSpecificsCtrl2' ,
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
     })
     .when('/gearbox_specifics_short', {
       title: 'Gearbox Specifics Page',
       templateUrl: 'partials/gearbox_specifics_short.html',
       // Dont forget to add a comma "," when you uncomment the controller.
-      controller: 'gearboxSpecificsShortCtrl'
-      //controller: 'gearboxSpecificsCtrl2'
+      controller: 'gearboxSpecificsShortCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+                console.log($location);
+                window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
     })
     .when('/gearbox_basic', {
       title: 'Gearbox Basic Page',
       templateUrl: 'partials/gearbox_basic.html',
-      controller: 'gearboxBasicCtrl'
+      controller: 'gearboxBasicCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
     })
     //This is the dynamic gearbox mfg / model page loader
     .when('/gearbox/:mfg/:model', {
       templateUrl: 'partials/gearbox_specifics2.html',
-      controller: 'gearboxSpecificsCtrl2'
-      //title: 'Gearbox model xx',
-      //controller: 'testRouteCtrl'
+      controller: 'gearboxSpecificsCtrl2',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+          }
+    	}
     })
     .otherwise({
       redirectTo: '/'

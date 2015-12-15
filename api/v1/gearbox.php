@@ -18,30 +18,78 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	//this variable can now be used to in the query structure to allow us to only get the correct results from the query
 	//rather than getting all results and filtering later
 	$gbid = $_GET['gbid'];
-	//This http://stackoverflow.com/questions/2916232/call-to-undefined-function-apache-request-headers helped me figure out to add a line in .htaccess to make this work.
-	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
-	//echo json_encode($authHeader);
-	//echo json_encode($_SESSION['secret_server_key']);
 	
+	//This http://stackoverflow.com/questions/2916232/call-to-undefined-function-apache-request-headers helped me figure out to add a line in .htaccess to make this work.
+	//This pulls the header out of the request
+	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
+	
+	//remove prefix "Bearer " from beginning of this header
 	$token = str_replace('Bearer ', '', $authHeader); //this appears to properly extract the string
 	
-	//$authPass = JWT::decode($authHeader, SECRET_KEY);
-//	$authPass = JWT::decode($token, SECRET_KEY, array('HS256'));
-	//$authPass = JWT::decode($token, base64_decode(strtr(SECRET_KEY, '-_', '+/')) );
-	//echo $token;
-
-        // a query get all the records from the users table
-	//This works if I need to revert back to no authentication 
+	//Decode token and return array of contents
+	$authPass = JWT::decode($token, SECRET_KEY);
 	
 	//If gbid is null run query that returns all (first 300 lines) of the gearbox_specifics table
-	if ($gbid == null) {
+	$response = array();
+	
+	
+	if ($authPass != null) {
+		$response['status'] = "success";
+        	$response['message'] = 'You are approved';
+		if ($gbid == null) {
+		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
+		} else {
+			//if gbid is not null then run query that returns only lines (up to 30) with that gbid
+			$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
+			//echo json_encode(SECRET_KEY);
+			//echo json_encode($a);
+			//echo json_encode($token);
+			//echo json_encode($authPass);
+			//echo json_encode($response);
+		}
+		//echo json_encode($response);
+	} else {
+		echoResponse(200, 'tsete');
+	}
+	
+	
+/*	if ($authPass == null) {
+		$response = array();
+		$response["status"] = "error";
+	        $response["message"] = "An user with the provided phone or email exists!";
+	        echo json_encode($response);
+	        //echoResponse(201, $response);
+		//echo json_encode("You're not allowed to see this");
+	} else {
+		if ($gbid == null) {
+		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
+		} else {
+			//if gbid is not null then run query that returns only lines (up to 30) with that gbid
+			$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
+			//echo json_encode(SECRET_KEY);
+			//echo json_encode($a);
+			//echo json_encode($token);
+			//echo json_encode($authPass);
+		}
+	}*/
+	
+	
+	
+	
+	
+	
+	
+	
+/*	if ($gbid == null) {
 		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
 	} else {
 		//if gbid is not null then run query that returns only lines (up to 30) with that gbid
 		$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
 		//echo json_encode(SECRET_KEY);
+		//echo json_encode($a);
+		//echo json_encode($token);
 		//echo json_encode($authPass);
-	}
+	}*/
 
 	//Validate user first
 	

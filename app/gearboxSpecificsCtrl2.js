@@ -1,5 +1,5 @@
-app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http, $routeParams, Data) {
-    $scope.product = {};
+app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http, $routeParams, $window, Data) {
+    $scope.product = {};  //not sure if this is confused with products or if this is correct.
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $routeParams.model;  //model number passed in url
     $scope.urlModelName;
@@ -30,24 +30,24 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     $scope.sortGbList; //create empty gb list
     $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
 
-
-    //make getgb a stand alone function so that my gb selection method, pulldown, or whatever can re-call this method any time it is changed
+    
     $scope.getgb = function() {
-        $http
-                //gbid from URL only requests results from table that are used in that gearbox
-            .get('api/v1/gearbox.php', {
-                params: {
-                    gbid: $scope.urlModel
-                    }
-             })
-             .success(function (data) {
-                  $scope.products = data;
-                  //console.log("gb specifics");
-                  //console.log(data);
-                  $scope.getBearingSpecifics(data); //run this after I recieve this list
-             }); 
-                 //console.log("gb_id.id:" + $scope.gb_id.id + " d " + $scope.gb_id.name);
+    	$http
+    	   .get('api/v1/gearbox.php', {
+    	      params: {
+    	          gbid: $scope.urlModel  //gbid from URL only requests results from table that are used in that gearbox
+    	          }
+    	   }).then(function successCallback(results) { //succesful HTTP response 
+            	$scope.products = results.data;  //this is the list of generic bearing part numbers with positions and display sequence etc... for this gearbox (gbid sent in GET parameters)
+                $scope.getBearingSpecifics(results.data); //after recieving generic bearing id list from above run this to retrieve bearing specific part numbers
+        }, function errorCallback(data) {
+	    console.log("$http.get in gearboxSpecificsCtrl2.js $scope.getgb function recieved an error");
+	  });
     };
+    
+   
+
+
 
     $scope.getBearingSpecifics = function (a) {
         //NEED TO write for each to loop through answers of each record in "a" array 
