@@ -9,9 +9,19 @@
             <form-element label="Specific ID" mod="product">
                 <input type="text" class="form-control" name="specific_id" ng-model="product.specific_id" ng-disabled="true" focus/>
             </form-element>
-            <form-element label="Bearing Basic ID" mod="product">
-                <input type="text" class="form-control" name="position" placeholder="Basic Bearing ID#" ng-model="product.bearing_basic_id" focus/>
+            <form-element label="Brg Basic ID" mod="product"> --Be Carefull with this
+            	<select  style="color:black" ng-model="product.bearing_basic_id"> 
+            	  <option></option>
+            	  <option ng-repeat="option in basicbrglist | orderBy:'construction + base_pn'" value="{{option.basic_id}}">{{option.construction}} {{option.base_pn}} ({{option.basic_id}})</option> 
+		</select>
             </form-element>
+            
+            
+            
+            
+            <!--<form-element label="Bearing Basic ID" mod="product">
+                <input type="text" class="form-control" name="position" placeholder="Basic Bearing ID#" ng-model="product.bearing_basic_id" focus/>
+            </form-element>-->
             <form-element label="Specific PN" mod="product">
             <input type="text" class="form-control" name="specifc_pn" placeholder="e.g. NU 2326 ECML/L4BC3" ng-model="product.specific_pn" focus/>
             </form-element>

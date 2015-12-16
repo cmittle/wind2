@@ -56,7 +56,18 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, Data) 
 app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, item, $http, Data) {
 
   $scope.product = angular.copy(item);
+  $scope.basicbrglist;
   $scope.submitted = false;
+        
+        $scope.getbasicbrg = function () {
+	        Data.get('bearing_basic').then(function(data){
+	        //	This requests the query '/bearing_basic' as declared in index.php
+	        $scope.basicbrglist = data.data;
+	        console.log("bearing specifics edit controller basic brg list = ");
+	        console.log($scope.basicbrglist);
+	        });
+	    };
+        
         
         $scope.cancel = function () {
             $modalInstance.dismiss('Close');
@@ -120,4 +131,8 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
                 });
             }
         };
+        
+        
+        //This runs when the modal is initiated
+        $scope.getbasicbrg();
 });

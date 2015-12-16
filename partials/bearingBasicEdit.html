@@ -9,7 +9,7 @@
             <!--<form-element label="Specific ID" mod="product">
                 <input type="text" class="form-control" name="specific_id" placeholder="Specific ID#" ng-model="product.specific_id" focus/>
             </form-element>-->
-            <form-element label="Basic Brg ID" mod="product">
+            <form-element label="Basic Brg ID" mod="product" >
                 <input type="text" class="form-control" name="basic_id" placeholder="" ng-model="product.basic_id" ng-disabled=true focus/>
             </form-element>
             <form-element label="Type" mod="product">
@@ -21,7 +21,6 @@
             <form-element label="Base PN" mod="product">
                 <input type="text" name="id" class="form-control" placeholder="Base PN" ng-model="product.base_pn"/>
             </form-element>
-	    
 
 
             <div class="space"></div>
@@ -29,13 +28,14 @@
             <div class="modal-footer">
                 <form-element label="">
                     <div class="text-right">
-                        <a class="btn btn-sm" ng-click="cancel()"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <a class="btn btn-sm" ng-click="cancel()" ng-show="!submitted"><i class="ace-icon fa fa-reply"></i>Cancel</a>
                         <button ng-click="saveProduct(product);"
-                                ng-disabled="product_form.$invalid || enableUpdate"
+                        	ng-show="!submitted" 
                                 class="btn btn-sm btn-primary"
-                                type="submit">
+                                type="submit">  <!-- ng-disabled="product_form.$invalid || enableUpdate"-->
                             <i class="ace-icon fa fa-check"></i>{{buttonText}}
                         </button>
+                        <p ng-show="submitted"><i class="fa fa-cog fa-3x fa-spin" ></i>Sending to database </p>
                     </div>
                 </form-element>
             </div>

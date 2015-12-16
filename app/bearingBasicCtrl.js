@@ -119,14 +119,9 @@ app.controller('bearingBasicEditCtrl', function ($scope, $modalInstance, item, D
         $scope.saveProduct = function (product) {
             product.uid = $scope.uid;
             $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
-            //console.log("submitted = ");
-            //console.log($scope.submitted);
             if(product.basic_id > 0){ // this is true if this editing a current product
-                //window.alert("Clicked 2 ");
-                console.log(product);
                 Data.put('bearing_basic/'+product.basic_id, product).then(function (result) {
                     if(result.status != 'error'){
-                    //window.alert("Clicked 3 ");
                         var x = angular.copy(product);
                         x.save = 'update';
                         $scope.submitted = false; //set back to false to show submit button again
@@ -135,12 +130,12 @@ app.controller('bearingBasicEditCtrl', function ($scope, $modalInstance, item, D
                     	window.alert("Clicked 4");
                         console.log(result);
                     }
-                    //window.alert("Clicked 5 " + basic_id);
                 });
             }else{  //this is where it goes for a new product
             	//window.alert("Clicked 6");
             	//console.log(product);
                 //product.status = 'Active';
+                $scope.showSubmitButton = false;
                 Data.post('bearing_basic', product).then(function (result) {
                     if(result.status != 'error'){
                     	//window.alert("Clicked 7");
