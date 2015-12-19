@@ -1,25 +1,16 @@
-app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, Data) {
+app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, $http, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
-    Data.get('bearing_basic').then(function(data){
-    	//	This requests the query '/bearing_basic' as declared in index.php
-        $scope.products = data.data;
-        //console.log($scope.products);
-    });
     
-    //  change table reference above and in index.php
     
-   /* $scope.changeProductStatus = function(product){
-        product.status = (product.status=="Active" ? "Inactive" : "Active");
-        Data.put("products/"+product.id,{status:product.status});
+    $scope.populateBearingList = function () {
+    	//wrap this in a function so it can be called at any time
+	    Data.get('bearing_basic').then(function(data){
+	    	//	This requests the query '/bearing_basic' as declared in index.php
+	        $scope.products = data.data;
+	        //console.log($scope.products);
+	    });
     };
-    $scope.deleteProduct = function(product){
-        if(confirm("Are you sure to remove the product")){
-            Data.delete("products/"+product.id).then(function(result){
-                $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
-            });
-        }
-    };*/
     
     //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
     $scope.open = function (p,size) {
@@ -48,33 +39,29 @@ app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, Data) {
     };
     
     
-    /*  OLD VERSION OF OPEN command
-    $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
-          templateUrl: 'partials/productEdit.html',
-          controller: 'productEditCtrl',
-          //controller: 'bearingSpecificsEditCtrl',
-          size: size,
-          resolve: {
-            item: function () {
-              return p;
-            }
-          }
-        });
-        modalInstance.result.then(function(selectedObject) {
-            if(selectedObject.save == "insert"){
-                $scope.products.push(selectedObject);
-                $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
-            }else if(selectedObject.save == "update"){
-                p.description = selectedObject.description;
-                p.price = selectedObject.price;
-                p.stock = selectedObject.stock;
-                p.packing = selectedObject.packing;
-            }
-        });
+    $scope.deleteProduct = function(product){
+        if(confirm("Are you sure to remove basic bearing:" + "\n ID: \t" + product.basic_id + "\n Type:\t" + product.type + "\n Construction:\t" + product.construction + "\n Base part number: \t" + product.base_pn)){
+            console.log("delete product = ");
+            console.log(product);
+            $http({
+                    method: 'GET',
+                    url: 'api/v1/delete.php',
+                    params: {type: 'delete', t: 'bb', id: product.basic_id}
+             }).then(function (data) {
+        	//there is probably a better way to update what is on the screen, but this works.  The only downside I can see of this method is bandwidth
+	            $scope.populateBearingList();  //update data on screen
+            }) .catch(function (data) {
+                console.log(data.data);
+                console.log("Delete item FAILED, $scope.deleteProduct, bearingbasicCtrl.js");
+            });
+                        //original delete code..
+                        //Data.delete("products/"+product.id).then(function(result){
+                        //    $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
+                        //});
+        } else {
+        	console.log("Else loop, $scope.deleteProduct, bearingbasicCtrl.js");
+        }
     };
-    */
-    
     
  $scope.columns = [ 
                     {text:"Basic ID",predicate:"basic_id",sortable:true},
@@ -83,22 +70,14 @@ app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, Data) {
                     {text:"Base PN",predicate:"base_pn",sortable:true}//,
 //                    {text:"Action",predicate:"",sortable:false}
                 ];
-/* $scope.columns = [
-                    {text:"ID",predicate:"id",sortable:true,dataType:"number"},
-                    {text:"Name",predicate:"name",sortable:true},
-                    {text:"Price",predicate:"price",sortable:true},
-                    {text:"Stock",predicate:"stock",sortable:true},
-                    {text:"Packing",predicate:"packing",reverse:true,sortable:true,dataType:"number"},
-                    {text:"Description",predicate:"description",sortable:true},
-                    {text:"Status",predicate:"status",sortable:true},
-                    {text:"Action",predicate:"",sortable:false}
-                ];*/
+
+
+	//functions to run when initialized
+	$scope.populateBearingList(); 
 
 });
 
 
-
-    //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
 
 app.controller('bearingBasicEditCtrl', function ($scope, $modalInstance, item, Data) {
 

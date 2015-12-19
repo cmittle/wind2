@@ -26,7 +26,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	$data['type'] = $type;
 	$data['t'] = $t;
 	
-	echo json_encode($data);  //This just echos what was updated
+	//echo json_encode($data);  //This just echos what was updated
 
         // a query get all the records from the users table
 	//This very basic query works!!!  This 
@@ -35,41 +35,36 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 		//also need to do bindParam function below to tie $gbid to :gbid variable
 			//$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';  --delete
 
-	//If gbid is null run query that returns all (first 300 lines) of the gearbox_specifics table
-/*	if ($gbid == null) {
-		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
-	} else {
-		//if gbid is not null then run query that returns only lines (up to 30) with that gbid
-		$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
-	}*/
 
 	if ($t == gbs ) { //gbs is gearbox_specifics table
-		echo json_encode("t == gbs");
+		//echo json_encode("t == gbs");
 		$sql ="DELETE FROM gearbox_specifics WHERE id =:id";
+	} elseif ($t == bs ) { //bs is bearing_specifics table
+		//echo json_encode("t == bs");
+		$sql ="DELETE FROM bearing_specifics WHERE specific_id =:id";
+	} elseif ($t == bb ) { //bb is bearing_basic table
+		//echo json_encode("t == bs");
+		$sql ="DELETE FROM bearing_basic WHERE basic_id =:id";
 	} else {
-		echo "Did not = gearbox_specifcs"; 
+		echo "Did not = gearbox_specifcs, bearing_specifics or bearing_basic"; 
 	}
-	//DELETE FROM `corysc5_wind2`.`gearbox_specifics` WHERE `gearbox_specifics`.`id` = 61
 
         // use prepared statements, even if not strictly required is good practice
-        //This works if I need to revert
         $stmt = $db->prepare( $sql );
 	
-	//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
+	//this binds the $id variable to ":id" so I can use this as a variable directly in query statement written above
 	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-	//$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
 	$stmt->bindParam(':id', $id, PDO::PARAM_INT);
-//	$stmt->bindParam(':table', $table, PDO::PARAM_STR);
 
         // execute the query
         $stmt->execute();
 
         // fetch the results into an array
-        //$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
         // convert to json
-        //$json = json_encode( $result );
+        $json = json_encode( $result );
 
         // echo the json string
-        //echo $json;
+        echo $json;
 ?>

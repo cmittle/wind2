@@ -1,14 +1,19 @@
-app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, Data) {
+app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, $http, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
-    Data.get('bearing_specifics').then(function(data){
-    	//	This requests the query '/bearing_specifics' as declared in index.php
-        $scope.products = data.data;
-    });
+    
+    $scope.populateBearingList = function () {
+    	//wrap this in a function so it can be called at any time
+	    Data.get('bearing_specifics').then(function(data){
+	    	//	This requests the query '/bearing_specifics' as declared in index.php
+	        $scope.products = data.data;
+	        //console.log("bearingSpecificsCtrl.js populateBearingList()");
+	    });
+    };
     
     $scope.open = function (p,size) {
-    	console.log("scope.open");
-    	console.log(p);
+    	//console.log("scope.open");
+    	//console.log(p);
         var modalInstance = $modal.open({
           templateUrl: 'partials/bearing_specifics_edit.html',
           controller: 'bearingSpecificsEditCtrl',
@@ -23,14 +28,54 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, Data) 
             if(selectedObject.save == "insert"){
                 $scope.products.push(selectedObject);
                 $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
-                /*$scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');*/
             }else if(selectedObject.save == "update"){
-                p.description = selectedObject.description;
-                p.price = selectedObject.price;
-                p.stock = selectedObject.stock;
-                p.packing = selectedObject.packing;
+                p.bearing_basic_id = selectedObject.bearing_basic_id;  //this block updates the view so I dont need to request the entire data set again.
+                p.specific_pn = selectedObject.specific_pn;
+                p.clearance = selectedObject.clearance;
+                p.mfg = selectedObject.mfg;
+                p.id = selectedObject.id;
+                p.od = selectedObject.od;
+                p.width = selectedObject.width;
+                p.cage = selectedObject.cage;
+                p.inner_ring = selectedObject.inner_ring;
+                p.outer_ring = selectedObject.outer_ring;
+                p.rollers = selectedObject.rollers;
+                p.notes = selectedObject.notes;
             }
         });
+    };
+    
+    $scope.copyProduct = function (p) {
+    //copy current product, nullify specific_id field, then send to save.  This will make save treat as new addition to the database but modal will be preloaded with data from copied part
+        $scope.tempProduct = p;
+        $scope.tempProduct.specific_id = null;
+        $scope.open($scope.tempProduct); 
+    };
+    
+    
+    
+    $scope.deleteProduct = function(product){
+        if(confirm("Are you sure to remove: \n Specific PN:\t" + product.specific_pn +  "\n Specific ID: \t" + product.specific_id + "\n Bearing basic ID:\t" + product.bearing_basic_id + "\n Notes: \t" + product.notes)){
+            console.log("delete product = ");
+            console.log(product);
+            $http({
+                    method: 'GET',
+                    url: 'api/v1/delete.php',
+                    params: {type: 'delete', t: 'bs', id: product.specific_id}
+             }).then(function (data) {
+        	//there is probably a better way to update what is on the screen, but this works.  The only downside I can see of this method is bandwidth
+	            $scope.populateBearingList();  //update data on screen
+            }) .catch(function (data) {
+                console.log(data.data);
+                console.log("Delete item FAILED, $scope.deleteProduct, bearingSpecificsCtrl.js");
+            });
+                        //original delete code..
+                        //Data.delete("products/"+product.id).then(function(result){
+                        //    $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
+                        //});
+        } else {
+        	console.log("Else loop, $scope.deleteProduct, bearingSpecificsCtrl.js");
+        }
     };
     
  $scope.columns = [ 
@@ -50,21 +95,28 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, Data) 
 //                    {text:"Action",predicate:"",sortable:false}
                 ];
 
+	//functions to run when initialized
+	$scope.populateBearingList(); 
+
+
 });
 
 
 app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, item, $http, Data) {
 
+	console.log("item::::");
+	console.log(item);
+
   $scope.product = angular.copy(item);
   $scope.basicbrglist;
   $scope.submitted = false;
         
-        $scope.getbasicbrg = function () {
+        $scope.getbasicbrg = function () { //this is used to populate the pulldown menu
 	        Data.get('bearing_basic').then(function(data){
 	        //	This requests the query '/bearing_basic' as declared in index.php
 	        $scope.basicbrglist = data.data;
-	        console.log("bearing specifics edit controller basic brg list = ");
-	        console.log($scope.basicbrglist);
+	        //console.log("bearing specifics edit controller basic brg list = ");
+	        //console.log($scope.basicbrglist);
 	        });
 	    };
         
