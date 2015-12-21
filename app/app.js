@@ -28,7 +28,7 @@ app.config(['$routeProvider',
                 //Do something
                 console.log("You Shall Pass");
             }else{
-            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
@@ -45,7 +45,7 @@ app.config(['$routeProvider',
                 //Do something
                 console.log("You Shall Pass");
             }else{
-            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
@@ -63,7 +63,7 @@ app.config(['$routeProvider',
                 //Do something
                 console.log("You Shall Pass");
             }else{
-            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
@@ -80,7 +80,7 @@ app.config(['$routeProvider',
                 //Do something
                 console.log("You Shall Pass");
             }else{
-            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
@@ -99,7 +99,7 @@ app.config(['$routeProvider',
                 console.log("You Shall Pass");
             }else{
                 console.log($location);
-                window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+                window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
@@ -116,7 +116,7 @@ app.config(['$routeProvider',
                 //Do something
                 console.log("You Shall Pass");
             }else{
-            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
@@ -133,13 +133,32 @@ app.config(['$routeProvider',
                 //Do something
                 console.log("You Shall Pass");
             }else{
-            	window.sessionStorage.targetedLocation = $location.$$host + "#" + $location.$$path;  //Save target location so after login user can be sent there
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
                 $location.path('/login');    //redirect user to login
                 alert("Don't be ridiculous, you need to login before going anywhere");
             }
           }
     	}
     })
+    .when('/dashboard', {
+      title: 'User Dashboard',
+      templateUrl: 'partials/dashboard.html',
+      // Dont forget to add a comma "," when you uncomment the controller.
+      controller: 'authCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
+    })
+    
     .otherwise({
       redirectTo: '/'
     });;
