@@ -16,27 +16,17 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	//This recieves the variables sent with the AngularJS Get request.
 	//this variable can now be used to in the query structure to allow us to only get the correct results from the query
 	//rather than getting all results and filtering later
-	$bearing_basic_id = $_GET['bearing_basic_id'];
-	
-/* this is essentially the query I need to run for this
-	SELECT  `specific_pn` ,  `mfg` 
-	FROM  `bearing_specifics` 
-	WHERE  `bearing_basic_id` =1
-	LIMIT 0 , 30
-*/
+	$specific_id = $_GET['specific_id'];
 
-	//If bearing_basic_id is null run query that returns all (first 300 lines) of the gearbox_specifics table
-	if ($bearing_basic_id == null) {
-		$sql = 'SELECT * FROM  bearing_specifics LIMIT 0 , 300';
-	} else {
-		//if bearing_basic_id is not null then run query that returns only lines (up to 30) with that bearing_basic_id
-		//just select the specific_pn field from this table to show the user
-		//$sql = 'SELECT bearing_basic_id, mfg, specific_pn, specific_id FROM  bearing_specifics WHERE  bearing_basic_id =:bearing_basic_id  LIMIT 0 , 30';
-		$sql = 'SELECT specific_id, specific_pn, mfg, id, od, width, clearance, cage, inner_ring, outer_ring, rollers, notes, bearing_basic_id 
-			FROM  bearing_specifics 
-			WHERE  bearing_basic_id =:bearing_basic_id  
-			LIMIT 0 , 30';
-	}
+
+	//SHOULD check for specific_id exists and if not throw error first... TODO
+
+	//return all details of the specific bearing id dimensions, cage, etc...
+	$sql = 'SELECT specific_id, specific_pn, mfg, id, od, width, clearance, cage, inner_ring, outer_ring, rollers, notes, bearing_basic_id 
+		FROM  bearing_specifics 
+		WHERE  specific_id =:specific_id  
+		LIMIT 0 , 30';
+	
 
 
         // use prepared statements, even if not strictly required is good practice
@@ -45,7 +35,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	
 	//this binds the $bearing_basic_id variable to ":bearing_basic_id" so I can use this as a variable directly in query statement written above
 	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-	$stmt->bindParam(':bearing_basic_id', $bearing_basic_id, PDO::PARAM_INT);
+	$stmt->bindParam(':specific_id', $specific_id, PDO::PARAM_INT);
 
         // execute the query
         $stmt->execute();

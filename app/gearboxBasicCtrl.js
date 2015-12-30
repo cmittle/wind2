@@ -4,7 +4,7 @@ app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
     Data.get('gearbox_basic').then(function(data){
     	//	This requests the query '/gearbox_basic' as declared in index.php
         $scope.products = data.data;
-        console.log($scope.products);
+        //console.log($scope.products);
     });
     
     //  change table reference above and in index.php

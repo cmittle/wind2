@@ -81,8 +81,8 @@ $scope.getgbmodels = function() {
 		          	
 		          	
 		          });
-		          console.log("look here for view variable in object");
-		          console.log($scope.gbModelArray);
+		          //console.log("look here for view variable in object");
+		          //console.log($scope.gbModelArray);
 		     }, function (data) {
 		     	console.log("failure of getmodellist function status:");
 		     	console.log(data.status);
@@ -108,8 +108,8 @@ $scope.getgbbasic = function() {
                      //     change names of objects and arrays to make more sense for this controller
 		     .then(function (data) {
 		          $scope.gbBasicList = data;
-		          console.log("gb basic THEN");
-		          console.log(data.data[0]);
+		          //console.log("gb basic THEN");
+		          //console.log(data.data[0]);
 		          angular.forEach (data.data, function (value, key){
 		          	//this creates a temporary object with concatenated mfg ID and mfg Name
 		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
@@ -121,7 +121,7 @@ $scope.getgbbasic = function() {
 		          	
 		          	
 		          });
-		          console.log($scope.concatGbArray);
+		          //console.log($scope.concatGbArray);
 		     }, function (data) {
 		     	console.log("failure of getgbbasic function status:");
 		     	console.log(data.status);
@@ -133,7 +133,7 @@ $scope.init = function () {
 		
 		$scope.getgbbasic();
 		$scope.getgbmodels();
-                console.log("Home Page");
+                //console.log("Home Page");
 		
 	};
         

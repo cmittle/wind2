@@ -18,6 +18,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	//this variable can now be used to in the query structure to allow us to only get the correct results from the query
 	//rather than getting all results and filtering later
 	$gbid = $_GET['gbid'];
+	//$response['status'] = "hello";
 	
 	//This http://stackoverflow.com/questions/2916232/call-to-undefined-function-apache-request-headers helped me figure out to add a line in .htaccess to make this work.
 	//This pulls the header out of the request
@@ -27,14 +28,26 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	$token = str_replace('Bearer ', '', $authHeader); //this appears to properly extract the string
 	
 	//Decode token and return array of contents
-	$authPass = JWT::decode($token, SECRET_KEY);
+	//$authPass = JWT::decode($token, SECRET_KEY);
+	
+	try {
+	    $authPass = JWT::decode($token, SECRET_KEY);
+	} catch (Exception $e) {
+	    $response['exception'] = $e->getMessage();
+	    $response['status'] = 'failure in gearbox.php';
+            $response['message'] = 'The server has denied your request for this information. Please login and try again.';
+	    header('X-PHP-Response-Code: 401', true, 401); //set header to 401 (unauthorized) if token decode fails
+	    echo json_encode($response);
+	    //echo 'Caught exception in gearbox.php: ',  $e->getMessage(), "\n";
+	}
+	
 	
 	//If gbid is null run query that returns all (first 300 lines) of the gearbox_specifics table
 	$response = array();
 	
 	
 	if ($authPass != null) {
-		$response['status'] = "success";
+		$response['status'] = "success from gearbox.php";
         	$response['message'] = 'You are approved';
 		if ($gbid == null) {
 		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
@@ -47,72 +60,47 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 			//echo json_encode($authPass);
 			//echo json_encode($response);
 		}
+		// use prepared statements, even if not strictly required is good practice
+		$stmt = $db->prepare( $sql );
+		//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
+		$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
+		// execute the query
+		$stmt->execute();
+		// fetch the results into an array
+		$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+		// convert to json
+        	$json = json_encode( $result );
+		// echo the json string
+        	echo $json;
+		
 		//echo json_encode($response);
 	} else {
-		echoResponse(200, 'tsete');
+		//send this back into $results for failure status
+		//Not sure if I really need this Else loop any longer... I've moved the failure of token:decode to the try / catch bock above
+		//$response['status'] = 'failure in gearbox.php';
+        	//$response['message'] = 'You are NOT approved';
+        	//echo json_encode($response);
 	}
-	
-	
-/*	if ($authPass == null) {
-		$response = array();
-		$response["status"] = "error";
-	        $response["message"] = "An user with the provided phone or email exists!";
-	        echo json_encode($response);
-	        //echoResponse(201, $response);
-		//echo json_encode("You're not allowed to see this");
-	} else {
-		if ($gbid == null) {
-		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
-		} else {
-			//if gbid is not null then run query that returns only lines (up to 30) with that gbid
-			$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
-			//echo json_encode(SECRET_KEY);
-			//echo json_encode($a);
-			//echo json_encode($token);
-			//echo json_encode($authPass);
-		}
-	}*/
-	
-	
-	
-	
-	
-	
-	
-	
-/*	if ($gbid == null) {
-		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
-	} else {
-		//if gbid is not null then run query that returns only lines (up to 30) with that gbid
-		$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
-		//echo json_encode(SECRET_KEY);
-		//echo json_encode($a);
-		//echo json_encode($token);
-		//echo json_encode($authPass);
-	}*/
-
-	//Validate user first
-	
 	
 
 
         // use prepared statements, even if not strictly required is good practice
         //This works if I need to revert
-        $stmt = $db->prepare( $sql );
+//        $stmt = $db->prepare( $sql );
 	
 	//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
 	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-	$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
+//	$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
 
         // execute the query
-        $stmt->execute();
+//        $stmt->execute();
 
         // fetch the results into an array
-        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+//        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
 
         // convert to json
-        $json = json_encode( $result );
+//        $json = json_encode( $result );
 
         // echo the json string
-        echo $json;
+ //       echo $json;
 ?>

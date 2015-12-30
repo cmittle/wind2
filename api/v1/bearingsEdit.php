@@ -90,9 +90,9 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	$stmt->bindValue(':bearing_basic_id', $bearing_basic_id, PDO::PARAM_INT);//Bind int variable
 	$stmt->bindValue(':specific_pn', $specific_pn, PDO::PARAM_STR); //Bind String variable
 	$stmt->bindValue(':mfg', $mfg, PDO::PARAM_STR);//Bind STR variable
-	$stmt->bindValue(':id', $id, PDO::PARAM_INT);//Bind int variable
-	$stmt->bindValue(':od', $od, PDO::PARAM_INT);//Bind int variable
-	$stmt->bindValue(':width', $width, PDO::PARAM_INT);//Bind int variable
+	$stmt->bindValue(':id', $id, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	$stmt->bindValue(':od', $od, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	$stmt->bindValue(':width', $width, PDO::PARAM_STR);//Bind STR so it can hold decimal
 	$stmt->bindValue(':clearance', $clearance, PDO::PARAM_STR);//Bind str variable
 	$stmt->bindValue(':cage', $cage, PDO::PARAM_STR);//Bind str variable
 	$stmt->bindValue(':inner_ring', $inner_ring, PDO::PARAM_STR);//Bind str variable
