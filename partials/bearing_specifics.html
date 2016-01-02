@@ -50,9 +50,9 @@ After adding additional filter box and basic brg id filter box, maybe I don't ne
         <!-- TODO add edit/copy/delete buttons to this column for each record -->
         <td ng-if="showActions" style="width:100px">
         	<div class="btn-group">
-              		<button type="button" class="btn-xs btn-default fa fa-edit" tooltip="Edit" ng-click="open(c);"></button>
-              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" tooltip="Delete" ng-click="deleteProduct(c);"></button>
-              		<button type="button" class="btn-xs btn-default fa fa-tags" tooltip="Copy" ng-click="copyProduct(c);"></button> 
+              		<button type="button" class="btn-xs btn-default fa fa-edit" uib-tooltip="Edit" ng-click="open(c);"></button>
+              		<button type="button" class="btn-xs btn-danger fa fa-trash-o" uib-tooltip="Delete" ng-click="deleteProduct(c);"></button>
+              		<button type="button" class="btn-xs btn-default fa fa-tags"uib-tooltip="Copy" ng-click="copyProduct(c);"></button> 
         	</div>
         
         </td>

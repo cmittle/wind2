@@ -65,24 +65,20 @@
             <table class="table table-striped">
                 <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
                 <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
-
+		<!--  -->
                 <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
 
-
+		<!-- display each record in product array, this is the array for the gearbox of which page the user is on -->
                 <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > 
-
+		    <!-- display bearing basic part number and position in this gearbox -->
                     <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td>
-
+		    <!-- SKF Block for specific part number list -->
                     <td ng-show="showSKF">
                         <table>
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">SKF:</td>
                             </tr>
-                            <!--<tr> 
-                                <td style="white-space: nowrap; padding-right:10px">NCF 18/530 V/L4BCNL {{c.position}}</td>
-                            </tr>-->             <!-- ng-repeat="d in bearingSpecifics | filter:{ mfg: '1' }" -->
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '1' }:true | filter:{bearing_basic_id: c.bearing_basic_id}:true" > <!-- 1 is SKF --> 
-                            <!--TODO need to figure out how to replace tooltip-html-unsafe with html template or maybe this whole specific detail should be a separate directive.... -->
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -92,10 +88,6 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">NSK:</td>
                             </tr>
-                            <!--<tr>
-                                <td style="white-space: nowrap; padding-right:10px">NCF1868V</td>
-                            </tr>-->
-                           <!-- <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '2' }" >--> <!-- 2 is NSK --> 
                              <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '2' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 2 is NSK --> 
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
@@ -106,10 +98,6 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">FAG:</td>
                             </tr>
-                            <!--<tr>
-                                <td style="white-space: nowrap; padding-right:10px">F-808786B</td>
-                            </tr>-->
-                            <!--<tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '3' }" >--> <!-- 2 is FAG --> 
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '3' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 3 is FAG -->
                             <!-- {{c.position}} works here to pull in variables from outside table-->
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
@@ -121,10 +109,6 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Timken:</td>
                             </tr>
-                            <!--<tr>
-                                <td style="white-space: nowrap; padding-right:10px">WE-1310</td>
-                            </tr>-->
-                            <!--<tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }" >--> <!-- 4 is Timken --> 
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 4 is Timken -->  
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
@@ -135,10 +119,6 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Koyo:</td>
                             </tr>
-                            <!--<tr>
-                                <td style="white-space: nowrap; padding-right:10px">Koyo PN</td>
-                            </tr>-->
-                            <!--<tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '5' }" >--> <!-- 5 is Koyo --> 
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '5' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 5 is Koyo -->
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
@@ -149,10 +129,6 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">NTN:</td>
                             </tr>
-                            <!--<tr>
-                                <td style="white-space: nowrap; padding-right:10px">NTN PN</td>
-                            </tr>-->
-                            <!--<tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '6' }" >--> <!-- 6 is NTN --> 
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '6' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 6 is NTN -->
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
@@ -163,10 +139,6 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Other:</td>
                             </tr>
-                            <!--<tr>
-                                <td style="white-space: nowrap; padding-right:10px">Other PN</td>
-                            </tr>-->
-                            <!--<tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '7' }" >--> <!-- 7 is Other --> 
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '7' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 7 is Other -->
                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
@@ -174,9 +146,7 @@
                     </td>
                     <td>{{c.notes}}</td>
 
-                   <!-- OLD column layout -->
-                   <!--<td>{{c.id}}</td><td>{{c.gb_id}}</td><td>{{c.position}}</td><td>{{c.pos_id}}</td><td>{{c.bearing_basic_id}}</td><td>{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td><td>{{c.notes}}</td>-->
-                   <!-- TODO add edit/copy/delete buttons to this column for each record -->
+                   <!-- edit/copy/delete buttons for each row -->
                     <td ng-if="showActions" style="width:100px">
                         <div class="btn-group">
                             <button type="button" class="btn-xs btn-default fa fa-edit" uib-tooltip="Edit" ng-click="open(c);"></button>
@@ -194,18 +164,31 @@
     
     <!-- This is the popup template for the specific part numbers listed under each mfg. -->
     <script type="text/ng-template" id="myTooltipTemplate.html">
-      <div> 
-      	<strong>Specific PN:</strong> &nbsp{{d.specific_pn}} <br> 
-      	<strong>Specific ID:</strong> &nbsp{{d.specific_id}} <br>
-      	<strong>Basic Brg ID:</strong> &nbsp{{d.bearing_basic_id}} <br> 
-      	<strong>ID:</strong> &nbsp{{d.id}} <br> 
-      	<strong>OD:</strong> &nbsp{{d.od}} <br> 
-      	<strong>Width:</strong> &nbsp{{d.width}} <br> 
-      	<strong>Cage:</strong> &nbsp{{d.cage}} <br> 
-      	<strong>Inner Ring:</strong> &nbsp{{d.inner_ring}} <br> 
-      	<strong>Outer Ring:</strong> &nbsp{{d.outer_ring}} <br> 
-      	<strong>Rollers:</strong> &nbsp{{d.rollers}} <br> 
-      	<strong>Notes:</strong> &nbsp{{d.notes}}</div>
+      <div>
+      <style>  <!-- These 2 together override Bootstraps default max width of 200px on tooltips -->
+      	div.tooltip {
+	    width: 270px;
+	}
+	
+	div.tooltip-inner {
+	    max-width: 280px;
+	}
+      </style>
+      	<table>
+      	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Specific PN:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.specific_pn}} </td> </tr> <br>
+      	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Specific ID:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.specific_id}} </td> </tr> <br>
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Basic Brg ID:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.bearing_basic_id}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>ID:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.id}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>OD:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.od}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Width:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.width}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Clearance:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.clearance}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Cage:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.cage}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Inner Ring:</strong> </td style="white-space:nowrap; padding-left:5px;"> <td>{{d.inner_ring}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Outer Ring:</strong> </td style="white-space:nowrap; padding-left:5px;"> <td>{{d.outer_ring}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Rollers:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.rollers}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Notes:</strong> </td> <td style="padding-left:5px;">{{d.notes}} </td> </tr>
+    	</table>
+     </div>
     </script>
 </div>
             

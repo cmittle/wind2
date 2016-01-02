@@ -1,4 +1,4 @@
-app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http, $routeParams, $window, Data) {
+app.controller('gearboxSpecificsCtrl2', function ($scope, $uibModal, $filter, $http, $routeParams, $window, Data) {
     $scope.product = {};  //not sure if this is confused with products or if this is correct.
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $routeParams.model;  //model number passed in url
@@ -92,7 +92,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
                   //product.description = $scope.testVar; //update the view after database update is successful
                   //var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
                   //x.save = 'update';
-                  //$modalInstance.close(x); //close Edit modal when completed
+                  //$uibModalInstance.close(x); //close Edit modal when completed
                   $scope.getgb(); //call this to update view on screen; there is probably a better way just to update 1 record, should look at this later
             }) .catch(function (data) {
                 console.log(data.data);
@@ -108,7 +108,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
 //This opens the modal to add a new item to this gearbox.
 //TODO figure out how to pre-load current gearbox model on modal
     $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'partials/gearbox_specifics_edit.html',
             controller: 'gearboxSpecificsEditCtrl2',
             size: size,
@@ -136,7 +136,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $modal, $filter, $http
     };
 
 $scope.openDetail = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
             templateUrl: 'partials/bearingDetailModal.html',
             controller: 'gearboxSpecificsCtrl2',
             size: size,
@@ -175,7 +175,7 @@ $scope.openDetail = function (p,size) {
 
 });
 
-app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $http, $routeParams, item, Data) {
+app.controller('gearboxSpecificsEditCtrl2', function ($scope, $uibModalInstance, $http, $routeParams, item, Data) {
 
   $scope.product = angular.copy(item);
   $scope.basicbrglist;
@@ -205,7 +205,7 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
     };
         
     $scope.cancel = function () {
-        $modalInstance.dismiss('Close');
+        $uibModalInstance.dismiss('Close');
     };
     $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
     $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
@@ -227,7 +227,7 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
                 var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
                 x.save = 'update';
                 $scope.submitted = false; //set back to false to show submit button again
-                $modalInstance.close(x); //close Edit modal when completed
+                $uibModalInstance.close(x); //close Edit modal when completed
                 console.log("SUCCESS  $scope.product = ");
                 console.log($scope.product);
             }) .catch(function (data) {
@@ -241,7 +241,7 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $modalInstance, $h
                     x.save = 'insert';
                     x.id = result.data;
                     $scope.submitted = false; //set back to false to show submit button again
-                    $modalInstance.close(x);
+                    $uibModalInstance.close(x);
                 }else{
                     //window.alert("Clicked 8" + result);
                     console.log("Data.post - else");
