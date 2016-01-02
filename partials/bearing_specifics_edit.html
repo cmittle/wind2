@@ -26,7 +26,7 @@
             <input type="text" class="form-control" name="specifc_pn" placeholder="e.g. NU 2326 ECML/L4BC3" ng-model="product.specific_pn" focus/>
             </form-element>
             <form-element label="Mfg ID#" mod="product">
-                <input type="text" name="mfg" class="form-control" placeholder="1 (SKF), 2 (NSK), 3 (Schaeffler), 4 (Timken), 5 (Koyo), 6 (NTN), 7 (Misc) " ng-model="product.mfg"/>
+                <input type="text" name="mfg" class="form-control" placeholder="1=SKF, 2=NSK, 3=FAG/INA, 4=Timken, 5=Koyo, 6=NTN, 7=Misc" tooltip="1=SKF, 2=NSK, 3=FAG/INA, 4=Timken, 5=Koyo, 6=NTN, 7=Misc" tooltip-popup-delay="1000" ng-model="product.mfg"/>
             </form-element>
 	    <form-element label="ID" mod="product">
                 <input type="text" name="id" class="form-control" placeholder="inner diameter" ng-model="product.id"/>
@@ -38,7 +38,7 @@
                 <input type="text" name="width" class="form-control" placeholder="width" ng-model="product.width"/>
             </form-element>
             <form-element label="Clearance" mod="product">
-                <input type="text" name="clearance" class="form-control" placeholder="" ng-model="product.clearance"/>
+                <input type="text" name="clearance" class="form-control" placeholder="C0, C3, C3P, etc..." ng-model="product.clearance"/>
             </form-element>
             <form-element label="Cage" mod="product">
             	<input type="text" name="cage" placeholder="Brass / Steel / None" ng-model="product.cage"/> 
