@@ -1,16 +1,18 @@
-<h4 class="blog-post-title">Corys Wind Pages</h4>
-<hr/>
+<!--<h4 class="blog-post-title">Corys Wind Pages</h4>
+<hr/>-->
+
+
 
 <label> Edit column
     <input type="checkbox" ng-model="showActions">
 </label>
 <br>
 
+
 <label> Show bearing PN List
     <input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()"> <!--ng-change="changeShowPn()" -->
 </label>
 <br>
-
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show SKF:
     <input type="checkbox" ng-model="showSKF" ng-change="output()">
 </label>
@@ -33,22 +35,22 @@
 <label ng-show="showPartNumbers" style="padding-left:10px;"> Show Other:
     <input type="checkbox" ng-model="showOther">
 </label>
-<br><br>
+<br>
 
 <!-- TODO make this add new item button work, and probably preload the information for the gearbox I'm currently viewing, also validate form when completed before submitted-->
-<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add item to this gearbox</button> <!-- -->
 
 
-
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add bearing to gbx</button>
 <div class="table-responsive">
     <div class="panel panel-primary">
-      <div class="panel-heading">
-             <h3 ng-if="urlModel">Gearbox : {{urlMfg}} {{urlModel}}</h3> 
+      <div class="panel-heading" style="padding:7px;">
+             <h3 ng-if="urlModel" style="margin:0px;">Gearbox : {{urlMfg}} {{urlModel}} Bearing List</h3> 
 
-            <span class="input-icon"> 
+            
+            <!--<span class="input-icon"> 
 
                     <i class="search-icon fa fa-search nav-search-icon"></i>
-                </span> 
+                </span> -->
 
           <div class="sw-search" ng-if="!urlModel">
 

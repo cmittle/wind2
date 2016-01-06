@@ -125,8 +125,10 @@ app.config(['$routeProvider',
     })
     //This is the dynamic gearbox mfg / model page loader
     .when('/gearbox/:mfg/:model', {
-      templateUrl: 'partials/gearbox_specifics2.html',
-      controller: 'gearboxSpecificsCtrl2',
+      //templateUrl: 'partials/gearbox_specifics2.html', //old non-directive way of doing this
+      templateUrl: 'partials/gearboxComplete.html', //new GearboxComplete html container.  Will turn this into GearboxComplete directive soon , then use template='<gearbox-complete></gearbox-complete>'
+      //controller: 'gearboxSpecificsCtrl2',  //old non-directive way of doin this
+      controller: 'gearboxCompleteCtrl',
       resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
         "check":function($location){   
             if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
@@ -163,6 +165,13 @@ app.config(['$routeProvider',
       redirectTo: '/'
     });;
 }]);
+
+/*app.directive("testDirective", function () {
+	return function () {
+		console.log("HELLO ALL");
+	}
+});*/
+
 
 app.factory('authInterceptor', function ($rootScope, $q, $window) {
   return {

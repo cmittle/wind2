@@ -57,7 +57,7 @@
 	if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
         	//$date = new DateTime();
-        	//$_SESSION['secret_server_key'] = $date->format('U'); //need to figure out how to make available to a "session" in php, then time out
+        	//$_SESSION['secret_server_key'] = $date->format('U'); //need to figure out how to time out using serverside (PHP)
 	        $response['status'] = "success";
 	        $response['message'] = 'Logged in successfully.';
 	        $response['name'] = $user['name'];
@@ -68,6 +68,7 @@
 	        //from example here https://coderwall.com/p/8wrxfw/goodbye-php-sessions-hello-json-web-tokens
 	        $token = array();
 		$token['id'] = $id;
+		$token['expiresAt'] = 6;
 		//echo JWT::encode($token, 'secret_server_key');
 	        //Use SECRET_KEY defined in config.php file.  Still think I should use something unique to the session generated at time of login for highest security, will look at this later
 	        //Need to figure out how to make token expire after....maybe 10 minutes or something.

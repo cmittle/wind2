@@ -21,7 +21,8 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
                 //$location.path('/dashboard');
                 delete $window.sessionStorage.targetedLocation; //delete this after one use
             } else {
-            	console.log("authCtrl.js doLogin() php error or login error");
+            	alert("The credentials you provided did not match a registerred user.");
+            	// console.log("authCtrl.js doLogin() php error or login error");
             };
         }, function errorCallback(response) {
 	    console.log("authCtrl.js doLogin() HTTP error");
