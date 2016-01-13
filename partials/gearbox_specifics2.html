@@ -3,40 +3,6 @@
 
 
 
-<label> Edit column
-    <input type="checkbox" ng-model="showActions">
-</label>
-<br>
-
-
-<label> Show bearing PN List
-    <input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()"> <!--ng-change="changeShowPn()" -->
-</label>
-<br>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show SKF:
-    <input type="checkbox" ng-model="showSKF" ng-change="output()">
-</label>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show NSK:
-    <input type="checkbox" ng-model="showNSK">
-</label>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show FAG:
-    <input type="checkbox" ng-model="showFAG">
-</label>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show Timken:
-    <input type="checkbox" ng-model="showTimken">
-</label>
-<br>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show Koyo:
-    <input type="checkbox" ng-model="showKoyo">
-</label>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show NTN:
-    <input type="checkbox" ng-model="showNTN">
-</label>
-<label ng-show="showPartNumbers" style="padding-left:10px;"> Show Other:
-    <input type="checkbox" ng-model="showOther">
-</label>
-<br>
-
 <!-- TODO make this add new item button work, and probably preload the information for the gearbox I'm currently viewing, also validate form when completed before submitted-->
 
 
@@ -44,14 +10,37 @@
 <div class="table-responsive">
     <div class="panel panel-primary">
       <div class="panel-heading" style="padding:7px;">
-             <h3 ng-if="urlModel" style="margin:0px;">Gearbox : {{urlMfg}} {{urlModel}} Bearing List</h3> 
-
-            
-            <!--<span class="input-icon"> 
-
-                    <i class="search-icon fa fa-search nav-search-icon"></i>
-                </span> -->
-
+            <label style="font-size:1.5em;">{{urlMfg}} {{urlModel}} </label>
+	    <label style="font-size:0.8em;float:right;" > Edit column
+	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions">
+	    </label> 
+	    <br>
+	    <label> Show specific PN List
+	    	<input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()">| 
+	    </label>
+	    <label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> SKF:
+		    <input type="checkbox" ng-model="showSKF" ng-change="output()">
+		</label>
+		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> NSK:
+		    <input type="checkbox" ng-model="showNSK">
+		</label>
+		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> FAG:
+		    <input type="checkbox" ng-model="showFAG">
+		</label>
+		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Timken:
+		    <input type="checkbox" ng-model="showTimken">
+		</label>
+		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Koyo:
+		    <input type="checkbox" ng-model="showKoyo">
+		</label>
+		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> NTN:
+		    <input type="checkbox" ng-model="showNTN">
+		</label>
+		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Other:
+		    <input type="checkbox" ng-model="showOther">
+		</label>
+	    
+	    
           <div class="sw-search" ng-if="!urlModel">
 
                 <div class="nav-search" id="nav-search">

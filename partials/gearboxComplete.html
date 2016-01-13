@@ -1,16 +1,34 @@
-<h4 class="blog-post-title">Gearbox Complete Directive Container</h4>
+<!-- <h4 class="blog-post-title">Gearbox Complete Directive Container</h4> -->
 
 <!--<gearbox-bearings> Gearbox Bearings directive...</gearbox-bearings> -->
 <!--<test-directive> </test-directive>
 <br>
 <test-directive2> </test-directive2>-->
 <div>
-	<gearbox-bearings model={{urlModel}}> </gearbox-bearings> 
+	<!--<i class="glyphicon" style="font-size:1.5em;" ng-class="{'glyphicon-minus' : showBearings, 'glyphicon-plus' : !showBearings}" ng-click="switchShowBearings()">{{urlModel}} Bearing List</i> <br>-->
+
+	<span class="btn btn-small btn-info">
+		<i ng-if="!showBearings" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowBearings()"> {{urlModel}} Bearing List</i>
+		<i ng-if="showBearings" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowBearings()"> {{urlModel}} Bearing List</i>
+	</span> 
+	<br ng-if="showBearings" >
+	<gearbox-bearings  ng-show="showBearings" model={{urlModel}}> </gearbox-bearings> 
+</div>
+
+<div>
+	<span class="btn btn-small btn-info">
+		<i ng-if="!showSeals" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowSeals()"> {{urlModel}} Seal List</i>
+		<i ng-if="showSeals" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowSeals()"> {{urlModel}} Seal List</i>
+	</span> 
+	<br ng-if="showSeals" >
+	<gearbox-seals ng-show="showSeals"  model={{urlModel}}> </gearbox-seals>
 </div>	
-	<br>
-<gearbox-seals model={{urlModel}}> </gearbox-seals>
 <br>
-<gearbox-all> </gearbox-all>
+
+<!--<gearbox-all> </gearbox-all>-->
+
+
+
 <!--<div ng-controller="Controller">
   <div my-customer></div>
 </div> -->

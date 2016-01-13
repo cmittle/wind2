@@ -18,12 +18,12 @@ app
         'use strict';
         return {
             restrict: 'E',
-            //controller: 'ptcMotorController', //I can probably copy a lot from gearboxSpecifics2.js....
+            controller: 'gearboxSealsCtrl', //I can probably copy a lot from gearboxSpecifics2.js....
             scope: {
                 gbxModel: '@model'
             },
-            template: 'Name: GEARBOX SEALS DIRECTIVE Address: {{gbxModel}}'
-            //templateUrl: 'lib/cm-ptcalc/ptcmotor.html'  //I can probably copy a majority of existing gearboxSpecifics2.html for seals page
+            //template: 'Name: GEARBOX SEALS DIRECTIVE Address: {{gbxModel}}'
+            templateUrl: 'partials/gearbox_seals.html'  //Copying gearbox_specifics2.html and modifying for seals
         };
     })
 
