@@ -1,0 +1,44 @@
+<h4 class="blog-post-title">Basic Seal Table</h4>
+<hr/>
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);">&nbsp;Add New Basic Seal Record</button>
+
+<div class="table-responsive">
+<div class="panel panel-primary">
+  <div class="panel-heading">List of Seals
+      <div class="sw-search" >
+            <div class="nav-search" id="nav-search">
+                    Filter: <span class="input-icon">
+                        <input placeholder="Filter products list ..." class="nav-search-input" ng-model="filterProduct" ng-change="resetLimit();"  autocomplete="off" type="text" style="width:300px;" focus>
+                        <i class="search-icon fa fa-search nav-search-icon"></i>
+                    </span>
+            </div>
+        </div>
+    </div>
+  <div class="panel-body">
+    <table class="table table-striped">
+    <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+    <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+    
+    <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+
+
+    <tr ng-repeat="c in products | filter:filterProduct | orderBy:'uid'" id="{{c.uid}}"> <!--animate-on-change='c.packing + c.stock + c.price + c.description' ng-animate=" 'animate'" -->
+        <td>{{c.uid}}</td><td>{{c.inner_dia}}</td><td>{{c.outer_dia}}</td><td>{{c.width}}</td><td>{{c.type}}</td><td>{{c.notes}}</td>
+       
+       <!-- TODO add edit/copy/delete buttons to this column for each record -->
+        <td ng-if="showActions" style="width:100px">
+        	<div class="btn-group">
+              		<button type="button" class="btn-xs btn-default fa fa-edit"uib-tooltip="Edit" ng-click="open(c);"></button>
+              		<button type="button" class="btn-xs btn-danger fa fa-trash-o"uib-tooltip="Delete" ng-click="deleteProduct(c);"></button>
+              		<button type="button" class="btn-xs btn-default fa fa-tags"uib-tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+        	</div>
+        
+        </td>
+       
+       
+    </tr>
+    </table>
+</div>
+</div>
+</div>
+              

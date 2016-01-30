@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate']);  //, 'ngAnimate'
+var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate', 'textAngular']);  //, 'ngAnimate'
 //(function (angular) {
 //    angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate'])
 
@@ -123,6 +123,40 @@ app.config(['$routeProvider',
         }
     }
     })
+    .when('/seal_basic', {
+      title: 'Seal Basic Page',
+      templateUrl: 'partials/seal_basic.html',
+      controller: 'sealBasicCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
+    })
+    /*.when('/seal_specifics', {
+      title: 'Seal Specifics Page',
+      //templateUrl: 'partials/gearbox_basic.html',
+      //controller: 'gearboxBasicCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
+    })*/
     //This is the dynamic gearbox mfg / model page loader
     .when('/gearbox/:mfg/:model', {
       //templateUrl: 'partials/gearbox_specifics2.html', //old non-directive way of doing this

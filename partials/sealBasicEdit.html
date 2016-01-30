@@ -1,0 +1,49 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit product [ID: {{product.uid}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="product_form" class="form-horizontal" role="form" novalidate>
+            <!--<form-element label="Specific ID" mod="product">
+                <input type="text" class="form-control" name="specific_id" placeholder="Specific ID#" ng-model="product.specific_id" focus/>
+            </form-element>-->
+            <form-element label="UID" mod="product" >
+                <input type="text" class="form-control" name="uid" ng-model="product.uid" ng-disabled=true focus/>
+            </form-element>
+            <form-element label="Inner Diameter" mod="product">
+            <input type="text" class="form-control" name="inner_dia" maxlength="15" uib-tooltip="Max length 15 characters" ng-model="product.inner_dia" focus/>
+            </form-element>
+            <form-element label="Outer Diameter" mod="product">
+                <input type="text" name="outer_dia" class="form-control" maxlength="15" uib-tooltip="Max length 15 characters" ng-model="product.outer_dia"/>
+            </form-element>
+            <form-element label="Width" mod="product">
+                <input type="text" name="width" class="form-control" maxlength="15" uib-tooltip="Max length 15 characters" ng-model="product.width"/>
+            </form-element>
+            <form-element label="Type" mod="product">
+                <input type="text" name="type" class="form-control" maxlength="20" uib-tooltip="Max length 20 characters" placeholder="Radial or Axial" ng-model="product.type"/>
+            </form-element>
+            <form-element label="Notes" mod="product">
+                <input type="text" name="notes" class="form-control" maxlength="250" uib-tooltip="Max length 250 characters" ng-model="product.notes"/>
+            </form-element>
+
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()" ng-show="!submitted"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveProduct(product);"
+                        	ng-show="!submitted" 
+                                class="btn btn-sm btn-primary"
+                                type="submit">  <!-- ng-disabled="product_form.$invalid || enableUpdate"-->
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}} {{product.uid}}
+                        </button>
+                        <p ng-show="submitted"><i class="fa fa-cog fa-3x fa-spin" ></i>Sending to database </p>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>

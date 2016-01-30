@@ -45,6 +45,9 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	} elseif ($t == bb ) { //bb is bearing_basic table
 		//echo json_encode("t == bs");
 		$sql ="DELETE FROM bearing_basic WHERE basic_id =:id";
+	} elseif ($t == sb ) { //sb is seal_basic table
+		//echo json_encode("t == bs");
+		$sql ="DELETE FROM seal_basic WHERE uid =:id";
 	} else {
 		echo "Did not = gearbox_specifcs, bearing_specifics or bearing_basic"; 
 	}

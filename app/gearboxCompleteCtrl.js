@@ -3,9 +3,14 @@ app.controller('gearboxCompleteCtrl', function ($scope, $routeParams) {
     $scope.urlModel = $routeParams.model;  //model number passed in url
     $scope.showBearings = false;
     $scope.showseals = false;
-    
+    $scope.showText = false;
+        
     $scope.switchShowBearings = function () {
     	$scope.showBearings = !$scope.showBearings;
+    };
+    
+    $scope.switchShowText = function () {
+    	$scope.showText = !$scope.showText;
     };
     
     $scope.switchShowSeals = function () {

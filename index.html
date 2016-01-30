@@ -11,13 +11,14 @@
         <!--This makes Google not index the site or follow the links on this site -->
     <meta name="robots" content="noindex,nofollow">
 
-    <title>Cory's Wind Pages</title>
+    <title>Cory;s Wind Pages</title> <!--'-->
 
     <!-- Bootstrap Core CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom CSS -->
     <link href="css/simple-sidebar.css" rel="stylesheet">
+    <!--<link href="api/libs/ng-ckeditor/ng-ckeditor.css" rel="stylesheet">-->
     <link rel="stylesheet" href="css/custom.css" type="text/css" />
     <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet' type='text/css'>
@@ -90,6 +91,8 @@
                 	<li style="color:white"> <a href="#/bearing_specifics">Bearing Specific</a></li>
                 	<li style="color:white"> <a href="#/gearbox_basic">Gearbox Basic</a></li>
                 	<li style="color:white"> <a href="#/gearbox_specifics">Gearbox Specific</a></li>
+                	<li style="color:white"> <a href="#/seal_basic">Seal Basic</a></li>
+                	<li style="color:white"> <a href="#/seal_specifics">Seal Specifics</a></li>
                 	<li style="color:white"> <a href="#/dashboard">Dashboard</a></li>
                 </ul>
                 <li>
@@ -122,8 +125,8 @@
                         <br>
                         <br>
                         <br>
-                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
+                        <!--<p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
+                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p> -->
                         
                     </div>
                 </div>
@@ -134,19 +137,19 @@
     </div>
     <!-- /#wrapper -->
 
-    <!-- jQuery -->
-    <!--AngularJS 1.2.16 This Worked-->
-    <!--<script src="js/angular-1.2.16.min.js"></script>-->  <!--  THIS WORKED -->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.29/angular.min.js"></script>-->  <!--  THIS WORKED -->
-    <!--<script src="js/ui-bootstrap-tpls-0.11.2.min.js"></script>-->
-    <!--<script src="js/angular-route-1.2.16.min.js"></script>-->
-    <!--<script src="js/angular-animate-1.2.16.min.js"></script>-->
     
-    <!--AngularJS 1.4.8 Not working yet, ToolTips broken-->
-    <script src="js/angular-1.4.8.min.js"></script>   <!--  THIS kind of WORKs Tooltip broken on gearbox specific part number details -->
+    <!--AngularJS 1.4.8 -->
+    <script src="js/angular-1.4.8.min.js"></script> 
     <script src="js/ui-bootstrap-tpls-0.14.3.min.js"></script>
     <script src="js/angular-route-1.4.8.min.js"></script>
     <script src="js/angular-animate-1.4.8.min.js"></script>
+    
+    <!-- Imported Librarires -->
+    <!--TextAngular-->
+    <link rel='stylesheet' href='/api/libs/textAngular/textAngular.css'>
+    <script src='api/libs/textAngular/textAngular-rangy.min.js'></script>
+    <script src='/api/libs/textAngular/textAngular-sanitize.min.js'></script>
+    <script src='/api/libs/textAngular/textAngular.min.js'></script>
     
     
     <!-- AngularJS custom codes -->
@@ -156,13 +159,16 @@
     <script src="app/homePageCtrl.js"></script>
     <script src="app/bearingSpecificsCtrl.js"></script>
     <script src="app/bearingBasicCtrl.js"></script>
+    <script src="app/sealBasicCtrl.js"></script>
     <script src="app/gearboxBasicCtrl.js"></script>
     <script src="app/gearboxSpecificsCtrl.js"></script>
     <script src="app/gearboxSpecificsCtrl2.js"></script>
     <script src="app/authCtrl.js"></script>
     <script src="app/windDirectives.js"></script>
     <script src="app/gearboxBearingsSpecificCtrl.js"></script>
+    <script src="app/gearboxSealsCtrl.js"></script>
     <script src="app/gearboxCompleteCtrl.js"></script>
+    <script src="app/gearboxTextCtrl.js"></script>
 
 
     <!-- Bootstrap Core JavaScript -->

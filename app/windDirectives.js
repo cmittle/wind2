@@ -39,6 +39,19 @@ app
         };
     })
 
+.directive('gearboxText', function () {
+        'use strict';
+        return {
+            restrict: 'E',
+            controller: 'gearboxTextCtrl', 
+            scope: {
+                gbxModel: '@model', //variable name in scope is gbxModel (value on left side of this statement)
+                gbxMfg: '@mfg'  
+            },
+            templateUrl: 'partials/gearbox_text.html'  //I can probably copy a majority of existing gearboxSpecifics2.html for seals page
+        };
+    })
+
 .directive('gearboxAll', function () {
         'use strict';
         return {
