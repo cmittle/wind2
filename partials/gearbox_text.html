@@ -1,10 +1,15 @@
-<div> HERE IS THE TEXT DIRECTIVE!!!</div>
-<!--<h3>Heading 3 {{}} Text block</h3>
-<label style="font-size:1.5em;">{{urlMfg}} {{urlModel}} </label> -->
-<div> {{gearboxText}} </div>
+<!--<text-angular ng-model="gearboxText"></text-angular>-->
+<button ng-click="hideEditor()" uib-tooltip="Version {{gearboxTextVersion}} of gearbox notes" ng-show="!editGearboxText">Edit</button>
+<button ng-click="saveText()" ng-show="editGearboxText">Save</button>
+<button ng-click="cancelEditText()" ng-show="editGearboxText">Cancel</button>
+<label  ng-show="editGearboxText">Current character count ={{gearboxText.length}}.  Limit 3000.  Current version {{gearboxTextVersion}} before saving.</label>
 
-<text-angular ng-model="gearboxText"></text-angular>
-<!--
-	ng-model="htmlVariable"
 
-<textarea ckeditor="editorOptions" ng-model="modelName"></textarea>-->
+<div ng-hide="textLoaded"> <i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</div>
+
+<form method="post" ng-show="editGearboxText">
+  <textarea class="mceNonEditable" ui-tinymce="tinymceOptions" ng-model="gearboxText" ></textarea>
+</form>
+
+<!-- The getHtml() function flags the gearboxText inserted as trusted html so it will parse all flags -->
+<div ng-bind-html="getHtml(gearboxText)" ng-show="!editGearboxText"> </div>

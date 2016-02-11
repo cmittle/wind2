@@ -16,7 +16,8 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	//This recieves the variables sent with the AngularJS Get request.
 	//this variable can now be used to in the query structure to allow us to only get the correct results from the query
 	//rather than getting all results and filtering later
-	$gbid = $_GET['gbid'];
+	$gbid = $_GET['gbid']; //gearbox id
+	//$text = $_GET['text']; //gearbox text to update
 	//$response['status'] = "hello";
 	
 	//This http://stackoverflow.com/questions/2916232/call-to-undefined-function-apache-request-headers helped me figure out to add a line in .htaccess to make this work.
@@ -45,25 +46,16 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	
 	
 	if ($authPass != null) {
-		$response['status'] = "success from gearbox.php";
+		$response['status'] = "success from gearboxText.php";
         	$response['message'] = 'You are approved';
-		$sql = 'SELECT * FROM  gearbox_text WHERE  gb_id =:gbid  LIMIT 0 , 30';
+        	//this returns all (first 100) records where the gb id matches, sorted in DESCending order of the value in the version column
+        	//then the controller can continue to use the [0] position of the return array to populate display
+		$sql = 'SELECT * FROM  gearbox_text WHERE  gb_id =:gbid ORDER BY version DESC LIMIT 0 , 5';
 		
-		/*if ($gbid == null) {
-		$sql = 'SELECT * FROM  gearbox_seal_specifics LIMIT 0 , 300';
-		} else {
-			//if gbid is not null then run query that returns only lines (up to 30) with that gbid
-			$sql = 'SELECT * FROM  gearbox_seal_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
-			//echo json_encode(SECRET_KEY);
-			//echo json_encode($a);
-			//echo json_encode($token);
-			//echo json_encode($authPass);
-			//echo json_encode($response);
-		}*/
 		// use prepared statements, even if not strictly required is good practice
 		$stmt = $db->prepare( $sql );
 		//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
-		$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
+		$stmt->bindParam(':gbid', $gbid, PDO::PARAM_STR);
 		// execute the query
 		$stmt->execute();
 		// fetch the results into an array
@@ -81,26 +73,4 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
         	//$response['message'] = 'You are NOT approved';
         	//echo json_encode($response);
 	}
-	
-
-
-        // use prepared statements, even if not strictly required is good practice
-        //This works if I need to revert
-//        $stmt = $db->prepare( $sql );
-	
-	//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
-	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-//	$stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
-
-        // execute the query
-//        $stmt->execute();
-
-        // fetch the results into an array
-//        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-
-        // convert to json
-//        $json = json_encode( $result );
-
-        // echo the json string
- //       echo $json;
 ?>

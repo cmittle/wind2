@@ -1,4 +1,4 @@
-var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate', 'textAngular']);  //, 'ngAnimate'
+var app = angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate', 'textAngular', 'ui.tinymce']);  //, 'ngAnimate'
 //(function (angular) {
 //    angular.module('myApp', ['ngRoute', 'ui.bootstrap', 'ngAnimate'])
 
@@ -16,6 +16,11 @@ app.config(['$routeProvider',
       title: 'Login',
       templateUrl: 'partials/login.html',
       controller: 'authCtrl'  //need to import in index.html when ready
+    })
+    .when('/register', {
+      title: 'Register',
+      templateUrl: 'partials/register.html',
+      controller: 'authCtrl' //not sure which ctrl to use yet...
     })
     .when('/bearing_specifics', {
       title: 'Bearings Specifics',
@@ -199,6 +204,7 @@ app.config(['$routeProvider',
       redirectTo: '/'
     });;
 }]);
+
 
 /*app.directive("testDirective", function () {
 	return function () {

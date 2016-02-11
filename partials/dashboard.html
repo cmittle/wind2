@@ -10,12 +10,12 @@
    
         
             
-                    
+                    <!-- WHY DOESN"T THIS WORK?????? -->
             User Authenticated
                 <div class="space-16"></div>
-                UID: {{window.sessionStorage.uid}}
-                <br/>NAME: {{window.sessionStorage.name}}
-                <br/>E-MAIL: {{window.sessionStorage.email}}
+                UID: {{$scope.user.uid}} <a>{{user.uid}}</a>
+                <br/>Name: {{$window.sessionStorage.name}} {{name}}
+                <br/>Username: {{$window.sessionStorage.email}}
                 <br/>
                 <a ng-click="logout();">Logout</a>
                    
@@ -58,5 +58,5 @@
             </div>
         </div>
     </div>
-</div> -->
+</div>-->
 <!-- /.page-content -->

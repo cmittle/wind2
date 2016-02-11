@@ -23,9 +23,19 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $uibModal, $filter, $h
 
     $scope.changeShowPn = function () {
     //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
-            $scope.showSKF = $scope.showPartNumbers;
-            $scope.showNSK = $scope.showPartNumbers;
-            $scope.showFAG = $scope.showPartNumbers;
+            if ($scope.showPartNumbers === false) {
+	    	$scope.showSKF = true;
+            	$scope.showNSK = true;
+            	$scope.showFAG = true;
+            } else {
+            	$scope.showSKF = false;
+            	$scope.showNSK = false;
+            	$scope.showFAG = false;
+            	$scope.showTimken = false;
+            	$scope.showKoyo = false;
+            	$scope.showNTN = false;
+            	$scope.showOther = false;
+            };
     };
 
     

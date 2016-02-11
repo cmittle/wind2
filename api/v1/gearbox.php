@@ -50,7 +50,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 		$response['status'] = "success from gearbox.php";
         	$response['message'] = 'You are approved';
 		if ($gbid == null) {
-		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 300';
+		$sql = 'SELECT * FROM  gearbox_specifics LIMIT 0 , 1000';
 		} else {
 			//if gbid is not null then run query that returns only lines (up to 30) with that gbid
 			$sql = 'SELECT * FROM  gearbox_specifics WHERE  gb_id =:gbid  LIMIT 0 , 30';
@@ -103,4 +103,4 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 
         // echo the json string
  //       echo $json;
-?>
+?>  

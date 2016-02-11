@@ -85,6 +85,7 @@
 	        } else {
 	            $response['status'] = "error";
 	            $response['message'] = 'Login failed. Incorrect credentials';
+	            //$response['hash'] = passwordHash::hash($password);
 	        }
 	    }else {
 	            $response['status'] = "error";
