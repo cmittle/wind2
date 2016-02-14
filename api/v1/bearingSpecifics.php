@@ -27,7 +27,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 
 	//If bearing_basic_id is null run query that returns all (first 300 lines) of the gearbox_specifics table
 	if ($bearing_basic_id == null) {
-		$sql = 'SELECT * FROM  bearing_specifics LIMIT 0 , 300';
+		$sql = 'SELECT * FROM  bearing_specifics LIMIT 0 , 750';
 	} else {
 		//if bearing_basic_id is not null then run query that returns only lines (up to 30) with that bearing_basic_id
 		//just select the specific_pn field from this table to show the user

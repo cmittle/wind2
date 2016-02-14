@@ -10,7 +10,7 @@
                 <input type="text" class="form-control" name="specific_id" ng-model="product.specific_id" ng-disabled="true" focus/>
             </form-element>
             <form-element label="Brg Basic ID" mod="product"> --Be Carefull with this
-            	<select  style="color:black" ng-model="product.bearing_basic_id"> 
+            	<select  style="color:black" ng-model="product.bearing_basic_id"> <!--ng-model="product.bearing_basic_id"  -->
             	  <option></option>
             	  <option ng-repeat="option in basicbrglist | orderBy:'construction + base_pn'" value="{{option.basic_id}}">{{option.construction}} {{option.base_pn}} ({{option.basic_id}})</option> 
 		</select>

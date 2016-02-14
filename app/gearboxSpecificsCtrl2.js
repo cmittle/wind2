@@ -118,6 +118,9 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $uibModal, $filter, $h
 //This opens the modal to add a new item to this gearbox.
 //TODO figure out how to pre-load current gearbox model on modal
     $scope.open = function (p,size) {
+    	console.log("scope.open from gbx spec ctrl");
+    	console.log(p)
+    	console.log($scope.product.bearing_basic_id);
         var modalInstance = $uibModal.open({
             templateUrl: 'partials/gearbox_specifics_edit.html',
             controller: 'gearboxSpecificsEditCtrl2',
@@ -198,8 +201,8 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $uibModalInstance,
         $scope.basicbrglist = data.data;
         console.log("basic brg list = ");
         console.log($scope.basicbrglist);
-        console.log("current model is =");
-        console.log($scope.urlModel);
+        //console.log("current model is =");
+        //console.log($scope.urlModel);
         });
     };
 

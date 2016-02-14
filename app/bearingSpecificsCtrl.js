@@ -2,18 +2,34 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, $http,
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
     
-    $scope.populateBearingList = function () {
+/*    $scope.populateBearingList = function () {
     	//wrap this in a function so it can be called at any time
 	    Data.get('bearing_specifics').then(function(data){
 	    	//	This requests the query '/bearing_specifics' as declared in index.php
 	        $scope.products = data.data;
 	        //console.log("bearingSpecificsCtrl.js populateBearingList()");
 	    });
+    };*/
+    
+    $scope.populateBearingList = function () {
+             $http({
+                    method: 'GET',
+                    url: 'api/v1/bearingSpecifics.php'
+             })
+             .then(function (data) {
+                  //$scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
+                  $scope.products = data.data;
+             });
     };
     
+    
+    
+    
+    
     $scope.open = function (p,size) {
-    	//console.log("scope.open");
-    	//console.log(p);
+    	console.log("scope.open from brg spec ctrl");
+    	console.log(p);
+    	console.log($scope.product.bearing_basic_id);
         var modalInstance = $modal.open({
           templateUrl: 'partials/bearing_specifics_edit.html',
           controller: 'bearingSpecificsEditCtrl',
@@ -104,7 +120,7 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, $http,
 
 app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, item, $http, Data) {
 
-	console.log("item::::");
+	console.log("item:::: from bearingSpecificsCtrl.js");
 	console.log(item);
 
   $scope.product = angular.copy(item);
@@ -115,8 +131,8 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
 	        Data.get('bearing_basic').then(function(data){
 	        //	This requests the query '/bearing_basic' as declared in index.php
 	        $scope.basicbrglist = data.data;
-	        //console.log("bearing specifics edit controller basic brg list = ");
-	        //console.log($scope.basicbrglist);
+	        console.log("bearing specifics edit controller basic brg list = ");
+	        console.log($scope.basicbrglist);
 	        });
 	    };
         

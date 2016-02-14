@@ -20,7 +20,7 @@
             <input type="text" class="form-control" name="position" maxlength="20" uib-tooltip="max length 20 charaters" placeholder="e.g. PC-RS, LSIS-GS, etc..." ng-model="product.position" focus/>
             </form-element>
             <form-element label="Brg Basic ID" mod="product"> --Be Carefull with this
-            	<select  style="color:black" ng-model="product.bearing_basic_id"> 
+            	<select  style="color:black" ng-model="product.bearing_basic_id"> <!--  -->
             	  <option></option>
             	  <option ng-repeat="option in basicbrglist | orderBy:'construction + base_pn'" value="{{option.basic_id}}">{{option.construction}} {{option.base_pn}} ({{option.basic_id}})</option> 
 		</select>
