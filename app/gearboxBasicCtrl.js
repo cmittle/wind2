@@ -1,4 +1,4 @@
-app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
+app.controller('gearboxBasicCtrl', function ($scope, $uibModal, $filter, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
     Data.get('gearbox_basic').then(function(data){
@@ -23,7 +23,7 @@ app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
     
     //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
     $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/gearbox_basic_edit.html',
           controller: 'gearboxBasicEditCtrl',
           size: size,
@@ -50,7 +50,7 @@ app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
     
     /*  OLD VERSION OF OPEN command
     $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/productEdit.html',
           controller: 'productEditCtrl',
           //controller: 'bearingSpecificsEditCtrl',
@@ -100,12 +100,12 @@ app.controller('gearboxBasicCtrl', function ($scope, $modal, $filter, Data) {
 
     //TODO This was working in Bearing Basic when I copied it I just need to modify for Gearbox Basic
 
-app.controller('gearboxBasicEditCtrl', function ($scope, $modalInstance, item, Data) {
+app.controller('gearboxBasicEditCtrl', function ($scope, $uibModalInstance, item, Data) {
 
   $scope.product = angular.copy(item);
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
@@ -124,7 +124,7 @@ app.controller('gearboxBasicEditCtrl', function ($scope, $modalInstance, item, D
                     //window.alert("Clicked 3 ");
                         var x = angular.copy(product);
                         x.save = 'update';
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                     	//window.alert("Clicked 4");
                         console.log(result);
@@ -141,7 +141,7 @@ app.controller('gearboxBasicEditCtrl', function ($scope, $modalInstance, item, D
                         var x = angular.copy(product);
                         x.save = 'insert';
                         x.id = result.data;
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                     	//window.alert("Clicked 8" + result);
                         console.log(result);
@@ -152,12 +152,12 @@ app.controller('gearboxBasicEditCtrl', function ($scope, $modalInstance, item, D
 });   
 
 /* OLD VERSION EDIT CONTROLLER
-app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) {
+app.controller('productEditCtrl', function ($scope, $uibModalInstance, item, Data) {
 
   $scope.product = angular.copy(item);
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
@@ -173,7 +173,7 @@ app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) 
                     if(result.status != 'error'){
                         var x = angular.copy(product);
                         x.save = 'update';
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                         console.log(result);
                     }
@@ -185,7 +185,7 @@ app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) 
                         var x = angular.copy(product);
                         x.save = 'insert';
                         x.id = result.data;
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                         console.log(result);
                     }

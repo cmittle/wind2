@@ -1,4 +1,4 @@
-app.controller('sealBasicCtrl', function ($scope, $modal, $filter, $http) {
+app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
     
@@ -25,7 +25,7 @@ app.controller('sealBasicCtrl', function ($scope, $modal, $filter, $http) {
     
     //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
     $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/sealBasicEdit.html',
           controller: 'sealBasicEditCtrl',
           size: size,
@@ -91,13 +91,13 @@ app.controller('sealBasicCtrl', function ($scope, $modal, $filter, $http) {
 
 
 
-app.controller('sealBasicEditCtrl', function ($scope, $modalInstance, item, $http) {
+app.controller('sealBasicEditCtrl', function ($scope, $uibModalInstance, item, $http) {
 
   $scope.product = angular.copy(item);
   $scope.submitted = false;
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.uid > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.uid > 0) ? 'Update Product' : 'Add New Product';
@@ -123,7 +123,7 @@ app.controller('sealBasicEditCtrl', function ($scope, $modalInstance, item, $htt
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
-		          $modalInstance.close(x); //close Edit modal when completed
+		          $uibModalInstance.close(x); //close Edit modal when completed
 		          
 		          console.log("SUCCESS  $scope.product = ");
 		          console.log($scope.product);
@@ -150,7 +150,7 @@ app.controller('sealBasicEditCtrl', function ($scope, $modalInstance, item, $htt
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
-		          $modalInstance.close(x); //close Edit modal when completed
+		          $uibModalInstance.close(x); //close Edit modal when completed
 		          
 		          console.log("SUCCESS  $scope.product = ");
 		          console.log($scope.product);

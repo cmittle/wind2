@@ -1,4 +1,4 @@
-app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, $http, Data) {
+app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
     
@@ -14,7 +14,7 @@ app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, $http, Dat
     
     //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
     $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/bearingBasicEdit.html',
           controller: 'bearingBasicEditCtrl',
           size: size,
@@ -77,13 +77,13 @@ app.controller('bearingBasicCtrl', function ($scope, $modal, $filter, $http, Dat
 
 
 
-app.controller('bearingBasicEditCtrl', function ($scope, $modalInstance, item, $http, Data) {
+app.controller('bearingBasicEditCtrl', function ($scope, $uibModalInstance, item, $http, Data) {
 
   $scope.product = angular.copy(item);
   $scope.submitted = false;
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.basic_id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.basic_id > 0) ? 'Update Product' : 'Add New Product';
@@ -106,7 +106,7 @@ app.controller('bearingBasicEditCtrl', function ($scope, $modalInstance, item, $
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
-		          $modalInstance.close(x); //close Edit modal when completed
+		          $uibModalInstance.close(x); //close Edit modal when completed
 		          
 		          console.log("SUCCESS  $scope.product = ");
 		          console.log($scope.product);
@@ -124,7 +124,7 @@ app.controller('bearingBasicEditCtrl', function ($scope, $modalInstance, item, $
                         x.save = 'insert';
                         x.id = result.data;
                         $scope.submitted = false; //set back to false to show submit button again
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                     	window.alert("Clicked 8" + result);
                         console.log(result);

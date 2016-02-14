@@ -1,4 +1,4 @@
-app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, $http, Data) {
+app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $http, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
     
@@ -30,7 +30,7 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, $http,
     	console.log("scope.open from brg spec ctrl");
     	console.log(p);
     	console.log($scope.product.bearing_basic_id);
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/bearing_specifics_edit.html',
           controller: 'bearingSpecificsEditCtrl',
           size: size,
@@ -118,7 +118,7 @@ app.controller('bearingSpecificsCtrl', function ($scope, $modal, $filter, $http,
 });
 
 
-app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, item, $http, Data) {
+app.controller('bearingSpecificsEditCtrl', function ($scope, $uibModalInstance, item, $http, Data) {
 
 	console.log("item:::: from bearingSpecificsCtrl.js");
 	console.log(item);
@@ -138,7 +138,7 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
         
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
@@ -160,7 +160,7 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
-		          $modalInstance.close(x); //close Edit modal when completed
+		          $uibModalInstance.close(x); //close Edit modal when completed
 		          
 		          console.log("SUCCESS  $scope.product = ");
 		          console.log($scope.product);
@@ -178,7 +178,7 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
                         var x = angular.copy(product);
                         x.save = 'update';
                         $scope.submitted = false; //set back to false to show submit button again
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                         console.log(result);
                     }
@@ -192,7 +192,7 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $modalInstance, ite
                         x.save = 'insert';
                         x.id = result.data;
                         $scope.submitted = false; //set back to false to show submit button again
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                         console.log(result);
                     }

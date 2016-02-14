@@ -1,4 +1,4 @@
-app.controller('homePageCtrl', function ($scope, $modal, $filter, $http, Data) {
+app.controller('homePageCtrl', function ($scope, $uibModal, $filter, $http, Data) {
 
 $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
 

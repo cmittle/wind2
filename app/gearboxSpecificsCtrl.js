@@ -1,4 +1,4 @@
-app.controller('gearboxSpecificsCtrl', function ($scope, $modal, $filter, Data) {
+app.controller('gearboxSpecificsCtrl', function ($scope, $uibModal, $filter, Data) {
     $scope.product = {};
     Data.get('gearbox_specifics').then(function(data){
     	//	This requests the query '/gearbox_specifics' as declared in index.php
@@ -22,7 +22,7 @@ app.controller('gearboxSpecificsCtrl', function ($scope, $modal, $filter, Data) 
     
     $scope.open = function (p,size) {
     	console.log("scope.open");
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/gearbox_specifics_edit.html',
           controller: 'gearboxSpecificsEditCtrl',
           size: size,
@@ -49,7 +49,7 @@ app.controller('gearboxSpecificsCtrl', function ($scope, $modal, $filter, Data) 
     
     /*  OLD VERSION OF OPEN command
     $scope.open = function (p,size) {
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/productEdit.html',
           controller: 'productEditCtrl',
           //controller: 'bearingSpecificsEditCtrl',
@@ -101,12 +101,12 @@ app.controller('gearboxSpecificsCtrl', function ($scope, $modal, $filter, Data) 
 });
 
 
-app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, item, Data) {
+app.controller('gearboxSpecificsEditCtrl', function ($scope, $uibModalInstance, item, Data) {
 
   $scope.product = angular.copy(item);
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
@@ -126,7 +126,7 @@ app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, ite
                     //window.alert("Clicked 3 ");
                         var x = angular.copy(product);
                         x.save = 'update';
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                     	//window.alert("Clicked 4");
                         console.log(result);
@@ -143,7 +143,7 @@ app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, ite
                         var x = angular.copy(product);
                         x.save = 'insert';
                         x.id = result.data;
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                     	//window.alert("Clicked 8" + result);
                         console.log("Data.post - else");
@@ -155,12 +155,12 @@ app.controller('gearboxSpecificsEditCtrl', function ($scope, $modalInstance, ite
 });
 
 /* OLD VERSION EDIT CONTROLLER
-app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) {
+app.controller('productEditCtrl', function ($scope, $uibModalInstance, item, Data) {
 
   $scope.product = angular.copy(item);
         
         $scope.cancel = function () {
-            $modalInstance.dismiss('Close');
+            $uibModalInstance.dismiss('Close');
         };
         $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
         $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
@@ -176,7 +176,7 @@ app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) 
                     if(result.status != 'error'){
                         var x = angular.copy(product);
                         x.save = 'update';
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                         console.log(result);
                     }
@@ -188,7 +188,7 @@ app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) 
                         var x = angular.copy(product);
                         x.save = 'insert';
                         x.id = result.data;
-                        $modalInstance.close(x);
+                        $uibModalInstance.close(x);
                     }else{
                         console.log(result);
                     }
@@ -197,7 +197,7 @@ app.controller('productEditCtrl', function ($scope, $modalInstance, item, Data) 
         };
 });*/
 
-app.controller('gearboxSpecificsShortCtrl', function ($scope, $modal, $filter, Data, $http) {
+app.controller('gearboxSpecificsShortCtrl', function ($scope, $uibModal, $filter, Data, $http) {
     $scope.product = {};
     Data.get('gearbox_specifics').then(function(data){
     	//	This requests the query '/gearbox_specifics' as declared in index.php
@@ -248,7 +248,7 @@ app.controller('gearboxSpecificsShortCtrl', function ($scope, $modal, $filter, D
     $scope.open = function (p,size) {
     	console.log("scope.open");
     	console.log(p);
-        var modalInstance = $modal.open({
+        var modalInstance = $uibModal.open({
           templateUrl: 'partials/gearbox_specifics_edit.html',
           controller: 'gearboxSpecificsEditCtrl',
           size: size,
