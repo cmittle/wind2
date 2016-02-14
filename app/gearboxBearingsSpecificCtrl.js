@@ -23,9 +23,19 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
 
     $scope.changeShowPn = function () {
     //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
-            $scope.showSKF = $scope.showPartNumbers;
-            $scope.showNSK = $scope.showPartNumbers;
-            $scope.showFAG = $scope.showPartNumbers;
+            if ($scope.showPartNumbers === true) {
+	    	$scope.showSKF = true;
+            	$scope.showNSK = true;
+            	$scope.showFAG = true;
+            } else {
+            	$scope.showSKF = false;
+            	$scope.showNSK = false;
+            	$scope.showFAG = false;
+            	$scope.showTimken = false;
+            	$scope.showKoyo = false;
+            	$scope.showNTN = false;
+            	$scope.showOther = false;
+            };
     };
 
     
@@ -50,34 +60,34 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
 	  });
     };
 
-	$scope.removeDuplicates = function (a) {
-	        
-	        //This will check each basic ID on the list used in this gearbox before requesting specifics
-	        angular.forEach (a, function (value, key){
-		          	//this creates a temporary array for storing bearing_basic_ids that are used in this gearbox
-		          	$scope.b= {id: (value['bearing_basic_id'])};
-		          	//add new gb to array in forEach loop to gb master list to be sorted.
-		          	$scope.bearingBasicIdArray = $scope.bearingBasicIdArray.concat($scope.b.id);
-		          	//console.log($scope.b.id);          	
-		          });	
-	        //this trims duplicates and makes a clean set without duplicates
-		$scope.bearingBasicIdArray = new Set($scope.bearingBasicIdArray);  
-	};
+    $scope.removeDuplicates = function (a) {
+
+        //This will check each basic ID on the list used in this gearbox before requesting specifics
+        angular.forEach (a, function (value, key){
+                //this creates a temporary array for storing bearing_basic_ids that are used in this gearbox
+                $scope.b= {id: (value['bearing_basic_id'])};
+                //add new gb to array in forEach loop to gb master list to be sorted.
+                $scope.bearingBasicIdArray = $scope.bearingBasicIdArray.concat($scope.b.id);
+                //console.log($scope.b.id);          	
+            });	
+        //this trims duplicates and makes a clean set without duplicates
+        $scope.bearingBasicIdArray = new Set($scope.bearingBasicIdArray);  
+    };
 
 
     $scope.getBearingSpecifics = function () {
         //get specific part numbers and details for all of the basic IDs in this gearbox
-                angular.forEach ($scope.bearingBasicIdArray, function (item, key) {
-		     	$http  //gbid from URL only requests results from table that are used in that gearbox
-		            .get('api/v1/bearingSpecifics.php', {
-		                params: {
-		                    bearing_basic_id: item
-		                    }
-		             })
-		             .success(function (data) {
-		                  $scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
-		             });
-	     	});
+        angular.forEach ($scope.bearingBasicIdArray, function (item, key) {
+            $http  //gbid from URL only requests results from table that are used in that gearbox
+                .get('api/v1/bearingSpecifics.php', {
+                    params: {
+                        bearing_basic_id: item
+                        }
+                 })
+                 .success(function (data) {
+                      $scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
+            });
+        });
     };
 
     $scope.deleteProduct = function(product){
@@ -85,9 +95,9 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
             console.log("delete product = ");
             console.log(product);
             $http({
-                    method: 'GET',
-                    url: 'api/v1/delete.php',
-                    params: {type: 'delete', t: 'gbs', id: product.id}
+                method: 'GET',
+                url: 'api/v1/delete.php',
+                params: {type: 'delete', t: 'gbs', id: product.id}
              }).then(function (data) {
                   //product.description = $scope.testVar; //update the view after database update is successful
                   //var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
