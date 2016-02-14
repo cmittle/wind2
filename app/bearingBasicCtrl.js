@@ -79,59 +79,59 @@ app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, 
 
 app.controller('bearingBasicEditCtrl', function ($scope, $uibModalInstance, item, $http, Data) {
 
-  $scope.product = angular.copy(item);
-  $scope.submitted = false;
+    $scope.product = angular.copy(item);
+    $scope.submitted = false;
         
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('Close');
-        };
-        $scope.title = (item.basic_id > 0) ? 'Edit Product' : 'Add Product';
-        $scope.buttonText = (item.basic_id > 0) ? 'Update Product' : 'Add New Product';
-        //$scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
+    $scope.cancel = function () {
+        $uibModalInstance.dismiss('Close');
+    };
+    $scope.title = (item.basic_id > 0) ? 'Edit Product' : 'Add Product';
+    $scope.buttonText = (item.basic_id > 0) ? 'Update Product' : 'Add New Product';
+    //$scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
 
-        var original = item;
-        $scope.isClean = function() {
-            return angular.equals(original, $scope.product);
+    var original = item;
+    $scope.isClean = function() {
+        return angular.equals(original, $scope.product);
+    }
+    $scope.saveProduct = function (product) {
+        product.uid = $scope.uid;
+        $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
+        if(product.basic_id > 0){ // this is true if this editing a current product
+            $http({
+                    method: 'POST',
+                    url: 'api/v1/bearingBasicEdit.php',
+                    data: product
+                }).then(function (data) {
+                    //product.description = $scope.testVar; //update the view after database update is successful
+                    var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
+                    x.save = 'update';
+                    $scope.submitted = false; //set back to false to show submit button again
+                    $uibModalInstance.close(x); //close Edit modal when completed
+
+                    console.log("SUCCESS  $scope.product = ");
+                    console.log($scope.product);
+
+                }) .catch(function (data) {
+                    console.log(data.data);
+                    console.log("FAILED");
+            });  
+        }else{  //this is where it goes for a new product
+            $scope.showSubmitButton = false;
+            Data.post('bearing_basic', product).then(function (result) {
+                if(result.status != 'error'){
+                    //window.alert("Clicked 7");
+                    var x = angular.copy(product);
+                    x.save = 'insert';
+                    x.id = result.data;
+                    $scope.submitted = false; //set back to false to show submit button again
+                    $uibModalInstance.close(x);
+                }else{
+                    window.alert("Clicked 8" + result);
+                    console.log(result);
+                }
+            });
         }
-        $scope.saveProduct = function (product) {
-            product.uid = $scope.uid;
-            $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
-            if(product.basic_id > 0){ // this is true if this editing a current product
-                $http({
-			    method: 'POST',
-			    url: 'api/v1/bearingBasicEdit.php',
-			    data: product
-		     }).then(function (data) {
-		          //product.description = $scope.testVar; //update the view after database update is successful
-		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
-		          x.save = 'update';
-		          $scope.submitted = false; //set back to false to show submit button again
-		          $uibModalInstance.close(x); //close Edit modal when completed
-		          
-		          console.log("SUCCESS  $scope.product = ");
-		          console.log($scope.product);
-		          
-		     }) .catch(function (data) {
-		     	console.log(data.data);
-		     	console.log("FAILED");
-	     	});  
-            }else{  //this is where it goes for a new product
-                $scope.showSubmitButton = false;
-                Data.post('bearing_basic', product).then(function (result) {
-                    if(result.status != 'error'){
-                    	//window.alert("Clicked 7");
-                        var x = angular.copy(product);
-                        x.save = 'insert';
-                        x.id = result.data;
-                        $scope.submitted = false; //set back to false to show submit button again
-                        $uibModalInstance.close(x);
-                    }else{
-                    	window.alert("Clicked 8" + result);
-                        console.log(result);
-                    }
-                });
-            }
-            
-            //$scope.submitted = false; //set back to false to show submit button again
-        };
+
+        //$scope.submitted = false; //set back to false to show submit button again
+    };
 }); 

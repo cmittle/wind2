@@ -1,137 +1,73 @@
-app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, Data) {
-    $scope.product = {};
-    $scope.showActions = true; //hide edit/delete/copy actions column by default
-    
-    
-    $scope.populateBearingList = function () {
-    	//wrap this in a function so it can be called at any time
-	    Data.get('bearing_basic').then(function(data){
-	    	//	This requests the query '/bearing_basic' as declared in index.php
-	        $scope.products = data.data;
-	        //console.log($scope.products);
-	    });
-    };
-    
-    //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
-    $scope.open = function (p,size) {
-        var modalInstance = $uibModal.open({
-          templateUrl: 'partials/bearingBasicEdit.html',
-          controller: 'bearingBasicEditCtrl',
-          size: size,
-          resolve: {
-            item: function () {
-              return p;
-            }
-          }
-        });
-        modalInstance.result.then(function(selectedObject) {//this block updates the view so I dont need to request the entire data set again.
-            if(selectedObject.save == "insert"){  //this section adds the new product to the current product array
-                $scope.products.push(selectedObject);
-                $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
-            }else if(selectedObject.save == "update"){  //this section modifies the array shown with the changes made
-                p.type = selectedObject.type;
-                p.construction = selectedObject.construction;
-                p.base_pn = selectedObject.base_pn;
-            }
-        });
-    };
-    
-    
-    $scope.deleteProduct = function(product){
-        if(confirm("Are you sure to remove basic bearing:" + "\n ID: \t" + product.basic_id + "\n Type:\t" + product.type + "\n Construction:\t" + product.construction + "\n Base part number: \t" + product.base_pn)){
-            console.log("delete product = ");
-            console.log(product);
-            $http({
-                    method: 'GET',
-                    url: 'api/v1/delete.php',
-                    params: {type: 'delete', t: 'bb', id: product.basic_id}
-             }).then(function (data) {
-        	//there is probably a better way to update what is on the screen, but this works.  The only downside I can see of this method is bandwidth
-	            $scope.populateBearingList();  //update data on screen
-            }) .catch(function (data) {
-                console.log(data.data);
-                console.log("Delete item FAILED, $scope.deleteProduct, bearingbasicCtrl.js");
-            });
-                        //original delete code..
-                        //Data.delete("products/"+product.id).then(function(result){
-                        //    $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
-                        //});
-        } else {
-        	console.log("Else loop, $scope.deleteProduct, bearingbasicCtrl.js");
-        }
-    };
-    
- $scope.columns = [ 
-                    {text:"Basic ID",predicate:"basic_id",sortable:true},
-                    {text:"Type",predicate:"type",sortable:true},
-                    {text:"Construction",predicate:"construction",sortable:true},
-                    {text:"Base PN",predicate:"base_pn",sortable:true}//,
-//                    {text:"Action",predicate:"",sortable:false}
-                ];
+<?php
 
+require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
 
-	//functions to run when initialized
-	$scope.populateBearingList(); 
+    //not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
+    $dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8';
 
-});
+    // connect to the database
+    $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+
+    //arrays used for error (blank variable) checking to be returned later
+    $errors = array();
+    $data = array();
+
+    //json_decode (file_get_contents('php://input') is how I have to handle angular js $http.post requests; not sure what the "true" is for.
+    $_POST = json_decode(file_get_contents('php://input'), true);
+    //use this to extract variables from json package sent with $http.post request
+    $basic_id = $_POST['basic_id']; //basic bearing id
+    $type = $_POST['type']; // bearing type, TRB, CRB, ACBB etc...
+    $construction = $_POST['construction']; //construction NU, NJ, NCF, SRB, etc...
+    $base_pn = $_POST['base_pn']; //base part number ie 2968 (for NF 2968)
+
+    //Check variables to see if they're blank
+/*	if (empty($_POST['id']))
+      $errors['id'] = 'ID is required.';
+
+    if (empty($_POST['bearing_basic_id']))
+      $errors['bearing_basic_id'] = 'bearing_basic_id is required.';
+
+    if (!empty($errors)) {
+      $data['errors']  = $errors;
+    } else {
+            //this just returns an array so we can see if everything made it to the server
+      $data['message'] = 'Working so far';
+      $data['bearing_basic_id'] = $bearing_basic_id;
+      $data['specific_pn'] = $specific_pn;
+      $data['id'] = $id;
+      $data['od'] = $od;
+      $data['width'] = $width;
+      $data['clearance'] = $clearance;
+      $data['cage'] = $cage;
+      $data['inner_ring'] = $inner_ring;
+      $data['outer_ring'] = $outer_ring;
+      //$data['type'] = $type;
+    }
+    // response back.
+    echo json_encode($data);  //This just echos what was updated
+*/
+
+    //update all of these variables
+    $sql = "UPDATE  bearing_basic SET 
+            type = :type,
+            base_pn = :base_pn,
+            construction = :construction 
+            WHERE  basic_id =:basic_id"; 
 
 
 
-app.controller('bearingBasicEditCtrl', function ($scope, $uibModalInstance, item, $http, Data) {
+    // use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
+    $stmt = $db->prepare( $sql );
 
-  $scope.product = angular.copy(item);
-  $scope.submitted = false;
+    //this binds the input variables to php variables
+    $stmt->bindValue(':basic_id', $basic_id, PDO::PARAM_INT);//Bind int variable
+    $stmt->bindValue(':type', $type, PDO::PARAM_STR); //Bind String variable
+    $stmt->bindValue(':construction', $construction, PDO::PARAM_STR);//Bind STR variable
+    $stmt->bindValue(':base_pn', $base_pn, PDO::PARAM_STR);//Bind STR variable
+
+
+    // execute the query
+    $stmt->execute();
+
         
-        $scope.cancel = function () {
-            $uibModalInstance.dismiss('Close');
-        };
-        $scope.title = (item.basic_id > 0) ? 'Edit Product' : 'Add Product';
-        $scope.buttonText = (item.basic_id > 0) ? 'Update Product' : 'Add New Product';
-        //$scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
-
-        var original = item;
-        $scope.isClean = function() {
-            return angular.equals(original, $scope.product);
-        }
-        $scope.saveProduct = function (product) {
-            product.uid = $scope.uid;
-            $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
-            if(product.basic_id > 0){ // this is true if this editing a current product
-                $http({
-			    method: 'POST',
-			    url: 'api/v1/bearingBasicEdit.php',
-			    data: product
-		     }).then(function (data) {
-		          //product.description = $scope.testVar; //update the view after database update is successful
-		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
-		          x.save = 'update';
-		          $scope.submitted = false; //set back to false to show submit button again
-		          $uibModalInstance.close(x); //close Edit modal when completed
-		          
-		          console.log("SUCCESS  $scope.product = ");
-		          console.log($scope.product);
-		          
-		     }) .catch(function (data) {
-		     	console.log(data.data);
-		     	console.log("FAILED");
-	     	});  
-            }else{  //this is where it goes for a new product
-                $scope.showSubmitButton = false;
-                Data.post('bearing_basic', product).then(function (result) {
-                    if(result.status != 'error'){
-                    	//window.alert("Clicked 7");
-                        var x = angular.copy(product);
-                        x.save = 'insert';
-                        x.id = result.data;
-                        $scope.submitted = false; //set back to false to show submit button again
-                        $uibModalInstance.close(x);
-                    }else{
-                    	window.alert("Clicked 8" + result);
-                        console.log(result);
-                    }
-                });
-            }
-            
-            //$scope.submitted = false; //set back to false to show submit button again
-        };
-}); 
+?>

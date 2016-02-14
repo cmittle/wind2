@@ -14,85 +14,85 @@
     //require '.././libs/Slim/Slim.php'
     require_once 'passwordHash.php';
 	
-	//not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
-	$dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8';
-	
-	// connect to the database
-	$db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
-        
-        // got this code block from here http://tutsnare.com/post-form-data-using-angularjs/;  Also referenced here http://www.cleverweb.nl/javascript/a-simple-search-with-angularjs-and-php/
-	$_POST = json_decode(file_get_contents('php://input'), true);
-	//use this to extract variables from json package sent with $http.post request
-	$email = $_POST['email']; 
-	$password = $_POST['password']; 
-	
-	
-	// response back to client  //Diagnotstics
-	//echo json_encode($email);
-	//echo json_encode($password);
-	//echo json_encode($customer);
-	
-	//build SQL script
-	$sql = "SELECT * FROM  users_auth WHERE email =:email LIMIT 0 , 30";
-			
-	// use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
-	$stmt = $db->prepare( $sql );
-	
-	//this binds the input variables to php variables
-	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-	//bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
-	$stmt->bindValue(':email', $email, PDO::PARAM_STR); //Bind String variable
-	
-	// execute the query
-        $stmt->execute();
-	
-	//PDO method to fetch
-	$user = $stmt->fetch();
+    //not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
+    $dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8';
+
+    // connect to the database
+    $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+
+    // got this code block from here http://tutsnare.com/post-form-data-using-angularjs/;  Also referenced here http://www.cleverweb.nl/javascript/a-simple-search-with-angularjs-and-php/
+    $_POST = json_decode(file_get_contents('php://input'), true);
+    //use this to extract variables from json package sent with $http.post request
+    $email = $_POST['email']; 
+    $password = $_POST['password']; 
+
+
+    // response back to client  //Diagnotstics
+    //echo json_encode($email);
+    //echo json_encode($password);
+    //echo json_encode($customer);
+
+    //build SQL script
+    $sql = "SELECT * FROM  users_auth WHERE email =:email LIMIT 0 , 30";
+
+    // use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
+    $stmt = $db->prepare( $sql );
+
+    //this binds the input variables to php variables
+    //I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
+    //bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
+    $stmt->bindValue(':email', $email, PDO::PARAM_STR); //Bind String variable
+
+    // execute the query
+    $stmt->execute();
+
+    //PDO method to fetch
+    $user = $stmt->fetch();
 
         // convert to json
        // $json = json_encode( $user );  //diagnostic to see which user was selected
        // echo $json;
 	
 	//start to evaluate if password is correct
-	if ($user != NULL) {
+    if ($user != NULL) {
         if(passwordHash::check_password($user['password'],$password)){
-        	//$date = new DateTime();
-        	//$_SESSION['secret_server_key'] = $date->format('U'); //need to figure out how to time out using serverside (PHP)
-	        $response['status'] = "success";
-	        $response['message'] = 'Logged in successfully.';
-	        $response['name'] = $user['name'];
-	        $response['uid'] = $user['uid'];
-	        $response['email'] = $user['email'];
-	        $response['createdAt'] = $user['created'];
-	        //create Token for access control
-	        //from example here https://coderwall.com/p/8wrxfw/goodbye-php-sessions-hello-json-web-tokens
-	        $token = array();
-		$token['id'] = $id;
-		$token['expiresAt'] = 6;
-		//echo JWT::encode($token, 'secret_server_key');
-	        //Use SECRET_KEY defined in config.php file.  Still think I should use something unique to the session generated at time of login for highest security, will look at this later
-	        //Need to figure out how to make token expire after....maybe 10 minutes or something.
-	        $response['token'] = JWT::encode($token, SECRET_KEY); //send token back as part of success response for client local storage
-	        //echo json_encode($_SESSION['secret_server_key']);
-	        //echo json_encode(SECRET_KEY);
-	        
-	      //  if (!isset($_SESSION)) {
-	      //      session_start();
-	      //  }
-	      //  $_SESSION['uid'] = $user['uid'];
-	      //  $_SESSION['email'] = $email;
-	      //  $_SESSION['name'] = $user['name'];
-	        } else {
-	            $response['status'] = "error";
-	            $response['message'] = 'Login failed. Incorrect credentials';
-	            //$response['hash'] = passwordHash::hash($password);
-	        }
-	    }else {
-	            $response['status'] = "error";
-	            $response['message'] = 'No such user is registered';
+            //$date = new DateTime();
+            //$_SESSION['secret_server_key'] = $date->format('U'); //need to figure out how to time out using serverside (PHP)
+            $response['status'] = "success";
+            $response['message'] = 'Logged in successfully.';
+            $response['name'] = $user['name'];
+            $response['uid'] = $user['uid'];
+            $response['email'] = $user['email'];
+            $response['createdAt'] = $user['created'];
+            //create Token for access control
+            //from example here https://coderwall.com/p/8wrxfw/goodbye-php-sessions-hello-json-web-tokens
+            $token = array();
+            $token['id'] = $id;
+            $token['expiresAt'] = 6;
+            //echo JWT::encode($token, 'secret_server_key');
+            //Use SECRET_KEY defined in config.php file.  Still think I should use something unique to the session generated at time of login for highest security, will look at this later
+            //Need to figure out how to make token expire after....maybe 10 minutes or something.
+            $response['token'] = JWT::encode($token, SECRET_KEY); //send token back as part of success response for client local storage
+            //echo json_encode($_SESSION['secret_server_key']);
+            //echo json_encode(SECRET_KEY);
+
+          //  if (!isset($_SESSION)) {
+          //      session_start();
+          //  }
+          //  $_SESSION['uid'] = $user['uid'];
+          //  $_SESSION['email'] = $email;
+          //  $_SESSION['name'] = $user['name'];
+        } else {
+            $response['status'] = "error";
+            $response['message'] = 'Login failed. Incorrect credentials';
+            //$response['hash'] = passwordHash::hash($password);
         }
-        
-	echo json_encode($response);
+    }else {
+        $response['status'] = "error";
+        $response['message'] = 'No such user is registered';
+    }
+
+    echo json_encode($response);
 
 
 
