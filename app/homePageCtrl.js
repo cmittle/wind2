@@ -53,7 +53,6 @@ $scope.getgbmodels = function() {
 		//this gets the list of gearbox names from the gearbox_basic database table to give to the pulldown menu at the top of the page
 		$http
 			//poing to relative url of query and pass required params/variables.  This information can be used to constrain the query.
-		    //.get('api/v1/gearboxBasic.php', {
 		    .get('api/v1/gearboxBasic.php', { //calls specific php request for gbMfg list only
 		        params: {
 		            //can put 
@@ -95,7 +94,6 @@ $scope.getgbbasic = function() {
 		//this gets the list of gearbox names from the gearbox_basic database table to give to the pulldown menu at the top of the page
 		$http
 			//poing to relative url of query and pass required params/variables.  This information can be used to constrain the query.
-		    //.get('api/v1/gearboxBasic.php', {
 		    .get('api/v1/gearboxMfg.php', { //calls specific php request for gbMfg list only
 		        params: {
 		            //can put 

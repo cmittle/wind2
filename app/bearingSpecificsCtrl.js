@@ -72,8 +72,8 @@ app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $ht
     
     $scope.deleteProduct = function(product){
         if(confirm("Are you sure to remove: \n Specific PN:\t" + product.specific_pn +  "\n Specific ID: \t" + product.specific_id + "\n Bearing basic ID:\t" + product.bearing_basic_id + "\n Notes: \t" + product.notes)){
-            console.log("delete product = ");
-            console.log(product);
+            //console.log("delete product = ");
+            //console.log(product);
             $http({
                     method: 'GET',
                     url: 'api/v1/delete.php',
@@ -85,10 +85,6 @@ app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $ht
                 console.log(data.data);
                 console.log("Delete item FAILED, $scope.deleteProduct, bearingSpecificsCtrl.js");
             });
-                        //original delete code..
-                        //Data.delete("products/"+product.id).then(function(result){
-                        //    $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
-                        //});
         } else {
         	console.log("Else loop, $scope.deleteProduct, bearingSpecificsCtrl.js");
         }
