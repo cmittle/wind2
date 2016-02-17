@@ -1,6 +1,7 @@
 <?php
 
 require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
+require_once '.././libs/jwt_helper.php';
 
 	//I got the base of this file from http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
 	//this set up the basic db variables, connection, query, prepare statement, execute, fetchAll and json encode
@@ -12,40 +13,43 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
         // connect to the database
         $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
 	
-	//This recieves the variables sent with the AngularJS Get request.
-	//this variable can now be used to in the query structure to allow us to only get the correct results from the query
-	//rather than getting all results and filtering later
-	//This allows for variables passed to the server to be extracted; at this point I don't need to pass any variables
-	//$gbid = $_GET['gbid'];
-	
+	//This pulls the header out of the request
+    	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
+    	//remove prefix "Bearer " from beginning of this header
+    	$token = str_replace('Bearer ', '', $authHeader); //this appears to properly extract the string
+	//check token for authorization
+    	try {
+	    $authPass = JWT::decode($token, SECRET_KEY);
+    	} catch (Exception $e) {
+    		$response['exception'] = $e->getMessage();
+    		$response['status'] = 'failure in gearboxBasic.php';
+    		$response['message'] = 'The server has denied your request for this information. Please login and try again.';
+    		header('X-PHP-Response-Code: 401', true, 401); //set header to 401 (unauthorized) if token decode fails
+    		echo json_encode($response);
+    	}
 
-        // a query get all the records from the users table
-	//If a variable search is required.  Need to use ":xx" as variable in query statement
-		//also need to do bindParam function below to tie $xxid to :xxid variable
-	$sql = 'SELECT * FROM  gearbox_basic LIMIT 0 , 100';
+	if ($authPass != null) {
+    		$response['status'] = "success"; // from delete
+        	$response['message'] = 'You are approved';
+        	// a query get all the records from the table
+		$sql = 'SELECT * FROM  gearbox_basic LIMIT 0 , 150';
 
-
-        // use prepared statements, even if not strictly required is good practice
-        //This works if I need to revert
-        $stmt = $db->prepare( $sql );
-	
-	//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
-	//I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-	//TODO I don't think I need this bidning in this script
- //       $stmt->bindParam(':gbid', $gbid, PDO::PARAM_INT);
-
-        // execute the query
-        $stmt->execute();
-
-        // fetch the results into an array
-        $result = $stmt->fetchAll( PDO::FETCH_ASSOC );
-	
-
-	//$sortedResult = asort($result);
-
-        // convert to json
-        $json = json_encode( $result );
-
-        // echo the json string
-        echo $json;
+        	// use prepared statements, even if not strictly required is good practice
+       		$stmt = $db->prepare( $sql );
+        	// execute the query
+        	$stmt->execute();
+        	// fetch the results into an array
+        	$result = $stmt->fetchAll( PDO::FETCH_ASSOC );
+        	// convert to json
+        	$json = json_encode( $result );
+        	// echo the json string
+        	echo $json;
+        } else {
+		//send this back into $results for failure status
+		//Not sure if I really need this Else loop any longer... I've moved the failure of token:decode to the try / catch bock above
+		//$response['status'] = 'failure in gearbox.php';
+        	//$response['message'] = 'You are NOT approved';
+        	//echo json_encode($response);
+	}
+        	
 ?>

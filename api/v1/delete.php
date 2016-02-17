@@ -36,7 +36,7 @@ require_once '.././libs/jwt_helper.php';
 	    $authPass = JWT::decode($token, SECRET_KEY);
     	} catch (Exception $e) {
     		$response['exception'] = $e->getMessage();
-    		$response['status'] = 'failure in bearingSpecifics.php';
+    		$response['status'] = 'failure in delete.php';
     		$response['message'] = 'The server has denied your request for this information. Please login and try again.';
     		header('X-PHP-Response-Code: 401', true, 401); //set header to 401 (unauthorized) if token decode fails
     		echo json_encode($response);
@@ -44,8 +44,8 @@ require_once '.././libs/jwt_helper.php';
 
 
 	if ($authPass != null) {
-    	$response['status'] = "success"; // from delete
-        $response['message'] = 'You are approved';
+    		$response['status'] = "success"; // from delete
+        	$response['message'] = 'You are approved';
 		if ($t == gbs ) { //gbs is gearbox_specifics table
 			//echo json_encode("t == gbs");
 			$sql ="DELETE FROM gearbox_specifics WHERE id =:id";
@@ -74,12 +74,12 @@ require_once '.././libs/jwt_helper.php';
 	        //$json = json_encode( $result );
 	        // echo the json string
 	        //echo $json;
-	 	} else {
-		//send this back into $results for failure status
-		//Not sure if I really need this Else loop any longer... I've moved the failure of token:decode to the try / catch bock above
-		//$response['status'] = 'failure in gearbox.php';
-        	//$response['message'] = 'You are NOT approved';
-        	//echo json_encode($response);
+	 } else {
+	//send this back into $results for failure status
+	//Not sure if I really need this Else loop any longer... I've moved the failure of token:decode to the try / catch bock above
+	//$response['status'] = 'failure in gearbox.php';
+        //$response['message'] = 'You are NOT approved';
+        //echo json_encode($response);
     } 
 	        
 ?>
