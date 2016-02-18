@@ -1,12 +1,4 @@
-<!--<h4 class="blog-post-title">Corys Wind Pages</h4>
-<hr/>-->
-
-
-
-<!-- TODO make this add new item button work, and probably preload the information for the gearbox I'm currently viewing, also validate form when completed before submitted-->
-
-
-<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add bearing to gbx</button>
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add main bearing</button>
 <div class="table-responsive">
     <div class="panel panel-primary">
       <div class="panel-heading" style="padding:7px;">
@@ -56,20 +48,18 @@
             <table class="table table-striped">
                 <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
                 <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
-		<!--  -->
+		
                 <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
 
-		<!-- display each record in product array, this is the array for the gearbox of which page the user is on -->
                 <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > 
-		    <!-- display bearing basic part number and position in this gearbox -->
-                    <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td>
-		    <!-- SKF Block for specific part number list -->
+                    <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td>
+                    <!--<td>{{c.qty_per_gb}}</td>-->
                     <td ng-show="showSKF">
                         <table>
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">SKF:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '1' }:true | filter:{bearing_basic_id: c.bearing_basic_id}:true" > <!-- 1 is SKF --> 
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '1' }:true | filter:{bearing_basic_id: c.bearing_basic_id}:true" >
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -79,7 +69,7 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">NSK:</td>
                             </tr>
-                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '2' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 2 is NSK --> 
+                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '2' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" >
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -89,8 +79,7 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">FAG:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '3' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 3 is FAG -->
-                            <!-- {{c.position}} works here to pull in variables from outside table-->
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '3' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" >
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -100,7 +89,7 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Timken:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 4 is Timken -->  
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > 
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -110,7 +99,7 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Koyo:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '5' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 5 is Koyo -->
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '5' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" >
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -120,7 +109,7 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">NTN:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '6' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 6 is NTN -->
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '6' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" >
                                 <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
@@ -130,19 +119,19 @@
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Other:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '7' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 7 is Other -->
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '7' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" >
                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
                     <td>{{c.notes}}</td>
 
-                   <!-- edit/copy/delete buttons for each row -->
+                   
                     <td ng-if="showActions" style="width:100px">
                         <div class="btn-group">
                             <button type="button" class="btn-xs btn-default fa fa-edit" uib-tooltip="Edit" ng-click="open(c);"></button>
                             <button type="button" class="btn-xs btn-danger fa fa-trash-o" uib-tooltip="Delete" ng-click="deleteProduct(c);"></button>
-                            <button type="button" class="btn-xs btn-default fa fa-tags" uib-tooltip="Copy" ></button> <!-- need to make this copy function ng-click="deleteProduct(c);"-->
+                            <button type="button" class="btn-xs btn-default fa fa-tags" uib-tooltip="Copy" ></button>
                         </div>
                     </td>
 
@@ -153,10 +142,9 @@
     </div>  
     
     
-    <!-- This is the popup template for the specific part numbers listed under each mfg. -->
     <script type="text/ng-template" id="myTooltipTemplate.html">
       <div>
-      <style>  <!-- These 2 together override Bootstraps default max width of 200px on tooltips -->
+      <style> 
       	div.tooltip {
 	    width: 270px;
 	}

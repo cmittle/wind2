@@ -164,14 +164,28 @@ app.config(['$routeProvider',
     })*/
     //This is the dynamic gearbox mfg / model page loader
     .when('/gearbox/:mfg/:model', {
-      //templateUrl: 'partials/gearbox_specifics2.html', //old non-directive way of doing this
       templateUrl: 'partials/gearboxComplete.html', //new GearboxComplete html container.  Will turn this into GearboxComplete directive soon , then use template='<gearbox-complete></gearbox-complete>'
-      //controller: 'gearboxSpecificsCtrl2',  //old non-directive way of doin this
       controller: 'gearboxCompleteCtrl',
       resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
         "check":function($location){   
             if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
                 //Do something
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+          }
+    	}
+    })
+    //This is the dynamic tower mfg / model page loader
+    .when('/tower/:mfg/:model', {
+      templateUrl: 'partials/towerComplete.html',
+      controller: 'towerCompleteCtrl',
+      resolve:{  //this will check that the user has a token before loading the page.  Authentication of the token is done severside
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){
                 //console.log("You Shall Pass");
             }else{
             	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there

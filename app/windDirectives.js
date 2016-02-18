@@ -9,7 +9,10 @@ app
 
 .directive("testDirective2", function () {
     return {
-        template: 'Name: TEST DIRECTIVE 2 Address: {{customer.address}}'
+        template: 'Name: TEST DIRECTIVE 2 Address: {{towerModel}}',
+        scope: {
+        	towerModel: '@model'
+        }
     };
 })
 
@@ -39,6 +42,7 @@ app
     };
 })
 
+
 .directive('gearboxText', function () {
     'use strict';
     return {
@@ -49,6 +53,32 @@ app
             gbxMfg: '@mfg'  
         },
         templateUrl: 'partials/gearbox_text.html'  //I can probably copy a majority of existing gearboxSpecifics2.html for seals page
+    };
+})
+
+.directive('mainBearing', function () {
+    'use strict';
+    return {
+        restrict: 'E',
+        controller: 'mainBearingSpecificCtrl',
+        scope: {
+            towerModel: '@model',  //variable name in scope is towerModel (value on left side of this statement)
+            towerMfg: '@mfg'
+        },
+        templateUrl: 'partials/main_bearing.html'  //I can probably copy a majority of existing gearboxSpecifics2.html for seals page
+    };
+})
+
+.directive('towerText', function () {
+    'use strict';
+    return {
+        restrict: 'E',
+        controller: 'towerTextCtrl', 
+        scope: {
+            towerModel: '@model', //variable name in scope is towerModel (value on left side of this statement)
+            towerMfg: '@mfg'  
+        },
+        templateUrl: 'partials/tower_text.html'
     };
 })
 

@@ -4,22 +4,33 @@
 		<i ng-if="showText" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowText()"> {{urlModel}} Notes</i>
 	</span>
 	<br ng-if="showText" > 
-	<gearbox-text ng-show="showText" model={{urlModel}} mfg={{urlMfg}}> </gearbox-text> 
+	<tower-text ng-show="showText" model={{urlModel}} mfg={{urlMfg}}> </tower-text>
+</div>
+
+<div>
+	 <span class="btn btn-small btn-info" style="font-size:12px;">
+		<i ng-if="!showMain" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowMain()"> {{urlModel}} Main Bearing</i>
+		<i ng-if="showMain" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowMain()"> {{urlModel}} Main Bearing</i>
+	</span>
+	<br ng-if="showText" > 
+	<main-bearing ng-show="showMain" model={{urlModel}} mfg={{urlMfg}}> </main-bearing>
 </div>
 
 
-<div>
-	<!--<i class="glyphicon" style="font-size:1.5em;" ng-class="{'glyphicon-minus' : showBearings, 'glyphicon-plus' : !showBearings}" ng-click="switchShowBearings()">{{urlModel}} Bearing List</i> <br>-->
+<!--<test-directive2>Hello test directive 2</test-directive2>-->
+
+<!--<div>
+	<i class="glyphicon" style="font-size:1.5em;" ng-class="{'glyphicon-minus' : showBearings, 'glyphicon-plus' : !showBearings}" ng-click="switchShowBearings()">{{urlModel}} Bearing List</i> <br>
 
 	<span class="btn btn-small btn-info" style="font-size:12px;">
 		<i ng-if="!showBearings" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowBearings()"> {{urlModel}} Bearing List</i>
 		<i ng-if="showBearings" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowBearings()"> {{urlModel}} Bearing List</i>
 	</span> 
 	<br ng-if="showBearings" >
-	<gearbox-bearings  ng-show="showBearings" model={{urlModel}}> </gearbox-bearings> 
-</div>
+	<gearbox-bearings  ng-show="showBearings" model={{urlModel}}> </gearbox-bearings>
+</div> -->
 
-<div>
+<!--<div>
 	<span class="btn btn-small btn-info" style="font-size:12px;">
 		<i ng-if="!showSeals" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowSeals()"> {{urlModel}} Seal List</i>
 		<i ng-if="showSeals" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowSeals()"> {{urlModel}} Seal List</i>
@@ -27,4 +38,4 @@
 	<br ng-if="showSeals" >
 	<gearbox-seals ng-show="showSeals"  model={{urlModel}}> </gearbox-seals>
 </div>	
-<br>
+<br>-->

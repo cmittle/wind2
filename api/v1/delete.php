@@ -58,6 +58,9 @@ require_once '.././libs/jwt_helper.php';
 		} elseif ($t == sb ) { //sb is seal_basic table
 			//echo json_encode("t == bs");
 			$sql ="DELETE FROM seal_basic WHERE uid =:id";
+		} elseif ($t == tm ) { //tm is tower main table
+			//echo json_encode("t == bs");
+			$sql ="DELETE FROM tower_main WHERE uid =:id";
 		} else {
 			echo "Did not = gearbox_specifcs, bearing_specifics or bearing_basic"; 
 		}
