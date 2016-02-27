@@ -145,10 +145,10 @@ app.config(['$routeProvider',
         }
     }
     })
-    /*.when('/seal_specifics', {
+    .when('/seal_specifics', {
       title: 'Seal Specifics Page',
-      //templateUrl: 'partials/gearbox_basic.html',
-      //controller: 'gearboxBasicCtrl',
+      templateUrl: 'partials/seal_specifics.html',
+      controller: 'sealSpecificsCtrl',
       resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
         "check":function($location){   
             if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
@@ -161,7 +161,7 @@ app.config(['$routeProvider',
             }
         }
     }
-    })*/
+    })
     //This is the dynamic gearbox mfg / model page loader
     .when('/gearbox/:mfg/:model', {
       templateUrl: 'partials/gearboxComplete.html', //new GearboxComplete html container.  Will turn this into GearboxComplete directive soon , then use template='<gearbox-complete></gearbox-complete>'

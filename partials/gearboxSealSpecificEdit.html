@@ -1,0 +1,64 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit product [ID: {{product.id}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="product_form" class="form-horizontal" role="form" novalidate>
+            
+            <form-element label="UID" mod="product">
+                <input type="text" class="form-control" name="id" maxlength="15" uib-tooltip="max length 15 charaters"  placeholder="" ng-model="product.id" ng-disabled=true focus/>
+            </form-element>
+            <form-element label="GB Model#" mod="product">
+                <input type="text" class="form-control" name="gb_id" maxlength="20" uib-tooltip="max length 20 charaters" placeholder="" ng-model="product.gb_id" focus/> <!-- ng-disabled=true  -->
+            </form-element>
+            <form-element label="Pos ID" mod="product">
+                <input type="text" class="form-control" name="order" maxlength="6" uib-tooltip="max length 6 charaters" placeholder="" ng-model="product.pos_id" focus/>
+            </form-element>
+            <form-element label="Position" mod="product">
+            <input type="text" class="form-control" name="position" maxlength="20" uib-tooltip="max length 20 charaters" placeholder="e.g. PC-RS, LSIS-GS, HSS etc..." ng-model="product.position" focus/>
+            </form-element>
+            <form-element label="Seal Basic ID" mod="basicSealList"> --Be Carefull with this
+            	<select  style="color:black" ng-model="product.seal_basic_id"> <!--  -->
+            	  <option></option>
+            	  <option ng-repeat="option in basicSealList | orderBy:'type + inner_dia'" value="{{option.uid}}">{{option.type}} {{option.inner_dia}} x {{option.outer_dia}}({{option.uid}})</option> 
+		</select>
+                <!--<input type="text" name="bearing_basic_id" class="form-control" placeholder="" ng-model="product.bearing_basic_id"/> -->
+            </form-element>
+            <form-element label="Seal Basic ID" mod="product">
+                <input type="text" name="seal_basic_id" maxlength="15" uib-tooltip="max length 15 charaters" class="form-control" placeholder="" ng-model="product.seal_basic_id"/> 
+            </form-element>
+            <form-element label="Seal Basic PN" mod="product">
+                <input type="text" name="seal_basic_pn" maxlength="30" uib-tooltip="max length 30 charaters" class="form-control" placeholder="" ng-model="product.seal_basic_pn"/>
+            </form-element>
+            <form-element label="Rec Material" mod="product">
+                <input type="text" class="form-control" name="rec_material" maxlength="15" uib-tooltip="max length 15 charaters" placeholder="" ng-model="product.rec_material" focus/>
+            </form-element>
+	    <form-element label="Qty" mod="product">
+                <input type="text" class="form-control" name="qty" maxlength="2" uib-tooltip="max length 2 charaters" placeholder="" ng-model="product.qty" focus/>
+            </form-element>
+            <form-element label="Notes" mod="product">
+                <input type="text" class="form-control" name="notes" maxlength="250" uib-tooltip="max length 250 charaters" placeholder="" ng-model="product.notes" focus/>
+            </form-element>
+
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()" ng-if="!submitted"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveProduct(product);"
+                        	ng-if="!submitted"
+                                ng-disabled="product_form.$invalid || enableUpdate"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                        <p ng-if="submitted" ><i style="color:white" class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</p>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>

@@ -49,7 +49,10 @@ require_once '.././libs/jwt_helper.php';
 		if ($t == gbs ) { //gbs is gearbox_specifics table
 			//echo json_encode("t == gbs");
 			$sql ="DELETE FROM gearbox_specifics WHERE id =:id";
-		} elseif ($t == bs ) { //bs is bearing_specifics table
+		} elseif ($t == gbss ) { //gbss is gearbox seal specifics
+			//echo json_encode("t == bs");
+			$sql ="DELETE FROM gearbox_seal_specifics WHERE id =:id";
+		}elseif ($t == bs ) { //bs is bearing_specifics table
 			//echo json_encode("t == bs");
 			$sql ="DELETE FROM bearing_specifics WHERE specific_id =:id";
 		} elseif ($t == bb ) { //bb is bearing_basic table
@@ -61,6 +64,9 @@ require_once '.././libs/jwt_helper.php';
 		} elseif ($t == tm ) { //tm is tower main table
 			//echo json_encode("t == bs");
 			$sql ="DELETE FROM tower_main WHERE uid =:id";
+		} elseif ($t == ss ) { //ss is seal specific
+			//echo json_encode("t == bs");
+			$sql ="DELETE FROM seal_specifics WHERE uid =:id";
 		} else {
 			echo "Did not = gearbox_specifcs, bearing_specifics or bearing_basic"; 
 		}

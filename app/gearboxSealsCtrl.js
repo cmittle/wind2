@@ -91,7 +91,7 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
             $http({
                     method: 'GET',
                     url: 'api/v1/delete.php',
-                    params: {type: 'delete', t: 'gbs', id: product.id}
+                    params: {type: 'delete', t: 'gbss', id: product.id}
              }).then(function (data) {
                   //product.description = $scope.testVar; //update the view after database update is successful
                   //var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
@@ -113,8 +113,8 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
 //TODO figure out how to pre-load current gearbox model on modal
     $scope.open = function (p,size) {
         var modalInstance = $uibModal.open({
-            templateUrl: 'partials/gearbox_specifics_edit.html',
-            controller: 'gearboxBearingSpecificEditCtrl',
+            templateUrl: 'partials/gearboxSealSpecificEdit.html',
+            controller: 'gearboxSealsEditCtrl',
             size: size,
             resolve: {
                 item: function () {
@@ -169,19 +169,24 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
 app.controller('gearboxSealsEditCtrl', function ($scope, $uibModalInstance, $http, $routeParams, item, Data) {
 
   $scope.product = angular.copy(item);
-  $scope.basicbrglist;
+  $scope.basicSealList;
   $scope.urlModel = $routeParams.model;  //model number passed in url
   $scope.submitted = false;
        
-    $scope.getbasicbrg = function () {
-        Data.get('bearing_basic').then(function(data){
-        //	This requests the query '/bearing_basic' as declared in index.php
-        $scope.basicbrglist = data.data;
-        console.log("basic brg list = ");
-        console.log($scope.basicbrglist);
-        console.log("current model is =");
-        console.log($scope.urlModel);
-        });
+    $scope.getBasicSeal = function () {
+        $http
+    	   .get('api/v1/sealBasic.php', {
+    	      params: {
+    	          //tid: $scope.urlModel  //tid from URL only requests results from table that are used in that tower
+    	          }
+    	   }).then(function successCallback(results) { //succesful HTTP response 
+    	   	$scope.basicSealList = results.data;
+        }, function errorCallback(results) { //need 400 series header returned to engage error callback
+            alert("failed!" + results.data.message);  //display alert box saying the eror recieved from the server
+	    console.log("$http.get gearboxSealsCtrl.js $scope.getBasicSeal function recieved an error");
+	    console.log(data); //show data returned from server about error
+	  });
+     
     };
 
     $scope.loadModel = function() {
@@ -211,7 +216,7 @@ app.controller('gearboxSealsEditCtrl', function ($scope, $uibModalInstance, $htt
         if(product.id > 0){ // this is true if this editing a current product
             $http({
                 method: 'POST',
-                url: 'api/v1/gearboxEdit.php',
+                url: 'api/v1/gearboxSealsEdit.php',
                 data: product
             }).then(function (data) {
                 //product.description = $scope.testVar; //update the view after database update is successful
@@ -226,21 +231,28 @@ app.controller('gearboxSealsEditCtrl', function ($scope, $uibModalInstance, $htt
                 console.log("FAILED");
             });      
         }else{  //this is where it goes for a new product
-            Data.post('gearbox_specifics', product).then(function (result) {
-                if(result.status != 'error'){
-                    var x = angular.copy(product);
-                    x.save = 'insert';
-                    x.id = result.data;
-                    $scope.submitted = false; //set back to false to show submit button again
-                    $uibModalInstance.close(x);
-                }else{
-                    //window.alert("Clicked 8" + result);
-                    console.log("Data.post - else");
-                    console.log(result);
-                }
-            });
+            console.log("New seal for this gb");
+            console.log(product);
+            $http({
+                method: 'POST',
+                url: 'api/v1/gearboxSealsEdit.php',
+                data: product
+            }).then(function (result) {
+                //product.description = $scope.testVar; //update the view after database update is successful
+                var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
+                x.save = 'insert';
+                x.id = result.data;
+                $scope.submitted = false; //set back to false to show submit button again
+                $uibModalInstance.close(x); //close Edit modal when completed
+                console.log("SUCCESS  $scope.product = ");
+                console.log($scope.product);
+            }) .catch(function (result) {
+                console.log(result.data);
+                console.log("FAILED");
+            }); 
+            
         }
     };
-    $scope.getbasicbrg();
+    $scope.getBasicSeal();
         
 });

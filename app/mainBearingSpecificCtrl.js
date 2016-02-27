@@ -1,4 +1,4 @@
-app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, $http, $routeParams, $window, Data) {
+app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, $http, $routeParams, $window) {
     $scope.product = {};  //not sure if this is confused with products or if this is correct.
     $scope.urlMfg = $scope.towerMfg;  //$routeParams.mfg;  //id number passed in url
     $scope.urlModel = $scope.towerModel; //model number passed in attribute of directive element     //$routeParams.model;  //model number passed in url
@@ -52,11 +52,11 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
             	$scope.removeDuplicates(results.data);  
                 //after cleaning list of duplicates above run this to retrieve bearing specific part numbers
                 $scope.getBearingSpecifics(); 
-        }, function errorCallback(data) { //need 400 series header returned to engage error callback
-            alert(data.data.message);  //display alert box saying the eror recieved from the server
+        }, function errorCallback(results) { //need 400 series header returned to engage error callback
+            alert(results.data.message);  //display alert box saying the eror recieved from the server
             $scope.products = '0'; //stops loading icon from spinning on page
 	    console.log("$http.get in mainBearingSpecificCtrl.js $scope.getTower function recieved an error");
-	    //console.log(data); //show data returned from server about error
+	    //console.log(results); //show data returned from server about error
 	  });
     };
 
@@ -82,8 +82,8 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
                         bearing_basic_id: item
                         }
                  })
-                 .success(function (data) {
-                      $scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
+                 .success(function (results) {
+                      $scope.bearingSpecifics = $scope.bearingSpecifics.concat(results);
             });
         });
     };
@@ -96,10 +96,10 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
                 method: 'GET',
                 url: 'api/v1/delete.php',
                 params: {type: 'delete', t: 'tm', id: product.uid}
-             }).then(function (data) {
+             }).then(function (results) {
                   $scope.getTower(); //call this to update view on screen; there is probably a better way just to update 1 record, should look at this later
-            }) .catch(function (data) {
-                console.log(data.data);
+            }) .catch(function (results) {
+                console.log(results.data);
                 console.log("Delete item FAILED");
             });
                         //original delete code..
@@ -165,9 +165,9 @@ app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstanc
   $scope.submitted = false;
        
     $scope.getbasicbrg = function () {
-        Data.get('bearing_basic').then(function(data){
+        Data.get('bearing_basic').then(function(results){
         //	This requests the query '/bearing_basic' as declared in index.php
-        $scope.basicbrglist = data.data;
+        $scope.basicbrglist = results.data;
         console.log("basic brg list = ");
         console.log($scope.basicbrglist);
         console.log("current model is =");
@@ -204,31 +204,33 @@ app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstanc
                 method: 'POST',
                 url: 'api/v1/towerMainEdit.php',
                 data: product
-            }).then(function (data) {
+            }).then(function (results) {
                 var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
                 x.save = 'update';
                 $scope.submitted = false; //set back to false to show submit button again
                 $uibModalInstance.close(x); //close Edit modal when completed
                 console.log("SUCCESS  $scope.product = ");
                 console.log($scope.product);
-            }) .catch(function (data) {
-                console.log(data.data);
+            }) .catch(function (results) {
+                console.log(results.data);
                 console.log("FAILED");
             });      
         }else{  //this is where it goes for a new product
-            /*Data.post('gearbox_specifics', product).then(function (result) {
-                if(result.status != 'error'){
-                    var x = angular.copy(product);
-                    x.save = 'insert';
-                    x.id = result.data;
-                    $scope.submitted = false; //set back to false to show submit button again
-                    $uibModalInstance.close(x);
-                }else{
-                    //window.alert("Clicked 8" + result);
-                    console.log("Data.post - else");
-                    console.log(result);
-                }
-            });*/
+            $http({
+                method: 'POST',
+                url: 'api/v1/towerMainAdd.php',
+                data: product
+            }).then(function (results) {
+                var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
+                x.save = 'update';
+                $scope.submitted = false; //set back to false to show submit button again
+                $uibModalInstance.close(x); //close Edit modal when completed
+                console.log("SUCCESS  $scope.product = ");
+                console.log($scope.product);
+            }) .catch(function (results) {
+                console.log(results.data);
+                console.log("FAILED");
+            });
         }
     };
     $scope.getbasicbrg();

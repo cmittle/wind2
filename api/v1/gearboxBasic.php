@@ -13,7 +13,7 @@ require_once '.././libs/jwt_helper.php';
         // connect to the database
         $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
 	
-	//This pulls the header out of the request
+/*	//This pulls the header out of the request
     	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
     	//remove prefix "Bearer " from beginning of this header
     	$token = str_replace('Bearer ', '', $authHeader); //this appears to properly extract the string
@@ -28,7 +28,7 @@ require_once '.././libs/jwt_helper.php';
     		echo json_encode($response);
     	}
 
-	if ($authPass != null) {
+	if ($authPass != null) {  */
     		$response['status'] = "success"; // from delete
         	$response['message'] = 'You are approved';
         	// a query get all the records from the table
@@ -44,12 +44,12 @@ require_once '.././libs/jwt_helper.php';
         	$json = json_encode( $result );
         	// echo the json string
         	echo $json;
-        } else {
+  /*      } else {
 		//send this back into $results for failure status
 		//Not sure if I really need this Else loop any longer... I've moved the failure of token:decode to the try / catch bock above
 		//$response['status'] = 'failure in gearbox.php';
         	//$response['message'] = 'You are NOT approved';
         	//echo json_encode($response);
-	}
+	}*/
         	
 ?>

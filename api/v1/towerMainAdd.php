@@ -24,28 +24,6 @@ require_once '.././libs/jwt_helper.php';
 	$position = $_POST['position']; //human readable position
 	$rec_clearance = $_POST['rec_clearance']; //recommended clearance e.g. C0, C3, CNL, etc..
 
-	//Check variables to see if they're blank
-	if (empty($_POST['uid'])) {
-	  $errors['uid'] = 'UID is required.';}
-	if (empty($_POST['bearing_basic_id'])) {
-	  $errors['bearing_basic_id'] = 'bearing_basic_id is required.'; }
-	
-	if (!empty($errors)) {
-	  $data['errors']  = $errors;
-	} else {
-		//this just returns an array so we can see if everything made it to the server
-	  $data['message'] = 'Working so far';
-	  $data['bearing_basic_id'] = $bearing_basic_id;
-	  $data['bearing_basic_pn'] = $bearing_basic_pn;
-	  $data['tower_id'] = $tower_id;
-	  $data['notes'] = $notes;
-	  $data['position'] = $position;
-	  $data['pos_id'] = $pos_id;
-	  $data['rec_clearance'] = $rec_clearance;
-	}
-	// response back.
-	echo json_encode($data);  //This just echos what was updated
-
 	//This pulls the header out of the request
     	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
     	//remove prefix "Bearer " from beginning of this header
@@ -67,21 +45,14 @@ require_once '.././libs/jwt_helper.php';
         	$response['message'] = 'You are approved';
 		//update all of these variables
 		//Maybe I shouldn't update the tower_id, this would change what gearbox the bearing is listed in.
-		$sql = "UPDATE  tower_main SET  
-			position = :position, 
-			bearing_basic_id = :bearing_basic_id,
-			bearing_basic_pn = :bearing_basic_pn,
-			rec_clearance = :rec_clearance,
-			tower_id = :tower_id,
-			pos_id = :pos_id,
-			notes = :notes		 
-			WHERE  uid =:uid"; 
+		$sql = "INSERT INTO tower_main 
+				(uid, position, bearing_basic_id, bearing_basic_pn, rec_clearance, tower_id, pos_id, notes) 
+			VALUES (NULL, :position, :bearing_basic_id, :bearing_basic_pn, :rec_clearance, :tower_id, :pos_id, :notes)";
 	
 		// use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
 		$stmt = $db->prepare( $sql );
 	
 		//this binds the input variables to php variables
-		$stmt->bindValue(':uid', $uid, PDO::PARAM_INT);//Bind int variable
 		$stmt->bindValue(':bearing_basic_id', $bearing_basic_id, PDO::PARAM_STR); //Bind String variable
 		$stmt->bindValue(':bearing_basic_pn', $bearing_basic_pn, PDO::PARAM_STR);//Bind STR variable
 		$stmt->bindValue(':tower_id', $tower_id, PDO::PARAM_STR);//Bind str variable

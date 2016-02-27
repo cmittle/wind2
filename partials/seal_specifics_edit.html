@@ -1,0 +1,71 @@
+    <button type="button" class="close" ng-click="cancel();">
+        <i class="fa fa-times-circle-o" style="margin:10px;color:blue;"></i>
+    </button>
+    <div class="modal-header">
+        <h3 class="modal-title">Edit product [Specific ID: {{product.uid}}]</h3>
+    </div>
+    <div class="modal-body">
+        <form name="product_form" class="form-horizontal" role="form" novalidate>
+            <form-element label="Specific ID" mod="product">
+                <input type="text" class="form-control" name="specific_id" ng-model="product.uid" ng-disabled="true" focus/>
+            </form-element>
+            <form-element label="Seal Basic ID" mod="product"> --Be Carefull with this
+            	<select  style="color:black" ng-model="product.seal_basic_id"> <!--ng-model="product.bearing_basic_id"  -->
+            	  <option></option>
+            	  <option ng-repeat="option in basicSealList | orderBy:'type + inner_dia'" value="{{option.uid}}">{{option.type}} - {{option.inner_dia}} x {{option.outer_dia}} x {{option.width}} ({{option.uid}})</option> 
+		</select>
+            </form-element>
+            
+
+            
+            <!--<form-element label="Bearing Basic ID" mod="product">
+                <input type="text" class="form-control" name="position" placeholder="Basic Bearing ID#" ng-model="product.bearing_basic_id" focus/>
+            </form-element>-->
+            <form-element label="Specific PN" mod="product">
+            <input type="text" class="form-control" name="specifc_pn" placeholder="e.g. 710x760x20 HSS5 H" ng-model="product.specific_pn" focus/>
+            </form-element>
+            <form-element label="Mfg ID#" mod="product">
+                <input type="text" name="mfg" class="form-control" placeholder="1=SKF, 2=Walkersele, 3=Carco" tooltip="1=SKF, 2=Walkersele, 3=Carco" tooltip-popup-delay="1000" ng-model="product.mfg"/>
+            </form-element>
+	    <form-element label="ID" mod="product">
+                <input type="text" name="id" class="form-control" placeholder="inner diameter" ng-model="product.inner_dia"/>
+            </form-element>
+            <form-element label="OD" mod="product">
+                <input type="text" name="od" class="form-control" placeholder="outer diameter" ng-model="product.outer_dia"/>
+            </form-element>
+            <form-element label="Width" mod="product">
+                <input type="text" name="width" class="form-control" placeholder="width" ng-model="product.width"/>
+            </form-element>
+            <form-element label="Material" mod="product">
+                <input type="text" name="material" class="form-control" placeholder="NBR, HNBR, Viton, EcoPur etc.." ng-model="product.material"/>
+            </form-element>
+            <form-element label="Profile" mod="product">
+            	<input type="text" name="profile" placeholder="" ng-model="product.profile"/> 
+            </form-element>
+            <form-element label="Split" mod="product">
+            	<input type="text" name="split" placeholder="Yes / No" ng-model="product.split"/> 
+            </form-element>
+            <form-element label="Notes" mod="product">
+            	<textarea class="form-control" name="" maxlength="250" placeholder="Notes" ng-model="product.notes"> </textarea><!-- add pull down here-->
+            </form-element>
+
+
+            <div class="space"></div>
+            <div class="space-4"></div>
+            <div class="modal-footer">
+                <form-element label="">
+                    <div class="text-right">
+                        <a class="btn btn-sm" ng-click="cancel()" ng-if="!submitted"><i class="ace-icon fa fa-reply"></i>Cancel</a>
+                        <button ng-click="saveProduct(product);"
+                                ng-disabled="product_form.$invalid || enableUpdate"
+                                ng-if="!submitted"
+                                class="btn btn-sm btn-primary"
+                                type="submit">
+                            <i class="ace-icon fa fa-check"></i>{{buttonText}}
+                        </button>
+                        <p ng-if="submitted" ><i style="color:white" class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</p>
+                    </div>
+                </form-element>
+            </div>
+        </form>
+    </div>
