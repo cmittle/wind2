@@ -1,4 +1,4 @@
-app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http, Data) {
+app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
 
@@ -8,9 +8,9 @@ app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http,
                     method: 'GET',
                     url: 'api/v1/sealSpecifics.php'
              })
-             .then(function (data) {
-                  //$scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
-                  $scope.products = data.data;
+             .then(function (result) {
+                  //$scope.bearingSpecifics = $scope.bearingSpecifics.concat(result);
+                  $scope.products = result.data;
              });
     };
     
@@ -63,11 +63,11 @@ app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http,
                     method: 'GET',
                     url: 'api/v1/delete.php',
                     params: {type: 'delete', t: 'ss', id: product.uid}
-             }).then(function (data) {
+             }).then(function (result) {
         	//there is probably a better way to update what is on the screen, but this works.  The only downside I can see of this method is bandwidth
 	            $scope.populateSealList();  //update data on screen
-            }) .catch(function (data) {
-                console.log(data.data);
+            }) .catch(function (result) {
+                console.log(result.data);
                 console.log("Delete item FAILED, $scope.deleteProduct, SealSpecificsCtrl.js");
             });
         } else {
@@ -96,10 +96,7 @@ app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http,
 });
 
 
-app.controller('sealSpecificsEditCtrl', function ($scope, $uibModalInstance, item, $http, Data) {
-
-	//console.log("item:::: from sealSpecificsCtrl.js");
-	//console.log(item);
+app.controller('sealSpecificsEditCtrl', function ($scope, $uibModalInstance, item, $http) {
 
   $scope.product = angular.copy(item);
   $scope.basicSealList;
@@ -109,17 +106,11 @@ app.controller('sealSpecificsEditCtrl', function ($scope, $uibModalInstance, ite
 	        $http
 	    	   .get('api/v1/sealBasic.php', {
 	    	      params: {
-	    	          //gbid: $scope.urlModel  //gbid from URL only requests results from table that are used in that gearbox
 	    	          }
 	    	   }).then(function successCallback(results) { //succesful HTTP response 
 	            	//this is the list of generic bearing part numbers with positions and display sequence etc... for this gearbox (gbid sent in GET parameters)
 	            	$scope.basicSealList = results.data;
-	            	console.log("results = ");
-	            	console.log(results.data);
-	            	console.log("basicSealList = ");
-	            	console.log($scope.basicSealList);
-	        }, function errorCallback(data) { //need 400 series header returned to engage error callback
-	            //alert(data.data.message);  //display alert box saying the eror recieved from the server
+	        }, function errorCallback(result) { //need 400 series header returned to engage error callback
 	            $scope.products = '0'; //stops loading icon from spinning on page
 		    console.log("$http.get in sealSpecificsCtrl.js $scope.getBasicSeal function recieved an error");
 		  });
@@ -129,69 +120,49 @@ app.controller('sealSpecificsEditCtrl', function ($scope, $uibModalInstance, ite
         $scope.cancel = function () {
             $uibModalInstance.dismiss('Close');
         };
-        $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
-        $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
+        $scope.title = (item.uid > 0) ? 'Edit Product' : 'Add Product';
+        $scope.buttonText = (item.uid > 0) ? 'Update Product' : 'Add New Product';
 
         var original = item;
         $scope.isClean = function() {
             return angular.equals(original, $scope.product);
         } 
         $scope.saveProduct = function (product) {
-        	console.log("Clicked save button");
-		console.log(product);
-            //product.uid = $scope.uid;
             $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
             if(product.uid > 0){ // this is true if this editing a current product
                 $http({
 			    method: 'POST',
 			    url: 'api/v1/sealSpecificEdit.php',
 			    data: product
-		     }).then(function (data) {
+		     }).then(function (result) {
 		        	console.log("positive response");
 		          //product.description = $scope.testVar; //update the view after database update is successful
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
 		          $uibModalInstance.close(x); //close Edit modal when completed
-		          
-		          console.log("SUCCESS  $scope.product = ");
-		          console.log($scope.product);
-		          
-		     }) .catch(function (data) {
-		     	console.log(data.data);
-		     	console.log("FAILED");
+		     }) .catch(function (result) {
+		     	console.log(result.data);
+		     	console.log("saveProduct if function in seal specifics controller FAILED");
 	     	}); 
                 
-                
-                
-                
-                /*Data.put('bearing_specifics/'+product.specific_id, product).then(function (result) {
-                    if(result.status != 'error'){
-                        var x = angular.copy(product);
-                        x.save = 'update';
-                        $scope.submitted = false; //set back to false to show submit button again
-                        $uibModalInstance.close(x);
-                    }else{
-                        console.log(result);
-                    }
-                });*/
             }else{  //this is where it goes for a new product
             	console.log(product);
-                //product.status = 'Active';
-               /* Data.post('bearing_specifics', product).then(function (result) {
-                    if(result.status != 'error'){
-                        var x = angular.copy(product);
-                        x.save = 'insert';
-                        x.id = result.data;
-                        $scope.submitted = false; //set back to false to show submit button again
-                        $uibModalInstance.close(x);
-                    }else{
-                        console.log(result);
-                    }
-                });*/
+            	$http({
+			    method: 'POST',
+			    url: 'api/v1/sealSpecificEdit.php',
+			    data: product
+		     }).then(function (result) {
+		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
+		          x.save = 'insert';
+                          x.id = result.data;
+		          $scope.submitted = false; //set back to false to show submit button again
+		          $uibModalInstance.close(x); //close Edit modal when completed
+		     }) .catch(function (result) {
+		     	console.log("saveProduct else function in seal specifics controller FAILED");
+	     	}); 
             }
         };
-        
         
         //This runs when the modal is initiated
         $scope.getBasicSeal();

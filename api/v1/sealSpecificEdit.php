@@ -4,10 +4,6 @@
 require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
 require_once '.././libs/jwt_helper.php';
 
-    //I got the base of this file from http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
-    //this set up the basic db variables, connection, query, prepare statement, execute, fetchAll and json encode
-    //I've added to it from other sources as I learn more
-
     //not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
     $dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8';
 
@@ -22,7 +18,7 @@ require_once '.././libs/jwt_helper.php';
     // got this code block from here http://tutsnare.com/post-form-data-using-angularjs/;  Also referenced here http://www.cleverweb.nl/javascript/a-simple-search-with-angularjs-and-php/
     $_POST = json_decode(file_get_contents('php://input'), true);
     //use this to extract variables from json package sent with $http.post request
-    $specific_id = $_POST['uid']; //database table id
+    $uid = $_POST['uid']; //database table id
     $specific_pn = $_POST['specific_pn']; //specific part umber e.g. 710x760x20 HSS5 H
     $mfg = $_POST['mfg']; //brg specific mfg e.g 1 (for SKF), 2 (for WalkerSele), 3 (for Carco), etc...
     $inner_dia = $_POST['inner_dia']; //inner diameter e.g. 130(mm)
@@ -33,6 +29,7 @@ require_once '.././libs/jwt_helper.php';
     $profile = $_POST['profile']; //profile of seal
     $notes = $_POST['notes']; //notes
     $seal_basic_id = $_POST['seal_basic_id']; //id of seal basic
+    //$uid = $_POST['uid']; //unique id of the seal record
 
     //Check variables to see if they're blank
 /*    if (empty($_POST['id']))
@@ -77,46 +74,98 @@ require_once '.././libs/jwt_helper.php';
 
 
     if ($authPass != null) {
-        $response['status'] = "success"; // from bearingBasicEdit
+        $response['status'] = "success"; 
         $response['message'] = 'You are approved';
+        $response['data'] = $_POST;
 
-        //update all of these variables
-        $sql = "UPDATE  seal_specifics SET 
-                seal_basic_id = :seal_basic_id,
-                specific_pn = :specific_pn,
-                mfg = :mfg,
-                inner_dia = :inner_dia,
-                outer_dia = :outer_dia,
-                width = :width,
-                material = :material,
-                profile = :profile,
-                split = :split,
-                notes = :notes		 
-                WHERE  uid =:uid"; 
-
-        // use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
-        $stmt = $db->prepare( $sql );
-
-        //this binds the input variables to php variables
-        //I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
-        //bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
-        $stmt->bindValue(':seal_basic_id', $seal_basic_id, PDO::PARAM_INT);//Bind int variable
-        $stmt->bindValue(':specific_pn', $specific_pn, PDO::PARAM_STR); //Bind String variable
-        $stmt->bindValue(':mfg', $mfg, PDO::PARAM_STR);//Bind STR variable
-        $stmt->bindValue(':inner_dia', $inner_dia, PDO::PARAM_STR);//Bind STR so it can hold decimal
-        $stmt->bindValue(':outer_dia', $outer_dia, PDO::PARAM_STR);//Bind STR so it can hold decimal
-        $stmt->bindValue(':width', $width, PDO::PARAM_STR);//Bind STR so it can hold decimal
-        $stmt->bindValue(':material', $material, PDO::PARAM_STR);//Bind str variable
-        $stmt->bindValue(':profile', $profile, PDO::PARAM_STR);//Bind str variable
-        $stmt->bindValue(':split', $split, PDO::PARAM_STR);//Bind str variable
-        $stmt->bindValue(':notes', $notes, PDO::PARAM_STR);//Bind str variable
-        $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);//Bind int variable
-
-
-        // execute the query
-        $stmt->execute();
-        //echo what was updated back to the user
-        echo json_encode($data);  //This just echos what was updated
+	if ($uid == null) { //if $uid==null we're adding a new part
+	        $response['uidNull'] = 'you are in $uid == null';
+	        $response['uid$'] = $uid;
+	        $sql = 'INSERT INTO seal_specifics 
+				(seal_basic_id, specific_pn, mfg, inner_dia, outer_dia, width, material, profile, split, notes) 
+			VALUES (:seal_basic_id, :specific_pn, :mfg, :inner_dia, :outer_dia, :width, :material, :profile, :split, :notes)';
+	        // use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
+	        $stmt = $db->prepare( $sql );
+	
+	        //this binds the input variables to php variables
+	        //I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
+	        //bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
+	        $stmt->bindValue(':seal_basic_id', $seal_basic_id, PDO::PARAM_INT);//Bind int variable
+	        $stmt->bindValue(':specific_pn', $specific_pn, PDO::PARAM_STR); //Bind String variable
+	        $stmt->bindValue(':mfg', $mfg, PDO::PARAM_STR);//Bind STR variable
+	        $stmt->bindValue(':inner_dia', $inner_dia, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	        $stmt->bindValue(':outer_dia', $outer_dia, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	        $stmt->bindValue(':width', $width, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	        $stmt->bindValue(':material', $material, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':profile', $profile, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':split', $split, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':notes', $notes, PDO::PARAM_STR);//Bind str variable
+	
+	        try {
+			$stmt->execute();  // execute the query
+			$response['status'] = "success";
+			$response['message'] = 'New information posted to database.';
+			echo json_encode($response);
+			
+		} catch (Exception $e) { //in order for this to work see setAttribute above that turned on PDO debugging
+			$response['status'] = "FAILED";
+        		$response['message'] = 'PDO statement problem.  Dig deeper';
+        		//$response['message3'] = $e;
+			echo json_encode($response);
+		};
+	        
+	        
+	        
+	} else {//if here ($id!==null) then we are editing an existing part
+		$response['idNull'] = 'you are in else';
+		//update all of these variables
+	        $sql = "UPDATE  seal_specifics SET 
+	                seal_basic_id = :seal_basic_id,
+	                specific_pn = :specific_pn,
+	                mfg = :mfg,
+	                inner_dia = :inner_dia,
+	                outer_dia = :outer_dia,
+	                width = :width,
+	                material = :material,
+	                profile = :profile,
+	                split = :split,
+	                notes = :notes		 
+	                WHERE  uid =:uid"; 
+	
+	        // use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
+	        $stmt = $db->prepare( $sql );
+	
+	        //this binds the input variables to php variables
+	        //I got this information from here http://php.net/manual/en/pdostatement.bindparam.php
+	        //bindValue instead of bindParam; bindValue binds immediately, where bindParam only evaluates on execute
+	        $stmt->bindValue(':seal_basic_id', $seal_basic_id, PDO::PARAM_INT);//Bind int variable
+	        $stmt->bindValue(':specific_pn', $specific_pn, PDO::PARAM_STR); //Bind String variable
+	        $stmt->bindValue(':mfg', $mfg, PDO::PARAM_STR);//Bind STR variable
+	        $stmt->bindValue(':inner_dia', $inner_dia, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	        $stmt->bindValue(':outer_dia', $outer_dia, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	        $stmt->bindValue(':width', $width, PDO::PARAM_STR);//Bind STR so it can hold decimal
+	        $stmt->bindValue(':material', $material, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':profile', $profile, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':split', $split, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':notes', $notes, PDO::PARAM_STR);//Bind str variable
+	        $stmt->bindValue(':uid', $uid, PDO::PARAM_INT);//Bind int variable
+	
+	
+	        try {
+			$stmt->execute();  // execute the query
+			$response['status'] = "success";
+			$response['message'] = 'Database record updated';
+			$response['inner_dia'] = $inner_dia;
+			echo json_encode($response);
+			
+		} catch (Exception $e) { //in order for this to work see setAttribute above that turned on PDO debugging
+			$response['status'] = "FAILED";
+        		$response['message'] = 'PDO statement problem.  Dig deeper';
+        		//$response['message3'] = $e;
+			echo json_encode($response);
+		};
+	
+	}
     } else {
         //send this back into $results for failure status
         //Not sure if I really need this Else loop any longer... I've moved the failure of token:decode to the try / catch bock above

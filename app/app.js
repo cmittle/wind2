@@ -195,6 +195,21 @@ app.config(['$routeProvider',
           }
     	}
     })
+    .when('/bearings_where_used', {
+      templateUrl: 'partials/bearingsWhereUsed.html',
+      controller: 'bearingsWhereUsedCtrl',
+      resolve:{  //this will check that the user has a token before loading the page.  Authentication of the token is done severside
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+          }
+    	}
+    })
     .when('/dashboard', {
       title: 'User Dashboard',
       templateUrl: 'partials/dashboard.html',
