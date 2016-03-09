@@ -1,12 +1,13 @@
 <!--<div> HERE IS THE SEALS DIRECTIVE!!!</div>-->
 
 
-<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add seal to gbx</button>
+<!--<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add seal to gbx</button>-->
 <div class="table-responsive">
     <div class="panel panel-primary">
       <div class="panel-heading" style="padding:7px;">
              <!--<h3 ng-if="urlModel" style="margin:0px;">Gearbox : {{urlMfg}} {{urlModel}} Seal List</h3> -->
 	<label style="font-size:1.5em;">{{urlMfg}} {{urlModel}} </label>
+	<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:0.8em;float:right;">&nbsp;Add seal to gbx</button>
         <label style="font-size:0.8em;float:right;" > Edit column
 	    <input type="checkbox" ng-model="showActions">
 	</label>
@@ -22,8 +23,10 @@
 	</label>
 	<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Show Carco:
 	    <input type="checkbox" ng-model="showCarco">
-	</label><br ng-if="showPartNumbers" >
-          
+	</label>
+        <label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Show Other:
+	    <input type="checkbox" ng-model="showOther">
+	</label><br ng-if="showPartNumbers" >  
           
           
         </div>
@@ -67,46 +70,16 @@
                             </tr>
                         </table>
                     </td>
-                    <!--  <td ng-if="showTimken">
-                        <table>				
-                            <tr>
-                                <td style="font-size:0.9em; font-style:italic;">Timken:</td>
-                            </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > 
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
-                            </tr>
-                        </table>
-                    </td>
-                    <td ng-if="showKoyo">
-                        <table>
-                            <tr>
-                                <td style="font-size:0.9em; font-style:italic;">Koyo:</td>
-                            </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '5' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > 
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
-                            </tr>
-                        </table>
-                    </td>
-                    <td ng-if="showNTN">
-                        <table>
-                            <tr>
-                                <td style="font-size:0.9em; font-style:italic;">NTN:</td>
-                            </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '6' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > 
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
-                            </tr>
-                        </table>
-                    </td>
                     <td ng-if="showOther">
                         <table>
                             <tr>
                                 <td style="font-size:0.9em; font-style:italic;">Other:</td>
                             </tr>
-                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '7' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > 
-                               <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ seal_basic_id: c.seal_basic_id}:true" > 
+                               <td uib-tooltip-template="'mySealTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
-                    </td>-->
+                    </td>
                     <td>{{c.notes}}</td>  
 
                    

@@ -51,7 +51,7 @@ app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http)
     $scope.copyProduct = function (p) {
     //copy current product, nullify specific_id field, then send to save.  This will make save treat as new addition to the database but modal will be preloaded with data from copied part
         $scope.tempProduct = p;
-        $scope.tempProduct.specific_id = null;
+        $scope.tempProduct.uid = null;
         $scope.open($scope.tempProduct); 
     };
     

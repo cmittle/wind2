@@ -6,11 +6,12 @@
 <!-- TODO make this add new item button work, and probably preload the information for the gearbox I'm currently viewing, also validate form when completed before submitted-->
 
 
-<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add bearing to gbx</button>
+<!--<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add bearing to gbx</button>-->
 <div class="table-responsive">
     <div class="panel panel-primary">
       <div class="panel-heading" style="padding:7px;">
             <label style="font-size:1.3em;">{{urlMfg}} {{urlModel}} </label>
+            <button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:0.8em;float:right;">&nbsp;Add bearing to gbx</button>
 	    <label style="font-size:0.65em;float:right;" > Edit column
 	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions">
 	    </label> 
@@ -70,7 +71,7 @@
                                 <td style="font-size:0.9em; font-style:italic;">SKF:</td>
                             </tr>
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '1' }:true | filter:{bearing_basic_id: c.bearing_basic_id}:true" > <!-- 1 is SKF --> 
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>	
@@ -177,7 +178,8 @@
 	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Inner Ring:</strong> </td style="white-space:nowrap; padding-left:5px;"> <td>{{d.inner_ring}} </td> </tr> <br> 
 	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Outer Ring:</strong> </td style="white-space:nowrap; padding-left:5px;"> <td>{{d.outer_ring}} </td> </tr> <br> 
 	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Rollers:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.rollers}} </td> </tr> <br> 
-	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Notes:</strong> </td> <td style="padding-left:5px;">{{d.notes}} </td> </tr>
+	    <tr ng-if="d.notes" > <td style="white-space:nowrap;text-align:right;" > <strong>Notes:</strong> </td> <td style="padding-left:5px;">{{d.notes}} </td> </tr>
+	    <tr ng-if="d.drawing_location" > <td style="white-space:nowrap;text-align:right;"> <strong>Drawing:</strong> </td> <td style="padding-left:5px;"><a target="_blank" ng-if="d.drawing_location" href="{{d.drawing_location}}">{{d.specific_pn}}</a></td> </tr>
     	</table>
      </div>
     </script>

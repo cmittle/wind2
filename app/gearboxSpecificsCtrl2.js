@@ -49,9 +49,13 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $uibModal, $filter, $h
             	//this is the list of generic bearing part numbers with positions and display sequence etc... for this gearbox (gbid sent in GET parameters)
             	$scope.products = results.data;
             	//this removes duplicates and reduces to an array with only unique bearing_basic_id
+            	console.log("begin remove dupes");
             	$scope.removeDuplicates(results.data);  
+            	console.log("duplicates removed");
                 //after cleaning list of duplicates above run this to retrieve bearing specific part numbers
                 $scope.getBearingSpecifics(); 
+                console.log("bearing specifics");
+                console.log($scope.bearingSpecifics);
         }, function errorCallback(data) { //need 400 series header returned to engage error callback
             alert(data.data.message);  //display alert box saying the eror recieved from the server
             $scope.products = '0'; //stops loading icon from spinning on page
@@ -143,6 +147,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $uibModal, $filter, $h
                     //console.log(c);
                     //c = selectedObject;  //c represents the item in the view; this updates the view based on the change that was just submitted
                     //c.notes = selectedObject.notes;
+                    //$scope.init();
                     $scope.getgb(); //call this to update view on screen; there is probably a better way just to update 1 record, should look at this later
                 }
         });
@@ -241,8 +246,8 @@ app.controller('gearboxSpecificsEditCtrl2', function ($scope, $uibModalInstance,
                 x.save = 'update';
                 $scope.submitted = false; //set back to false to show submit button again
                 $uibModalInstance.close(x); //close Edit modal when completed
-                console.log("SUCCESS  $scope.product = ");
-                console.log($scope.product);
+                //console.log("SUCCESS  $scope.product = ");
+                //console.log($scope.product);
             }) .catch(function (data) {
                 console.log(data.data);
                 console.log("FAILED");

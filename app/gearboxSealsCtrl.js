@@ -2,16 +2,12 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
     $scope.product = {};  //not sure if this is confused with products or if this is correct.
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $scope.gbxModel; //model number passed in attribute of directive element     //$routeParams.model;  //model number passed in url
-    //$scope.urlModelName;
     $scope.showActions = false; //hide edit/delete/copy actions column by default
     $scope.showPartNumbers = false; //hide bearing specific part numbers column by default
     $scope.showSKF = false; //
-    /*$scope.showNSK = false; //
-    $scope.showFAG = false; //
-    $scope.showTimken = false; // initially false for Timken
-    $scope.showKoyo = false; // initially false for Koyo
-    $scope.showNTN = false; // initially false for NTN
-    $scope.showOther = false;  */   //initially false for Other
+    $scope.showWalkersele = false; //initially false for Walkersele
+    $scope.showCarco = false; //initially false for Carco
+    $scope.showOther = false;     //initially false for Other
     $scope.sealSpecifics = []; //empty array will hold bearing specifics data
     $scope.sealBasicIdArray = [];
     $scope.gbBasicList; //creat empty gbBasicList
@@ -22,10 +18,15 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
     
 
     $scope.changeShowPn = function () {
-    //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
-            $scope.showSKF = $scope.showPartNumbers;
-            $scope.showNSK = $scope.showPartNumbers;
-            $scope.showFAG = $scope.showPartNumbers;
+    //only turn on SKF automatically, Walkersele, Carco, and Other are not going to be needed in most cases
+            if ($scope.showPartNumbers === true) {
+	    	$scope.showSKF = true;
+            } else {
+            	$scope.showSKF = false;
+            	$scope.showWalkersele = false;
+            	$scope.showCarco = false;
+            	$scope.showOther = false;
+            };
     };
 
     //This gets the basic seal list for this gearbox on page load

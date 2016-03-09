@@ -1,4 +1,4 @@
-app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filter, $http, $routeParams, $window, Data) {
+app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filter, $http, $routeParams, $window, $q, Data) {
     $scope.product = {};  //not sure if this is confused with products or if this is correct.
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $scope.gbxModel; //model number passed in attribute of directive element     //$routeParams.model;  //model number passed in url
@@ -13,6 +13,7 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
     $scope.showNTN = false; // initially false for NTN
     $scope.showOther = false; //initially false for Other
     $scope.bearingSpecifics = []; //empty array will hold bearing specifics data
+    //$scope.bearingDrawings = []; //empty array will hold bearing specifics dwg links if found
     $scope.bearingBasicIdArray = [];
     $scope.gbBasicList; //creat empty gbBasicList
     $scope.sortGbList; //create empty gb list
@@ -23,19 +24,39 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
 
     $scope.changeShowPn = function () {
     //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
-            if ($scope.showPartNumbers === true) {
-	    	$scope.showSKF = true;
-            	$scope.showNSK = true;
-            	$scope.showFAG = true;
-            } else {
-            	$scope.showSKF = false;
-            	$scope.showNSK = false;
-            	$scope.showFAG = false;
-            	$scope.showTimken = false;
-            	$scope.showKoyo = false;
-            	$scope.showNTN = false;
-            	$scope.showOther = false;
-            };
+        if ($scope.showPartNumbers === true) {
+            $scope.showSKF = true;
+            $scope.showNSK = true;
+            $scope.showFAG = true;
+            $scope.getBearingSpecificDrawing();
+        } else {
+            $scope.showSKF = false;
+            $scope.showNSK = false;
+            $scope.showFAG = false;
+            $scope.showTimken = false;
+            $scope.showKoyo = false;
+            $scope.showNTN = false;
+            $scope.showOther = false;
+        };
+    };
+    
+    $scope.getBearingSpecificDrawing = function () {
+	 angular.forEach ($scope.bearingSpecifics, function (item, key) {
+            $http({
+                method: 'GET',
+                url: 'api/v1/bearingDrawings.php',
+                params: {bearing_specific_id: item.specific_id}
+                })
+            .then(function successCallback(results) { //succesful HTTP response 
+                var x = String(results.data.drawing_location);
+                if (x.length ==9 ) {  //length of 9 = "undefined" response from server
+                    } else {
+                        $scope.bearingSpecifics[key].drawing_location = results.data.drawing_location;
+                    }
+            }, function errorCallback(results) { //need 400 series header returned to engage error callback
+                    alert(results.data.message);  //display alert box saying the eror recieved from the server
+            });
+        });
     };
 
     
@@ -51,7 +72,8 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
             	//this removes duplicates and reduces to an array with only unique bearing_basic_id
             	$scope.removeDuplicates(results.data);  
                 //after cleaning list of duplicates above run this to retrieve bearing specific part numbers
-                $scope.getBearingSpecifics(); 
+                $scope.getBearingSpecifics();
+                //moved get drawing it was not getting results from above before moving
         }, function errorCallback(data) { //need 400 series header returned to engage error callback
             alert(data.data.message);  //display alert box saying the eror recieved from the server
             $scope.products = '0'; //stops loading icon from spinning on page
@@ -85,7 +107,13 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
                         }
                  })
                  .success(function (data) {
+                      //data.data[0].drawing_location = $scope.getBearingSpecificDrawing(data.specific_id);
+                      //console.log("data.");
+                      //console.log(data);
                       $scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
+                      //console.log("Bearing specifics array");
+                      //console.log($scope.bearingSpecifics);
+                      
             });
         });
     };
@@ -198,16 +226,16 @@ app.controller('gearboxBearingSpecificEditCtrl', function ($scope, $uibModalInst
   $scope.urlModel = $routeParams.model;  //model number passed in url
   $scope.submitted = false;
        
-    $scope.getbasicbrg = function () {
-        Data.get('bearing_basic').then(function(data){
-        //	This requests the query '/bearing_basic' as declared in index.php
-        $scope.basicbrglist = data.data;
-        console.log("basic brg list = ");
-        console.log($scope.basicbrglist);
-        console.log("current model is =");
-        console.log($scope.urlModel);
-        });
-    };
+$scope.getbasicbrg = function () {
+    Data.get('bearing_basic').then(function(data){
+    //	This requests the query '/bearing_basic' as declared in index.php
+    $scope.basicbrglist = data.data;
+    console.log("basic brg list = ");
+    console.log($scope.basicbrglist);
+    console.log("current model is =");
+    console.log($scope.urlModel);
+    });
+};
 
     $scope.loadModel = function() {
         console.log("TEST 1");
@@ -215,11 +243,9 @@ app.controller('gearboxBearingSpecificEditCtrl', function ($scope, $uibModalInst
         if (item.id>0) {
             console.log("TEST 2");
             product.gb_id = $scope.urlModel;
-            //console.log("product.gb_id = ");
-            //console.log(product.gb_id);
         };
     };
-        
+
     $scope.cancel = function () {
         $uibModalInstance.dismiss('Close');
     };

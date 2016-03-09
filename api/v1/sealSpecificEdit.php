@@ -105,6 +105,9 @@ require_once '.././libs/jwt_helper.php';
 			$stmt->execute();  // execute the query
 			$response['status'] = "success";
 			$response['message'] = 'New information posted to database.';
+			$response['inner_dia'] = $inner_dia;
+			$response['outer_dia'] = $outer_dia;
+			$response['width'] = $width;
 			echo json_encode($response);
 			
 		} catch (Exception $e) { //in order for this to work see setAttribute above that turned on PDO debugging
