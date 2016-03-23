@@ -95,6 +95,7 @@ app.controller('gearboxTextCtrl', function ($scope, $uibModal, $filter, $http, $
         //console.log("scope.gbxModel  = ");
         //console.log($scope.gbxModel);
         $scope.getgb();
+        $scope.role = $window.sessionStorage.role=='MOTU';
 
     };
    

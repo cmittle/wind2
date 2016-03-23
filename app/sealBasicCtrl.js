@@ -1,6 +1,7 @@
-app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http) {
+app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http, $window) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.role;
     
 
     //This gets the basic seal list for this gearbox on page load
@@ -77,6 +78,7 @@ app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http) {
 
 	//functions to run when initialized
 	$scope.populateSealList(); 
+	$scope.role = $window.sessionStorage.role=='MOTU';
 
 });
 

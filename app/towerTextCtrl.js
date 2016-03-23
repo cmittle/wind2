@@ -7,6 +7,7 @@ app.controller('towerTextCtrl', function ($scope, $uibModal, $filter, $http, $ro
     $scope.tempTowerText;
     $scope.towerTextExists = false;
     $scope.textLoaded;
+    $scope.role;
 
     //This gets
     $scope.getTower = function() {
@@ -96,6 +97,7 @@ app.controller('towerTextCtrl', function ($scope, $uibModal, $filter, $http, $ro
         //console.log("scope.gbxModel  = ");
         //console.log($scope.gbxModel);
         $scope.getTower();
+        $scope.role = $window.sessionStorage.role == 'MOTU';
 
     };
    

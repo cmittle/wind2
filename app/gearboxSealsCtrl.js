@@ -15,7 +15,7 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
     $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
     $scope.singleDetail; //create empty item detail object
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
-    
+    $scope.role;
 
     $scope.changeShowPn = function () {
     //only turn on SKF automatically, Walkersele, Carco, and Other are not going to be needed in most cases
@@ -148,7 +148,7 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
         //console.log("scope.gbxModel  = ");
         //console.log($scope.gbxModel);
         $scope.getgb();
-
+	$scope.role = $window.sessionStorage.role=='MOTU';
     };
    
     

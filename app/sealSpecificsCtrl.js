@@ -1,7 +1,7 @@
-app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http) {
+app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http, $window) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
-
+    $scope.role;
     
     $scope.populateSealList = function () {
              $http({
@@ -91,6 +91,7 @@ app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http)
 
 	//functions to run when initialized
 	$scope.populateSealList(); 
+	$scope.role = $window.sessionStorage.role=='MOTU';
 
 
 });

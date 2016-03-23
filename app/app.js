@@ -75,7 +75,8 @@ app.config(['$routeProvider',
         }
     }
     })
-    .when('/gearbox_specifics2', {
+    //////////////////////////////////I think I can remove this.  DO NOT remove template and controller without first checking directives.
+    /*.when('/gearbox_specifics2', {
       title: 'Gearbox Specifics2 Page -Remap Database interface',
       templateUrl: 'partials/gearbox_specifics2.html',
       controller: 'gearboxSpecificsCtrl2' ,
@@ -91,8 +92,9 @@ app.config(['$routeProvider',
             }
         }
     }
-    })
-    .when('/gearbox_specifics_short', {
+    })*/
+    //////////////////////////  I think I can remove this.  If this can be removed I should remove 
+    /*.when('/gearbox_specifics_short', {
       title: 'Gearbox Specifics Page',
       templateUrl: 'partials/gearbox_specifics_short.html',
       // Dont forget to add a comma "," when you uncomment the controller.
@@ -110,7 +112,7 @@ app.config(['$routeProvider',
             }
         }
     }
-    })
+    })*/
     .when('/gearbox_basic', {
       title: 'Gearbox Basic Page',
       templateUrl: 'partials/gearbox_basic.html',

@@ -1,6 +1,8 @@
-app.controller('gearboxBasicCtrl', function ($scope, $uibModal, $filter, Data) {
+app.controller('gearboxBasicCtrl', function ($scope, $uibModal, $filter, $window, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.role;
+    
     Data.get('gearbox_basic').then(function(data){
     	//	This requests the query '/gearbox_basic' as declared in index.php
         $scope.products = data.data;
@@ -93,6 +95,11 @@ app.controller('gearboxBasicCtrl', function ($scope, $uibModal, $filter, Data) {
                     {text:"Status",predicate:"status",sortable:true},
                     {text:"Action",predicate:"",sortable:false}
                 ];*/
+
+
+//methods to run at initialization
+$scope.role = $window.sessionStorage.role=='MOTU';
+
 
 });
 

@@ -19,7 +19,7 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
     $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
     $scope.singleDetail; //create empty item detail object
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
-    
+    $scope.role;
 
     $scope.changeShowPn = function () {
     //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
@@ -140,6 +140,7 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
     //an initialization function so that getTower can be a separate function and called each time as necessary
     $scope.init = function () {
         $scope.getTower();
+        //$scope.role = $window.sessionStorage.role == 'MOTU';
     };
    
     

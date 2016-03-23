@@ -64,6 +64,7 @@
             $response['uid'] = $user['uid'];
             $response['email'] = $user['email'];
             $response['createdAt'] = $user['created'];
+            $response['role'] = $user['role'];
             //create Token for access control
             //from example here https://coderwall.com/p/8wrxfw/goodbye-php-sessions-hello-json-web-tokens
             $token = array();

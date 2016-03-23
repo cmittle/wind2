@@ -1,9 +1,9 @@
-<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add main bearing</button>
+<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%" ng-if="role">&nbsp;Add main bearing</button>
 <div class="table-responsive">
     <div class="panel panel-primary">
       <div class="panel-heading" style="padding:7px;">
             <label style="font-size:1.3em;">{{urlMfg}} {{urlModel}} </label>
-	    <label style="font-size:0.65em;float:right;" > Edit column
+	    <label style="font-size:0.65em;float:right;" ng-if="role"> Edit column
 	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions">
 	    </label> 
 	    <br>

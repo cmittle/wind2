@@ -4,17 +4,15 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
     //$scope.signup = {};
     $scope.hideSignup = false;
     $scope.user ={};
+    $scope.role;
     
     $scope.doLogin = function (customer) {
-        //console.log("customer:");
-        //console.log(customer);
-        //when performing another login first wipe previous token
-        //$window.sessionStorage.accessToken = 0;
         $http.post('api/v1/authentication.php', {
             email: customer.email,
             password: customer.password
         }).then(function successCallback(results) { //succesful HTTP response now check for successful login/token creation
             if (results.data.status == "success") { //successful login and token retreival
+                //console.log(results.data);
                 $window.sessionStorage.accessToken = results.data.token;
                 $window.sessionStorage.name = results.data.name;
                 $scope.user.name = results.data.name;
@@ -22,7 +20,8 @@ app.controller('authCtrl', function ($scope, $rootScope, $routeParams, $location
                 $scope.user.username = results.data.email;
                 $window.sessionStorage.uid = results.data.uid;
                 $scope.user.uid = results.data.uid;
-                console.log($scope.user);
+                $window.sessionStorage.role = results.data.role;
+                console.log(results.data);
                 $location.path($window.sessionStorage.targetedLocation); //send them back to where they tried to go before forced login
                 //$location.path('/dashboard');
                 delete $window.sessionStorage.targetedLocation; //delete this after one use

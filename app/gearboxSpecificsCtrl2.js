@@ -19,7 +19,7 @@ app.controller('gearboxSpecificsCtrl2', function ($scope, $uibModal, $filter, $h
     $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
     $scope.singleDetail; //create empty item detail object
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
-    
+    $scope.role;
 
     $scope.changeShowPn = function () {
     //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
@@ -171,6 +171,7 @@ $scope.openDetail = function (p,size) {
     $scope.init = function () {
         //this runs the initial gb basic query when the page is loaded so I can populate the pulldown menu
         $scope.getgb();
+        $scope.role = $window.sessionStorage.role=='MOTU';
     };
    
     

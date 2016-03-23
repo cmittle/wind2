@@ -7,8 +7,8 @@
       <div class="panel-heading" style="padding:7px;">
              <!--<h3 ng-if="urlModel" style="margin:0px;">Gearbox : {{urlMfg}} {{urlModel}} Seal List</h3> -->
 	<label style="font-size:1.5em;">{{urlMfg}} {{urlModel}} </label>
-	<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:0.8em;float:right;">&nbsp;Add seal to gbx</button>
-        <label style="font-size:0.8em;float:right;" > Edit column
+	<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:0.8em;float:right;" ng-show="role">&nbsp;Add seal to gbx</button>
+        <label style="font-size:0.8em;float:right;" ng-show="role"> Edit column
 	    <input type="checkbox" ng-model="showActions">
 	</label>
         <br>

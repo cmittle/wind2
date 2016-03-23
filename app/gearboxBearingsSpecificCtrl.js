@@ -20,6 +20,7 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
     $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
     $scope.singleDetail; //create empty item detail object
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
+    $scope.role;
     
 
     $scope.changeShowPn = function () {
@@ -196,6 +197,11 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
         //console.log("route param model  = ");
         //console.log($routeParams.model);        
         $scope.getgb();
+        $scope.role = $window.sessionStorage.role=='MOTU';
+        console.log($scope.role);
+        //console.log($scope.role == 'MOTU');
+        //console.log($scope.role = 'MOTU');
+        //console.log($scope.role === 'MOTU');
 
     };
    

@@ -1,5 +1,5 @@
 <!--<text-angular ng-model="gearboxText"></text-angular>-->
-<button ng-click="hideEditor()" uib-tooltip="Version {{towerTextVersion}} of tower notes" ng-show="!editTowerText">Edit</button>
+<button ng-click="hideEditor()" uib-tooltip="Version {{towerTextVersion}} of tower notes" ng-show="!editTowerText && role">Edit</button>
 <button ng-click="saveText()" ng-show="editTowerText">Save</button>
 <button ng-click="cancelEditText()" ng-show="editTowerText">Cancel</button>
 <label  ng-show="editTowerText">Current character count ={{towerText.length}}.  Limit 3000.  Current version {{towerTextVersion}} before saving.</label>

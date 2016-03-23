@@ -1,4 +1,4 @@
-app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, Data) {
+app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, $window, Data) {
     $scope.product = {};
     $scope.showActions = true; //hide edit/delete/copy actions column by default
     
@@ -72,6 +72,7 @@ app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, 
 
 	//functions to run when initialized
 	$scope.populateBearingList(); 
+	$scope.role = $window.sessionStorage.role=='MOTU';
 
 });
 
