@@ -1,6 +1,9 @@
 <h4 class="blog-post-title">Basic Seal Table</h4>
 <hr/>
 <button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" ng-if="role">&nbsp;Add New Basic Seal Record</button>
+<label style="font-size:0.65em;float:right;" ng-show="role" > Edit column
+	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions">
+	    </label> 
 
 <div class="table-responsive">
 <div class="panel panel-primary">

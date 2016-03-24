@@ -1,6 +1,10 @@
 <h4 class="blog-post-title">Bearing Specifics</h4>
 <hr/>
 <button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" ng-if="role">&nbsp;Add New Specific Bearing Record</button>
+<label style="font-size:0.65em;float:right;" ng-show="role" > Edit column
+	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions">
+	    </label> 
+
 
 <div class="table-responsive">
 <div class="panel panel-primary">
@@ -50,21 +54,12 @@ After adding additional filter box and basic brg id filter box, maybe I don't ne
         <!-- TODO add edit/copy/delete buttons to this column for each record -->
         <td ng-if="showActions" style="width:100px">
         	<div class="btn-group">
-              		<button type="button" class="btn-xs btn-default fa fa-edit" ng-if="window.sessionStorage.role =='MOTU'" uib-tooltip="Edit" ng-click="open(c);"></button>
+              		<button type="button" class="btn-xs btn-default fa fa-edit" uib-tooltip="Edit" ng-click="open(c);"></button>
               		<button type="button" class="btn-xs btn-danger fa fa-trash-o" uib-tooltip="Delete" ng-click="deleteProduct(c);"></button>
               		<button type="button" class="btn-xs btn-default fa fa-tags"uib-tooltip="Copy" ng-click="copyProduct(c);"></button> 
         	</div>
         
         </td>
-       <!-- <td>
-            <button class="btn" ng-class="{Active:'btn-success', Inactive:''}[c.status]" ng-click="changeProductStatus(c);">{{c.status}}</button>
-        </td> -->
-        <!--<td style="width:100px">
-            <div class="btn-group">
-              <button type="button" class="btn btn-default fa fa-edit" ng-click="open(c);"></button>
-              <button type="button" class="btn btn-danger fa fa-trash-o" ng-click="deleteProduct(c);"></button>
-            </div>
-        </td>-->
     </tr>
     </table>
 </div>

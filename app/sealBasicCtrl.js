@@ -1,6 +1,6 @@
 app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http, $window) {
     $scope.product = {};
-    $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.showActions = false; //hide edit/delete/copy actions column by default
     $scope.role;
     
 
@@ -20,7 +20,6 @@ app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http, $wi
     };
     
     
-    
     //TODO This was working in Bearing SPecifics when I copied it I just need to modify for Bearing Basic
     $scope.open = function (p,size) {
         var modalInstance = $uibModal.open({
@@ -37,7 +36,6 @@ app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http, $wi
             if(selectedObject.save == "insert"){
                 $scope.products.push(selectedObject);
                 $scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
-                //$scope.products = $filter('orderBy')($scope.products, 'id', 'reverse');
             }else if(selectedObject.save == "update"){
                 p.inner_dia = selectedObject.inner_dia;
                 p.outer_dia = selectedObject.outer_dia;
@@ -75,7 +73,6 @@ app.controller('sealBasicCtrl', function ($scope, $uibModal, $filter, $http, $wi
                     {text:"Notes",predicate:"notes",sortable:true}
                 ];
 
-
 	//functions to run when initialized
 	$scope.populateSealList(); 
 	$scope.role = $window.sessionStorage.role=='MOTU';
@@ -103,23 +100,16 @@ app.controller('sealBasicEditCtrl', function ($scope, $uibModalInstance, item, $
             //product.uid = $scope.uid;  //NOT SURE WHY this was here.  It breaks functionality
             $scope.product = product;
             $scope.submitted = true; //this sets this to true so that the submit button can be turned in to a loading icon while this process to prevent duplicate submissions
-            console.log("product.uid = ");
-            console.log(product.uid);
             if(product.uid > 0){ // this is true if this editing a current product
                 $http({
 			    method: 'POST',
 			    url: 'api/v1/sealBasicEdit.php',
 			    data: product
 		     }).then(function (results) {
-		          //product.description = $scope.testVar; //update the view after database update is successful
 		          var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
 		          $uibModalInstance.close(x); //close Edit modal when completed
-		          
-		          console.log("SUCCESS  $scope.product = ");
-		          console.log($scope.product);
-		          
 		     }) .catch(function (results) {
 		     	console.log("save product if in seal basic controller has FAILED");
 	     	});

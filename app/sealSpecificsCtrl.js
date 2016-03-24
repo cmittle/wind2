@@ -1,6 +1,6 @@
 app.controller('sealSpecificsCtrl', function ($scope, $uibModal, $filter, $http, $window) {
     $scope.product = {};
-    $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.showActions = false; //hide edit/delete/copy actions column by default
     $scope.role;
     
     $scope.populateSealList = function () {

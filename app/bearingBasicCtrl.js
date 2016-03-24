@@ -1,6 +1,6 @@
 app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, $window, Data) {
     $scope.product = {};
-    $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.showActions = false; //hide edit/delete/copy actions column by default
     
     
     $scope.populateBearingList = function () {
@@ -8,7 +8,6 @@ app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, 
 	    Data.get('bearing_basic').then(function(data){
 	    	//	This requests the query '/bearing_basic' as declared in index.php
 	        $scope.products = data.data;
-	        //console.log($scope.products);
 	    });
     };
     
@@ -39,8 +38,7 @@ app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, 
     
     $scope.deleteProduct = function(product){
         if(confirm("Are you sure to remove basic bearing:" + "\n ID: \t" + product.basic_id + "\n Type:\t" + product.type + "\n Construction:\t" + product.construction + "\n Base part number: \t" + product.base_pn)){
-            console.log("delete product = ");
-            console.log(product);
+            
             $http({
                     method: 'GET',
                     url: 'api/v1/delete.php',
@@ -52,10 +50,7 @@ app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, 
                 console.log(data.data);
                 console.log("Delete item FAILED, $scope.deleteProduct, bearingbasicCtrl.js");
             });
-                        //original delete code..
-                        //Data.delete("products/"+product.id).then(function(result){
-                        //    $scope.products = _.without($scope.products, _.findWhere($scope.products, {id:product.id}));
-                        //});
+                        
         } else {
         	console.log("Else loop, $scope.deleteProduct, bearingbasicCtrl.js");
         }
@@ -65,8 +60,7 @@ app.controller('bearingBasicCtrl', function ($scope, $uibModal, $filter, $http, 
                     {text:"Basic ID",predicate:"basic_id",sortable:true},
                     {text:"Type",predicate:"type",sortable:true},
                     {text:"Construction",predicate:"construction",sortable:true},
-                    {text:"Base PN",predicate:"base_pn",sortable:true}//,
-//                    {text:"Action",predicate:"",sortable:false}
+                    {text:"Base PN",predicate:"base_pn",sortable:true}
                 ];
 
 
@@ -88,7 +82,6 @@ app.controller('bearingBasicEditCtrl', function ($scope, $uibModalInstance, item
     };
     $scope.title = (item.basic_id > 0) ? 'Edit Product' : 'Add Product';
     $scope.buttonText = (item.basic_id > 0) ? 'Update Product' : 'Add New Product';
-    //$scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
 
     var original = item;
     $scope.isClean = function() {
@@ -103,18 +96,13 @@ app.controller('bearingBasicEditCtrl', function ($scope, $uibModalInstance, item
                     url: 'api/v1/bearingBasicEdit.php',
                     data: product
                 }).then(function (data) {
-                    //product.description = $scope.testVar; //update the view after database update is successful
                     var x = angular.copy(product);//copy current product with new information and send back to function that opened modal to update view
                     x.save = 'update';
                     $scope.submitted = false; //set back to false to show submit button again
                     $uibModalInstance.close(x); //close Edit modal when completed
-
-                    console.log("SUCCESS  $scope.product = ");
-                    console.log($scope.product);
-
                 }) .catch(function (data) {
                     console.log(data.data);
-                    console.log("FAILED");
+                    console.log("FAILED save product in bearingBasicCtrl.js");
             });  
         }else{  //this is where it goes for a new product
             $scope.showSubmitButton = false;
@@ -133,6 +121,5 @@ app.controller('bearingBasicEditCtrl', function ($scope, $uibModalInstance, item
             });
         }
 
-        //$scope.submitted = false; //set back to false to show submit button again
     };
 }); 

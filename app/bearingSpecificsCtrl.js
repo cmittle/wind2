@@ -1,16 +1,7 @@
 app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $http, $window, Data) {
     $scope.product = {};
-    $scope.showActions = true; //hide edit/delete/copy actions column by default
+    $scope.showActions = false; //hide edit/delete/copy actions column by default
     $scope.role;
-    
-/*    $scope.populateBearingList = function () {
-    	//wrap this in a function so it can be called at any time
-	    Data.get('bearing_specifics').then(function(data){
-	    	//	This requests the query '/bearing_specifics' as declared in index.php
-	        $scope.products = data.data;
-	        //console.log("bearingSpecificsCtrl.js populateBearingList()");
-	    });
-    };*/
     
     $scope.populateBearingList = function () {
              $http({
@@ -18,19 +9,12 @@ app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $ht
                     url: 'api/v1/bearingSpecifics.php'
              })
              .then(function (data) {
-                  //$scope.bearingSpecifics = $scope.bearingSpecifics.concat(data);
                   $scope.products = data.data;
              });
     };
     
     
-    
-    
-    
     $scope.open = function (p,size) {
-    	console.log("scope.open from brg spec ctrl");
-    	console.log(p);
-    	console.log($scope.product.bearing_basic_id);
         var modalInstance = $uibModal.open({
           templateUrl: 'partials/bearing_specifics_edit.html',
           controller: 'bearingSpecificsEditCtrl',
@@ -73,8 +57,6 @@ app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $ht
     
     $scope.deleteProduct = function(product){
         if(confirm("Are you sure to remove: \n Specific PN:\t" + product.specific_pn +  "\n Specific ID: \t" + product.specific_id + "\n Bearing basic ID:\t" + product.bearing_basic_id + "\n Notes: \t" + product.notes)){
-            //console.log("delete product = ");
-            //console.log(product);
             $http({
                     method: 'GET',
                     url: 'api/v1/delete.php',
@@ -104,8 +86,7 @@ app.controller('bearingSpecificsCtrl', function ($scope, $uibModal, $filter, $ht
                     {text:"Inner Ring",predicate:"inner_ring",sortable:true},
                     {text:"Outer Ring",predicate:"outer_ring",sortable:true},
                     {text:"Rollers",predicate:"rollers",sortable:true},
-                    {text:"Notes",predicate:"notes",sortable:true}//,
-//                    {text:"Action",predicate:"",sortable:false}
+                    {text:"Notes",predicate:"notes",sortable:true}
                 ];
 
 	//functions to run when initialized
@@ -159,28 +140,11 @@ app.controller('bearingSpecificsEditCtrl', function ($scope, $uibModalInstance, 
 		          x.save = 'update';
 		          $scope.submitted = false; //set back to false to show submit button again
 		          $uibModalInstance.close(x); //close Edit modal when completed
-		          
-		          console.log("SUCCESS  $scope.product = ");
-		          console.log($scope.product);
-		          
 		     }) .catch(function (data) {
 		     	console.log(data.data);
 		     	console.log("FAILED");
 	     	}); 
                 
-                
-                
-                
-                /*Data.put('bearing_specifics/'+product.specific_id, product).then(function (result) {
-                    if(result.status != 'error'){
-                        var x = angular.copy(product);
-                        x.save = 'update';
-                        $scope.submitted = false; //set back to false to show submit button again
-                        $uibModalInstance.close(x);
-                    }else{
-                        console.log(result);
-                    }
-                });*/
             }else{  //this is where it goes for a new product
             	console.log(product);
                 //product.status = 'Active';
