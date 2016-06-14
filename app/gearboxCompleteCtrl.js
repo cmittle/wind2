@@ -1,9 +1,9 @@
 app.controller('gearboxCompleteCtrl', function ($scope, $routeParams) {
     $scope.urlMfg = $routeParams.mfg;  //id number passed in url
     $scope.urlModel = $routeParams.model;  //model number passed in url
-    $scope.showBearings = false;
-    $scope.showseals = false;
-    $scope.showText = false;
+    $scope.showBearings = true;
+    $scope.showSeals = true;
+    $scope.showText = true;
         
     $scope.switchShowBearings = function () {
     	$scope.showBearings = !$scope.showBearings;
