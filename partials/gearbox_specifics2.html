@@ -40,6 +40,9 @@
 		<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Other:
 		    <input type="checkbox" ng-model="showOther">
 		</label>
+		<label style="font-size:0.8em;float:right;"> Show/Hide Positions:
+		    <input type="checkbox" ng-model="showHidePositions">
+		</label>
 	    
 	    
           <div class="sw-search" ng-if="!urlModel">
@@ -58,11 +61,13 @@
                 <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
                 <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
 		<!--  -->
-                <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+                <tr><th ng-show="showHidePositions">Hide</th><th ng-repeat="c in columns">{{c.text}}</th></tr>
 
 		<!-- display each record in product array, this is the array for the gearbox of which page the user is on -->
-                <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > 
+                <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" ng-show="showHidePositions || !c.hide"> 
 		    <!-- display bearing basic part number and position in this gearbox -->
+                    <td ng-show="showHidePositions" ><input type="checkbox" ng-model="c.hide"></td>
+                    
                     <td>{{c.position}}</td><td style="white-space: nowrap">{{c.bearing_basic_pn}}</td><td>{{c.rec_clearance}}</td><td>{{c.qty_per_gb}}</td>
 		    <!-- SKF Block for specific part number list -->
                     <td ng-show="showSKF">
@@ -81,7 +86,7 @@
                                 <td style="font-size:0.9em; font-style:italic;">NSK:</td>
                             </tr>
                              <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '2' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 2 is NSK --> 
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
@@ -92,7 +97,7 @@
                             </tr>
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '3' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 3 is FAG -->
                             <!-- {{c.position}} works here to pull in variables from outside table-->
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
@@ -102,7 +107,7 @@
                                 <td style="font-size:0.9em; font-style:italic;">Timken:</td>
                             </tr>
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 4 is Timken -->  
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
@@ -112,7 +117,7 @@
                                 <td style="font-size:0.9em; font-style:italic;">Koyo:</td>
                             </tr>
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '5' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 5 is Koyo -->
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
@@ -122,7 +127,7 @@
                                 <td style="font-size:0.9em; font-style:italic;">NTN:</td>
                             </tr>
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '6' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 6 is NTN -->
-                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                                <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
@@ -132,7 +137,7 @@
                                 <td style="font-size:0.9em; font-style:italic;">Other:</td>
                             </tr>
                             <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '7' }:true | filter:{ bearing_basic_id: c.bearing_basic_id }:true" > <!-- 7 is Other -->
-                               <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                               <td uib-tooltip-template="'myTooltipTemplate.html'" tooltip-popup-delay="1000" tooltip-popup-close-delay="750" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
                             </tr>
                         </table>
                     </td>
