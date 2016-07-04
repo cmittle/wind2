@@ -75,33 +75,51 @@
                 </ul>
                 
                 <li>
-                    <a href="#">Generators</a>
+                    <a ng-click="showGenMfgList = !showGenMfgList">Generators</a>
+                    <!--<a ng-if="showGenMfgList" href="#/generator/hitachi">Hitachi</a>-->
+			<ul ng-if="showGenMfgList" >
+				<li><a href="#/generator/hitachi">Hitachi</a></li>
+				
+			</ul>
                 </li>
+                
+                
                 <li>
                     <a  ng-click="toggleTowerMfgList()" > Tower </a>
                     <!--This establishes the list of gearbox mfg's-->
                 <!--When gb mfg name is clicked the id is given to the controler to expand/collapse the model list below it.-->
                 <!--ng-if removes this list from the DOM when false which is better for performance. -->
-                <ul ng-if="showTowerMfgList">
-                            <li ng-repeat="m in concatTowerArray " style="color:white"> <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
-                    		<a  ng-click="showTowerModels([m.id])">{{m.name}}</a> <!--href="#/gearbox/mfg"  -->
-                    		<!--This makes every Tower mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
-                		<!--This establishes the list of gearbox model per gearbox mfg-->
-                		<ul> 
-                			<!--this repeats a list item for of the gearboxes in the TowerModelArray for each Tower MFG listed above
-                			          orderBy sorts models into alphabetical order
-                			          filter mfg: m.id only shows li elements who's mfg variable for the specific model record match the m.id value of the TowerMfg li we're currently on
-                			          filter view: true only shows li elements who have a view element that says true, this is used to toggle which mfg model list is displayed on the page
-                			                  by changing this value when a different mfg is selected (see showTowerModels function) 
-                			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
-                			<li ng-repeat="mo in towerModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
-                			<!--dynamic url built by model loaded.  When selected will take to logical subpage ..gearbox/Towermfg/Towermodel and show bearing list -->
-                			<a ng-href="#/tower/{{m.name}}/{{mo.model}}" > {{mo.model}}</a>  <!--{{mo.id}} -->
-                			</li>
-                		</ul> 
-                	</li>
-                </ul>
-                <!--</li>-->
+                
+                
+                
+	                <ul ng-if="showTowerMfgList">
+	                            <li ng-repeat="m in concatTowerArray " ng-click="showTowerModels([m.id]); $event.stopPropagation()" style="color:white;padding-left:30px;"> 
+	                            	<!--<span ng-click="showTowerModels([m.name]) = !showTowerModels([m.name])" >Click here<i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': showTowerModels([m.name]), 'glyphicon-chevron-right': !showTowerModels([m.name])}" style="padding-right:15px;"></i></span>-->
+	                            <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
+	                            
+	                            <!-- NEED TO implement view partials/towerMfg.html and route in app.js -->
+	                    		<!--<i class="pull-left glyphicon" ng-click="showTowerModels([m.id])" ng-class="{'glyphicon-chevron-down': showTowerMfgList, 'glyphicon-chevron-right': !showTowerMfgList}" style="padding-right:15px;"></i>-->
+	                    		<!--$event.stopPropogation function keeps the list from expanding/collapsing when you click on mfg name to get to the top level page-->
+	                    		<span><a ng-href="#/tower/{{m.name}}" ng-click="$event.stopPropagation()">{{m.name}}</a></span>
+	                    		
+	                    		<!--<a  ng-href="#/tower/{{m.name}}" ng-click="showTowerModels([m.id])">{{m.name}}</a>-->
+	                    		<!--This makes every Tower mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
+	                		<!--This establishes the list of gearbox model per gearbox mfg-->
+	                		<ul> 
+	                			<!--this repeats a list item for of the gearboxes in the TowerModelArray for each Tower MFG listed above
+	                			          orderBy sorts models into alphabetical order
+	                			          filter mfg: m.id only shows li elements who's mfg variable for the specific model record match the m.id value of the TowerMfg li we're currently on
+	                			          filter view: true only shows li elements who have a view element that says true, this is used to toggle which mfg model list is displayed on the page
+	                			                  by changing this value when a different mfg is selected (see showTowerModels function) 
+	                			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
+	                			<li ng-repeat="mo in towerModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
+	                			<!--dynamic url built by model loaded.  When selected will take to logical subpage ..gearbox/Towermfg/Towermodel and show bearing list -->
+	                			<a ng-href="#/tower/{{m.name}}/{{mo.model}}"  ng-click="$event.stopPropagation()"> {{mo.model}}</a>  <!--{{mo.id}} -->
+	                			</li>
+	                		</ul> 
+	                	</li>
+	                </ul>
+                </li>
                 <li>
                     <a href="#">Customers</a>
                 </li>
@@ -204,6 +222,9 @@
     <script src="app/mainBearingSpecificCtrl.js"></script>
     <script src="app/sealSpecificsCtrl.js"></script>
     <script src="app/bearingsWhereUsedCtrl.js"></script>
+    <script src="app/towerMfgTextCtrl.js"></script>
+    <script src="app/towerMfgCtrl.js"></script>
+    
 
 
     <!-- Bootstrap Core JavaScript -->

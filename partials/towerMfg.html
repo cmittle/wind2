@@ -1,0 +1,15 @@
+<ul><h3>Need to make the following to complete implemenation of this page:</h3>
+<li>towerMfgNotes component</li>
+<li>towerMfgNotes table in database</li>
+<li>.php file to look up tower mfg uid</li>
+<li>.php file to look up notes based on this</li>
+</ul>
+
+<div>
+	 <span class="btn btn-small btn-info" style="font-size:12px;">
+		<i ng-if="!showText" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowText()"> {{urlMfg}} Notes</i>
+		<i ng-if="showText" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowText()"> {{urlMfg}} Notes</i>
+	</span>
+	<br ng-if="showText" > 
+	<tower-mfg-text ng-show="showText" mfg={{urlMfg}}> </tower-mfg-text>
+</div>

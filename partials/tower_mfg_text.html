@@ -1,0 +1,15 @@
+<!--<text-angular ng-model="gearboxText"></text-angular>-->
+<button ng-click="hideEditor()" uib-tooltip="Version {{towerMfgTextVersion}} of tower manufacturer notes" ng-show="!editTowerMfgText && role">Edit</button>
+<button ng-click="saveText()" ng-show="editTowerMfgText">Save</button>
+<button ng-click="cancelEditText()" ng-show="editTowerMfgText">Cancel</button>
+<label  ng-show="editTowerMfgText">Current character count ={{towerMfgText.length}}.  Limit 3500.  Current version {{towerMfgTextVersion}} before saving.</label>
+
+
+<div ng-hide="textLoaded"> <i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</div>
+
+<form method="post" ng-show="editTowerMfgText">
+  <textarea class="mceNonEditable" ui-tinymce="tinymceOptions" ng-model="towerMfgText" ></textarea>
+</form>
+
+<!-- The getHtml() function flags the gearboxText inserted as trusted html so it will parse all flags -->
+<div ng-bind-html="getHtml(towerMfgText)" ng-show="!editTowerMfgText"> </div>

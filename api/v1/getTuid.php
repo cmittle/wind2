@@ -8,7 +8,9 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
         // connect to the database
         $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
 	//This recieves the variables sent with the AngularJS Get request.
-	$tuid = $_GET['tuid']; //tower id
+	$mfg = $_GET['mfg']; //mfg name e.g. GE, Acciona, Siemens, etc...
+	$model = $_GET['model']; //tower model V82, 1.5MW, S88, etc..
+	//$tid = $_GET['tid']; //tower id
 	
 	//This pulls the header out of the request
 	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
@@ -19,7 +21,7 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	    $authPass = JWT::decode($token, SECRET_KEY);
 	} catch (Exception $e) {
 	    $response['exception'] = $e->getMessage();
-	    $response['status'] = 'failure in towerText.php';
+	    $response['status'] = 'failure in getTuid.php';
             $response['message'] = 'The server has denied your request for this information. Please login and try again.';
 	    header('X-PHP-Response-Code: 401', true, 401); //set header to 401 (unauthorized) if token decode fails
 	    echo json_encode($response);
@@ -31,16 +33,20 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	//$response = array();
 	
 	if ($authPass != null) {
-		$response['status'] = "success from towerText.php";
+		$response['status'] = "success from getTuid.php";
         	$response['message'] = 'You are approved';
         	//this returns all (first 100) records where the gb id matches, sorted in DESCending order of the value in the version column
         	//then the controller can continue to use the [0] position of the return array to populate display
-		$sql = 'SELECT * FROM  tower_text WHERE  tuid =:tuid ORDER BY version DESC LIMIT 0 , 5';
+		//$sql = 'SELECT * FROM  tower_text WHERE  tid =:tid ORDER BY version DESC LIMIT 0 , 5';
+		//$sql = 'SELECT * FROM  tower_mfg WHERE mfg LIKE :mfg LIMIT 0 , 30';
 		
+		//SELECT Orders.OrderID, Customers.CustomerName, Orders.OrderDate FROM Orders INNER JOIN Customers ON Orders.CustomerID=Customers.CustomerID;
+		$sql = 'SELECT tower_mfg.mfg, tower_models.uid, tower_models.model FROM tower_mfg INNER JOIN tower_models ON tower_mfg.uid=tower_models.mfg WHERE tower_mfg.mfg LIKE :mfg AND tower_models.model LIKE :model';
 		// use prepared statements, even if not strictly required is good practice
 		$stmt = $db->prepare( $sql );
 		//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
-		$stmt->bindParam(':tuid', $tuid, PDO::PARAM_STR);
+		$stmt->bindParam(':mfg', $mfg, PDO::PARAM_STR);
+		$stmt->bindParam(':model', $model, PDO::PARAM_STR);
 		// execute the query
 		$stmt->execute();
 		// fetch the results into an array

@@ -3,23 +3,35 @@
 
 require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_USERNAME, DB_PASSWORD]
     require_once '.././libs/jwt_helper.php';//Token helper class for access control
-	//Database setup
+	//I got the base of this file from http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
+	//this set up the basic db variables, connection, query, prepare statement, execute, fetchAll and json encode
+	//I've added to it from other sources as I learn more
+
+	//not sure why I have to do this first but puting these variables directly into the new PDO call below didn't work.
 	$dsn = 'mysql:host='.DB_HOST.';dbname='.DB_NAME.';charset=utf8';
+	
         // connect to the database
         $db = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+        
 	//This recieves the variables sent with the AngularJS Get request.
-	$tuid = $_GET['tuid']; //tower id
+	//this variable can now be used to in the query structure to allow us to only get the correct results from the query
+	//rather than getting all results and filtering later
+	$mfgId = $_GET['mfgId']; //Tower mfg id
 	
+	//This http://stackoverflow.com/questions/2916232/call-to-undefined-function-apache-request-headers helped me figure out to add a line in .htaccess to make this work.
 	//This pulls the header out of the request
 	$authHeader = $_SERVER["HTTP_AUTHORIZATION"];
+	
 	//remove prefix "Bearer " from beginning of this header
 	$token = str_replace('Bearer ', '', $authHeader); //this appears to properly extract the string
+	
 	//Decode token and return array of contents
+	
 	try {
 	    $authPass = JWT::decode($token, SECRET_KEY);
 	} catch (Exception $e) {
 	    $response['exception'] = $e->getMessage();
-	    $response['status'] = 'failure in towerText.php';
+	    $response['status'] = 'failure in gearboxText.php';
             $response['message'] = 'The server has denied your request for this information. Please login and try again.';
 	    header('X-PHP-Response-Code: 401', true, 401); //set header to 401 (unauthorized) if token decode fails
 	    echo json_encode($response);
@@ -28,19 +40,20 @@ require_once 'config.php'; // Database setting constants [DB_HOST, DB_NAME, DB_U
 	
 	
 	//If gbid is null run query that returns all (first 300 lines) of the gearbox_specifics table
-	//$response = array();
+	$response = array();
+	
 	
 	if ($authPass != null) {
-		$response['status'] = "success from towerText.php";
+		$response['status'] = "success from towerMfgText.php";
         	$response['message'] = 'You are approved';
         	//this returns all (first 100) records where the gb id matches, sorted in DESCending order of the value in the version column
         	//then the controller can continue to use the [0] position of the return array to populate display
-		$sql = 'SELECT * FROM  tower_text WHERE  tuid =:tuid ORDER BY version DESC LIMIT 0 , 5';
+		$sql = 'SELECT * FROM  tower_mfg_text WHERE  tuid =:mfgId ORDER BY version DESC LIMIT 0 , 5';
 		
 		// use prepared statements, even if not strictly required is good practice
 		$stmt = $db->prepare( $sql );
 		//this binds the $gbid variable to ":gbid" so I can use this as a variable directly in query statement written above
-		$stmt->bindParam(':tuid', $tuid, PDO::PARAM_STR);
+		$stmt->bindParam(':mfgId', $mfgId, PDO::PARAM_STR);
 		// execute the query
 		$stmt->execute();
 		// fetch the results into an array

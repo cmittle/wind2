@@ -164,6 +164,23 @@ app.config(['$routeProvider',
         }
     }
     })
+    .when('/generator/hitachi', {
+      title: 'Hitachi Generator',
+      templateUrl: 'partials/hitachi.html',
+      //controller: 'sealSpecificsCtrl',
+      resolve:{  //this will at least check that the user has a token before loading the page.  Authentication of the token will have to be done separately
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
+                //Do something
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+        }
+    }
+    })
     //This is the dynamic gearbox mfg / model page loader
     .when('/gearbox/:mfg/:model', {
       templateUrl: 'partials/gearboxComplete.html', //new GearboxComplete html container.  Will turn this into GearboxComplete directive soon , then use template='<gearbox-complete></gearbox-complete>'
@@ -172,6 +189,22 @@ app.config(['$routeProvider',
         "check":function($location){   
             if(window.sessionStorage.accessToken != null){   //not sure why but $window doesnt work, but window does...
                 //Do something
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+          }
+    	}
+    })
+    //This is the dynamic tower mfg / model page loader
+    .when('/tower/:mfg', {
+      templateUrl: 'partials/towerMfg.html',
+      controller: 'towerMfgCtrl',
+      resolve:{  //this will check that the user has a token before loading the page.  Authentication of the token is done severside
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){
                 //console.log("You Shall Pass");
             }else{
             	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there

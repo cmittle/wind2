@@ -2,6 +2,7 @@ app.controller('homePageCtrl', function ($scope, $uibModal, $filter, $http, Data
 
 $scope.concatGbArray = []; //empty array to hold concatenated data of gb mfg and model
 $scope.concatTowerArray = []; //empty array to hold concatenated data of tower mfg and model
+$scope.showGenMfgList = false;
 
 
 $scope.gbMfgArray = [];  //move to here once I get the ng-repeat to work

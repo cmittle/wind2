@@ -82,6 +82,19 @@ app
     };
 })
 
+.directive('towerMfgText', function () {
+    'use strict';
+    return {
+        restrict: 'E',
+        controller: 'towerMfgTextCtrl', 
+        scope: {
+            //towerModel: '@model', //variable name in scope is towerModel (value on left side of this statement)
+            towerMfg: '@mfg'  
+        },
+        templateUrl: 'partials/tower_mfg_text.html'
+    };
+})
+
 .directive('gearboxAll', function () {
     'use strict';
     return {
