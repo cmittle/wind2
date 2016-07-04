@@ -13,9 +13,9 @@ app.controller('towerMfgTextCtrl', function ($scope, $uibModal, $filter, $http, 
     //This gets
     $scope.getTower = function(mfgId) {
         $scope.textLoaded = false;
-        console.log("here is the Tower mfg id");
-        console.log($scope.urlMfg);
-        console.log(mfgId);
+        //console.log("here is the Tower mfg id");
+        //console.log($scope.urlMfg);
+        //console.log(mfgId);
         //console.log($scope.urlModel);
     	$http
     	   .get('api/v1/towerMfgText.php', {
@@ -81,9 +81,9 @@ app.controller('towerMfgTextCtrl', function ($scope, $uibModal, $filter, $http, 
     };
     
     $scope.cancelEditText = function () {
-    	console.log("Do something to put original data back here after cancelled");
+    	//console.log("Do something to put original data back here after cancelled");
     	$scope.editTowerMfgText = false;
-    	$scope.towerMfgText = $scope.tempTowerMfText;  //restore original text if cancelled
+    	$scope.towerMfgText = $scope.tempTowerMfgText;  //restore original text if cancelled
     	$scope.tempTowerMfgText = null;
     };
 
@@ -93,8 +93,8 @@ app.controller('towerMfgTextCtrl', function ($scope, $uibModal, $filter, $http, 
     };
     
     $scope.getMfgId = function () {
-    	console.log("mfg uid number");
-        console.log($scope.urlMfg);
+    	//console.log("mfg uid number");
+        //console.log($scope.urlMfg);
         //console.log($scope.urlModel);
     	$http
     	   .get('api/v1/getTowerMfgId.php', {
