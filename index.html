@@ -93,18 +93,14 @@
                 
                 
 	                <ul ng-if="showTowerMfgList">
-	                            <li ng-repeat="m in concatTowerArray " ng-click="showTowerModels([m.id]); $event.stopPropagation()" style="color:white;padding-left:30px;"> 
-	                            	<!--<span ng-click="showTowerModels([m.name]) = !showTowerModels([m.name])" >Click here<i class="pull-left glyphicon" ng-class="{'glyphicon-chevron-down': showTowerModels([m.name]), 'glyphicon-chevron-right': !showTowerModels([m.name])}" style="padding-right:15px;"></i></span>-->
-	                            <!--ng-click="clicky()" ng-click="getGearboxModels([m.id])" -->
-	                            
-	                            <!-- NEED TO implement view partials/towerMfg.html and route in app.js -->
+	                		<!--orderBy: sorts view of results alphabetically by 'name' characteristic of objects in array
+	                		    filter only leaves mfgs that have "1" listed as the major characteristic of the objects in array; this is so not all 54 mfgs are shown, only the major 15ish-->
+	                            <li ng-repeat="m in concatTowerArray | orderBy:'name' | filter:{major: '1'}:true" ng-click="showTowerModels([m.id]); $event.stopPropagation()" style="color:white;padding-left:30px;"> 
+	                            	
 	                    		<!--<i class="pull-left glyphicon" ng-click="showTowerModels([m.id])" ng-class="{'glyphicon-chevron-down': showTowerMfgList, 'glyphicon-chevron-right': !showTowerMfgList}" style="padding-right:15px;"></i>-->
 	                    		<!--$event.stopPropogation function keeps the list from expanding/collapsing when you click on mfg name to get to the top level page-->
 	                    		<span><a ng-href="#/tower/{{m.name}}" ng-click="$event.stopPropagation()">{{m.name}}</a></span>
 	                    		
-	                    		<!--<a  ng-href="#/tower/{{m.name}}" ng-click="showTowerModels([m.id])">{{m.name}}</a>-->
-	                    		<!--This makes every Tower mfg name a hyper link, TODO need to figure out dynamic routing to use this in context /gearbox/:mfg/:model -->
-	                		<!--This establishes the list of gearbox model per gearbox mfg-->
 	                		<ul> 
 	                			<!--this repeats a list item for of the gearboxes in the TowerModelArray for each Tower MFG listed above
 	                			          orderBy sorts models into alphabetical order
@@ -112,7 +108,7 @@
 	                			          filter view: true only shows li elements who have a view element that says true, this is used to toggle which mfg model list is displayed on the page
 	                			                  by changing this value when a different mfg is selected (see showTowerModels function) 
 	                			          the :true at the end makes sure that the filter paramters are evaluated strictly (ie === type evaluation)-->
-	                			<li ng-repeat="mo in towerModelArray | orderBy:'model' | filter:{ mfg: m.id, view: true }:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
+	                			<li ng-repeat="mo in towerModelArray | orderBy:'model' | filter:{ tower_mfg_id: m.uid}:true" style="color:white" ng-click="clicky(this)" >  <!--ng-if="[mo.view]"-->
 	                			<!--dynamic url built by model loaded.  When selected will take to logical subpage ..gearbox/Towermfg/Towermodel and show bearing list -->
 	                			<a ng-href="#/tower/{{m.name}}/{{mo.model}}"  ng-click="$event.stopPropagation()"> {{mo.model}}</a>  <!--{{mo.id}} -->
 	                			</li>
@@ -134,6 +130,7 @@
                 	<li style="color:white"> <a href="#/seal_basic">Seal Basic</a></li>
                 	<li style="color:white"> <a href="#/seal_specifics">Seal Specifics</a></li>
                 	<li style="color:white"> <a href="#/bearings_where_used">Bearings Where Used</a></li>
+                	<li style="color:white"> <a href="#/tower_model_edit">Tower Model Edit</a></li>
                 	<li style="color:white"> <a href="#/dashboard">Dashboard</a></li>
                 </ul>
                 <li>
@@ -224,7 +221,7 @@
     <script src="app/bearingsWhereUsedCtrl.js"></script>
     <script src="app/towerMfgTextCtrl.js"></script>
     <script src="app/towerMfgCtrl.js"></script>
-    
+    <script src="app/mainSealsCtrl.js"></script>
 
 
     <!-- Bootstrap Core JavaScript -->
