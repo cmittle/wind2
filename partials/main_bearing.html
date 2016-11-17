@@ -4,7 +4,7 @@
       <div class="panel-heading" style="padding:7px;">
             <label style="font-size:1.3em;">{{urlMfg}} {{urlModel}} </label>
 	    <label style="font-size:0.65em;float:right;" ng-if="role"> Edit column
-	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions">
+	    	<input type="checkbox" style="font-size:0.8em;text-align:absolute right;" ng-model="showActions" ng-click="changeShowActions()">
 	    </label> 
 	    <br>
 	    <label  style="font-size:0.8em;"> Show specific PN List
@@ -32,8 +32,9 @@
 		    <input type="checkbox" ng-model="showOther">
 		</label>
 	    
-	    
-          <div class="sw-search" ng-if="!urlModel">
+	 
+	<!--    
+          <div class="sw-search" >
 
                 <div class="nav-search" id="nav-search">
                         Filter: <span class="input-icon">
@@ -42,8 +43,11 @@
                         </span>
                         <br>
                 </div>
-            </div>
+            </div>-->
+            
+            
         </div>
+        
         <div class="panel-body">
             <table class="table table-striped">
                 <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
@@ -127,7 +131,7 @@
                     <td>{{c.notes}}</td>
 
                    
-                    <td ng-if="showActions" style="width:100px">
+                    <td ng-if="showActions" style="width:100px"> <!---->
                         <div class="btn-group">
                             <button type="button" class="btn-xs btn-default fa fa-edit" uib-tooltip="Edit" ng-click="open(c);"></button>
                             <button type="button" class="btn-xs btn-danger fa fa-trash-o" uib-tooltip="Delete" ng-click="deleteProduct(c);"></button>

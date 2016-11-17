@@ -30,12 +30,12 @@
 	<gearbox-bearings  ng-show="showBearings" model={{urlModel}}> </gearbox-bearings>
 </div> -->
 
-<!--<div>
+<div>
 	<span class="btn btn-small btn-info" style="font-size:12px;">
-		<i ng-if="!showSeals" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowSeals()"> {{urlModel}} Seal List</i>
-		<i ng-if="showSeals" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowSeals()"> {{urlModel}} Seal List</i>
+		<i ng-if="!showSeals" style="font-size:1.6em;" class="fa fa-plus" ng-click="switchShowSeals()"> {{urlMfg}} {{urlModel}} Seal List</i>
+		<i ng-if="showSeals" style="font-size:1.6em;" class="fa fa-minus" ng-click="switchShowSeals()"> {{urlMfg}} {{urlModel}} Seal List</i>
 	</span> 
 	<br ng-if="showSeals" >
-	<gearbox-seals ng-show="showSeals"  model={{urlModel}}> </gearbox-seals>
+	<main-seals ng-show="showSeals" model={{urlModel}} mfg={{urlMfg}}> </main-seals>
 </div>	
-<br>-->
+<br>

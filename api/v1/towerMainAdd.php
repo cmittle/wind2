@@ -18,7 +18,7 @@ require_once '.././libs/jwt_helper.php';
 	$uid = $_POST['uid']; //database table unique id
 	$bearing_basic_id = $_POST['bearing_basic_id']; //brg basic id e.g. 12
 	$bearing_basic_pn = $_POST['bearing_basic_pn']; //br basic pn e.g. NU 2326
-	$tower_id = $_POST['tower_id']; //tower id e.g. 2.3
+	$tuid = $_POST['tuid']; //tower unique id, e.g. 4 for GE 1.5MW
 	$notes = $_POST['notes']; //notes on line of gb
 	$pos_id = $_POST['pos_id']; //positio id used for sorting in display e.g. 110, 120, 130, 140, etc...
 	$position = $_POST['position']; //human readable position
@@ -44,10 +44,9 @@ require_once '.././libs/jwt_helper.php';
     		$response['status'] = "success"; // from delete
         	$response['message'] = 'You are approved';
 		//update all of these variables
-		//Maybe I shouldn't update the tower_id, this would change what gearbox the bearing is listed in.
 		$sql = "INSERT INTO tower_main 
-				(uid, position, bearing_basic_id, bearing_basic_pn, rec_clearance, tower_id, pos_id, notes) 
-			VALUES (NULL, :position, :bearing_basic_id, :bearing_basic_pn, :rec_clearance, :tower_id, :pos_id, :notes)";
+				(uid, position, bearing_basic_id, bearing_basic_pn, rec_clearance, tuid, pos_id, notes) 
+			VALUES (NULL, :position, :bearing_basic_id, :bearing_basic_pn, :rec_clearance, :tuid, :pos_id, :notes)";
 	
 		// use prepared statements, even if not strictly required is good practice; this helps prevent sql injection attacks
 		$stmt = $db->prepare( $sql );
@@ -55,7 +54,7 @@ require_once '.././libs/jwt_helper.php';
 		//this binds the input variables to php variables
 		$stmt->bindValue(':bearing_basic_id', $bearing_basic_id, PDO::PARAM_STR); //Bind String variable
 		$stmt->bindValue(':bearing_basic_pn', $bearing_basic_pn, PDO::PARAM_STR);//Bind STR variable
-		$stmt->bindValue(':tower_id', $tower_id, PDO::PARAM_STR);//Bind str variable
+		$stmt->bindValue(':tuid', $tuid, PDO::PARAM_STR);//Bind str variable
 		$stmt->bindValue(':notes', $notes, PDO::PARAM_STR);//Bind str variable
 		$stmt->bindValue(':pos_id', $pos_id, PDO::PARAM_STR);//Bind str variable
 		$stmt->bindValue(':position', $position, PDO::PARAM_STR);//Bind str variable

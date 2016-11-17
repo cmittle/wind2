@@ -20,6 +20,7 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
     $scope.singleDetail; //create empty item detail object
     //look at AngularJS / MySQL / PHP tutorial here http://www.phpro.org/tutorials/Consume-Json-Results-From-PHP-MySQL-API-With-Angularjs-And-PDO.html
     $scope.role;
+    $scope.tuid;
 
     $scope.changeShowPn = function () {
     //only turn on SKF, NSK, FAG automatically, Timken, Koyo, NTN, and Other are not going to be needed in most cases
@@ -38,14 +39,20 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
             };
     };
 
+    $scope.changeShowActions = function() {
+    	$scope.showActions = !$scope.showActions;
+    };
     
     $scope.getTower = function() {
     	$http
     	   .get('api/v1/towerMain.php', {
     	      params: {
-    	          tid: $scope.urlModel  //tid from URL only requests results from table that are used in that gearbox
+    	          //tid: $scope.urlModel  //tid from URL only requests results from table that are used in that tower
+    	          tuid: $scope.tuid  //tid from URL only requests results from table that are used in that gearbox
     	          }
     	   }).then(function successCallback(results) { //succesful HTTP response 
+    	   	console.log("getTower()");
+    	   	console.log(results);
             	//this is the list of generic bearing part numbers with positions and display sequence etc... for this tower (tid sent in GET parameters)
             	$scope.products = results.data;
             	//this removes duplicates and reduces to an array with only unique bearing_basic_id
@@ -57,6 +64,32 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
             $scope.products = '0'; //stops loading icon from spinning on page
 	    console.log("$http.get in mainBearingSpecificCtrl.js $scope.getTower function recieved an error");
 	    //console.log(results); //show data returned from server about error
+	  });
+    };
+    
+    $scope.getTuid = function () {
+    	$http
+    	   .get('api/v1/getTuid.php', {
+    	      params: {
+    	          mfg: $scope.urlMfg,  //mfg name from url of tower
+    	          model: $scope.urlModel //model of the tower
+    	          }
+    	   }).then(function successCallback(results) { //succesful HTTP response 
+            	//NEED to either catch if value is blank on client side or server side.
+            	if (results.data.length >0) { //if no results are returned dont try to set variable as it will error out.
+	            	$scope.tuid = results.data[0].uid; //put tuid (tower unique id) into variable, this will be used to load tower text
+	            	console.log("get TUID in main brg spec ctrl");
+	            	console.log($scope.tuid);
+	            	$scope.getTower($scope.tuid);
+	            	$window.sessionStorage.tuid = $scope.tuid;
+            	} else { //if no results are returned show error in console
+            		console.log("getTuid.php returned no results");//I should not get blank...
+            	};
+            	
+        }, function errorCallback(data) { //need 400 series header returned to engage error callback
+            alert("failed!" + data.data.message);  //display alert box saying the eror recieved from the server
+	    console.log("$http.get in mainBearingSpecificCtrl.js $scope.getTuid function recieved an error");
+	    console.log(data); //show data returned from server about error
 	  });
     };
 
@@ -139,8 +172,12 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
 
     //an initialization function so that getTower can be a separate function and called each time as necessary
     $scope.init = function () {
-        $scope.getTower();
-        //$scope.role = $window.sessionStorage.role == 'MOTU';
+        //
+        console.log("inside main bearing specific controller");
+        $window.sessionStorage.tuid = null;
+        $scope.role = $window.sessionStorage.role == 'MOTU';
+        $scope.getTuid();
+        //$scope.getTower();
     };
    
     
@@ -158,12 +195,13 @@ app.controller('mainBearingSpecificCtrl', function ($scope, $uibModal, $filter, 
 
 });
 
-app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstance, $http, $routeParams, item, Data) {
+app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstance, $http, $routeParams, $window, item, Data) {
 
   $scope.product = angular.copy(item);
   $scope.basicbrglist;
   $scope.urlModel =  $routeParams.model;  //model number passed in url
   $scope.submitted = false;
+  $scope.product.tuid = $window.sessionStorage.tuid;
        
     $scope.getbasicbrg = function () {
         Data.get('bearing_basic').then(function(results){
@@ -173,6 +211,7 @@ app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstanc
         console.log($scope.basicbrglist);
         console.log("current model is =");
         console.log($scope.urlModel);
+        console.log($scope.product.tuid);
         });
     };
 
@@ -181,7 +220,7 @@ app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstanc
         console.log(item.id);
         if (item.id>0) {
             console.log("TEST 2");
-            product.gb_id = $scope.urlModel;
+            product.tuid = $window.sessionStorage.tuid;
             //console.log("product.gb_id = ");
             //console.log(product.gb_id);
         };
@@ -190,8 +229,8 @@ app.controller('mainBearingSpecificEditCtrl', function ($scope, $uibModalInstanc
     $scope.cancel = function () {
         $uibModalInstance.dismiss('Close');
     };
-    $scope.title = (item.id > 0) ? 'Edit Product' : 'Add Product';
-    $scope.buttonText = (item.id > 0) ? 'Update Product' : 'Add New Product';
+    $scope.title = (item.tuid > 0) ? 'Edit Product' : 'Add Product';
+    $scope.buttonText = (item.tuid > 0) ? 'Update Product' : 'Add New Product';
 
     /*var original = item;
     $scope.isClean = function() { //not sure where this is used if it even is???

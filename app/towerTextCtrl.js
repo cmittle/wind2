@@ -13,9 +13,9 @@ app.controller('towerTextCtrl', function ($scope, $uibModal, $filter, $http, $ro
     //This gets
     $scope.getTower = function(tuid) {
         $scope.textLoaded = false;
-        console.log("here is the make and model");
-        console.log($scope.urlMfg);
-        console.log($scope.urlModel);
+        //console.log("here is the make and model");
+        //console.log($scope.urlMfg);
+        //console.log($scope.urlModel);
     	$http
     	   .get('api/v1/towerText.php', {
     	      params: {
@@ -92,9 +92,9 @@ app.controller('towerTextCtrl', function ($scope, $uibModal, $filter, $http, $ro
     };
     
     $scope.getTuid = function () {
-    	console.log("mfg uid number");
-        console.log($scope.urlMfg);
-        console.log($scope.urlModel);
+    	//console.log("mfg uid number");
+        //console.log($scope.urlMfg);
+        //console.log($scope.urlModel);
     	$http
     	   .get('api/v1/getTuid.php', {
     	      params: {

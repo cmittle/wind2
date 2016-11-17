@@ -18,5 +18,5 @@ app.controller('gearboxCompleteCtrl', function ($scope, $routeParams) {
     };
     
     //console.log("HERE I AM");
-    console.log($scope.urlModel);
+    //console.log($scope.urlModel);
     });

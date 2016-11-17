@@ -35,7 +35,7 @@ $scope.showTowerModels = function(x) {
 		if (ea.mfg == x) {
 			//This toggles the view property of the list of models under the tower mfg just clicked
 			//doing it this way allows several or no tower mfg list of models to be shown at one time.
-			console.log("ea.mfg = " + ea.mfg);
+			//console.log("ea.mfg = " + ea.mfg);
 			ea.view = !ea.view;
 		};
 	});
@@ -103,15 +103,16 @@ $scope.getTowerModels = function() {
                      //     change names of objects and arrays to make more sense for this controller
 		     .then(function (results) {
 		          $scope.g = results;
-		          console.log("TOWER MODEL BASIC THEN");
-		          console.log(results.data[0]);
+		          //console.log("TOWER MODEL BASIC THEN");
+		          //console.log(results.data[0]);
 		          angular.forEach (results.data, function (value, key){
 		          	//this creates a temporary object with concatenated mfg ID and mfg Name
 		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
-		          	$scope.b= {model: (value['model']), mfg:(value['mfg']), id: (value['uid']), view:(false)};
+		          	$scope.b= {model: (value['model']), tower_mfg_id:(value['tower_mfg_id']), uid: (value['uid']), rating: (value['rating']), rotor_dia: (value['rotor_dia'])};
 		          	//add new gb to array in forEach loop to gb master list to be sorted.
 		          	$scope.towerModelArray = $scope.towerModelArray.concat($scope.b);
 		          });
+		          console.log($scope.towerModelArray);
 		     }, function (results) {
 		     	console.log("failure of getmodellist function status:");
 		     });
@@ -160,10 +161,13 @@ $scope.getTowerBasic = function() {
 		          angular.forEach (response.data, function (value, key){
 		          	//this creates a temporary object with concatenated mfg ID and mfg Name
 		          	//I will use this concatentated informaiton to create a sorted object which can be tied to the pulldown menu on this page
-		          	$scope.towerObject= {id: (value['uid']), name:(value['mfg'])}; 
-		          	//add new gb to array in forEach loop to gb master list to be sorted.
+		          	//$scope.towerObject= {id: (value['uid']), name:(value['mfg'])}; 
+		          	$scope.towerObject= {id: (value['uid']), name:(value['mfg']), major:(value['major'])}; 
+		          	//console.log($scope.towerObject);
+		          	//add new tower mfg to array in forEach loop to gb master list to be sorted.
 		          	$scope.concatTowerArray = $scope.concatTowerArray.concat($scope.towerObject);
 		          });
+		          //console.log($scope.concatTowerArray);
 		     }, function (response) {
 		     	console.log("failure of gettowerbasic function status:");
 		     	console.log(response.data);

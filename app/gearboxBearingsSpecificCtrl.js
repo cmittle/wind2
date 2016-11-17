@@ -198,7 +198,7 @@ app.controller('gearboxBearingsSpecificCtrl', function ($scope, $uibModal, $filt
         //console.log($routeParams.model);        
         $scope.getgb();
         $scope.role = $window.sessionStorage.role=='MOTU';
-        console.log($scope.role);
+        //console.log($scope.role);
         //console.log($scope.role == 'MOTU');
         //console.log($scope.role = 'MOTU');
         //console.log($scope.role === 'MOTU');

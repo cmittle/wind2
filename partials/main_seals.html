@@ -1,0 +1,127 @@
+<!--<div> HERE IS THE SEALS DIRECTIVE!!!</div>-->
+
+
+<!--<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:80%">&nbsp;Add seal to gbx</button>-->
+<div class="table-responsive">
+    <div class="panel panel-primary">
+      <div class="panel-heading" style="padding:7px;">
+             <!--<h3 ng-if="urlModel" style="margin:0px;">Gearbox : {{urlMfg}} {{urlModel}} Seal List</h3> -->
+	<label style="font-size:1.5em;">{{urlMfg}} {{urlModel}} </label>
+	<button type="button" class="btn btn-danger fa fa-plus" ng-click="open(product);" style="font-size:0.8em;float:right;" ng-show="role">&nbsp;Add seal to gbx</button>
+        <label style="font-size:0.8em;float:right;" ng-show="role"> Edit column
+	    <input type="checkbox" ng-model="showActions">
+	</label>
+        <br>
+        <label> Show Seals PN List
+	    <input type="checkbox" ng-model="showPartNumbers" ng-change="changeShowPn()">  |
+	</label>
+	<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Show SKF:
+	    <input type="checkbox" ng-model="showSKF" ng-change="output()">
+	</label>
+	<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Show Walkersele:
+	    <input type="checkbox" ng-model="showWalkersele">
+	</label>
+	<label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Show Carco:
+	    <input type="checkbox" ng-model="showCarco">
+	</label>
+        <label ng-show="showPartNumbers" style="font-size:0.8em;padding-left:10px;"> Show Other:
+	    <input type="checkbox" ng-model="showOther">
+	</label><br ng-if="showPartNumbers" >  
+          
+          
+        </div>
+        <div class="panel-body">
+            <table class="table table-striped">
+                <tr ng-show="products.length==0"><td style="vertical-align:middle;"><i class="fa fa-ban fa-3x"></i>&nbsp;No data found</td></tr>
+                <tr ng-hide="products.length>-1"><td style="vertical-align:middle;"><i class="fa fa-cog fa-3x fa-spin"></i>&nbsp;Loading</td></tr>
+		
+                <tr><th ng-repeat="c in columns">{{c.text}}</th></tr>
+
+                <tr ng-repeat="c in products | filter:filterProduct2 | orderBy:'pos_id'" > 
+                    <td>{{c.position}}</td><td style="white-space: nowrap">{{c.seal_basic_pn}}</td><td>{{c.rec_material}}</td><td>{{c.qty}}</td>
+                    <td ng-show="showSKF">
+                        <table>
+                            <tr>
+                                <td style="font-size:0.9em; font-style:italic;">SKF:</td>
+                            </tr>
+                            <tr ng-repeat="d in sealSpecifics | filter:{ mfg: '1' }:true | filter:{seal_basic_id: c.seal_basic_id}:true" >
+                                <td uib-tooltip-template="'mySealTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                            </tr>
+                        </table>
+                    </td>	
+                  <td ng-if="showWalkersele">
+                        <table>
+                            <tr>
+                                <td style="font-size:0.9em; font-style:italic;">Walkersele:</td>
+                            </tr>
+                             <tr ng-repeat="d in sealSpecifics | filter:{ mfg: '2' }:true | filter:{seal_basic_id: c.seal_basic_id}:true" >
+                                <td uib-tooltip-template="'mySealTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showCarco">
+                        <table>
+                            <tr>
+                                <td style="font-size:0.9em; font-style:italic;">Carco:</td>
+                            </tr>
+                            <tr ng-repeat="d in sealSpecifics | filter:{ mfg: '3' }:true | filter:{seal_basic_id: c.seal_basic_id}:true" >
+                            
+                                <td uib-tooltip-template="'mySealTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                            </tr>
+                        </table>
+                    </td>
+                    <td ng-if="showOther">
+                        <table>
+                            <tr>
+                                <td style="font-size:0.9em; font-style:italic;">Other:</td>
+                            </tr>
+                            <tr ng-repeat="d in bearingSpecifics | filter:{ mfg: '4' }:true | filter:{ seal_basic_id: c.seal_basic_id}:true" > 
+                               <td uib-tooltip-template="'mySealTooltipTemplate.html'" tooltip-popup-delay="1000" style="white-space: nowrap; padding-right:10px; font-size: 0.8em;">{{d.specific_pn}}</td> 
+                            </tr>
+                        </table>
+                    </td>
+                    <td>{{c.notes}}</td>  
+
+                   
+                    <td ng-if="showActions" style="width:100px">
+                        <div class="btn-group">
+                            <button type="button" class="btn-xs btn-default fa fa-edit" uib-tooltip="Edit" ng-click="open(c);"></button>
+                            <button type="button" class="btn-xs btn-danger fa fa-trash-o" uib-tooltip="Delete" ng-click="deleteProduct(c);"></button>
+                            <button type="button" class="btn-xs btn-default fa fa-tags" uib-tooltip="Copy" ></button> 
+                        </div>
+                    </td>
+
+
+                </tr>
+            </table>
+        </div>
+    </div>  
+    
+    
+    <script type="text/ng-template" id="mySealTooltipTemplate.html">
+      <div>
+      <style>  
+      	div.tooltip {
+	    width: 270px;
+	}
+	
+	div.tooltip-inner {
+	    max-width: 280px;
+	}
+      </style>
+      	<table>
+      	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Specific PN:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.specific_pn}} </td> </tr> <br>
+      	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Specific ID:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.uid}} </td> </tr> <br>
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Seal Basic ID:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.seal_basic_id}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>ID:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.inner_dia}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>OD:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.outer_dia}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Width:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.width}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Material:</strong> </td> <td style="white-space:nowrap; padding-left:5px;">{{d.material}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Split:</strong> </td style="white-space:nowrap; padding-left:5px;"> <td>{{d.split}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Profile:</strong> </td style="white-space:nowrap; padding-left:5px;"> <td>{{d.profile}} </td> </tr> <br> 
+	    <tr> <td style="white-space:nowrap;text-align:right;"> <strong>Notes:</strong> </td> <td style="padding-left:5px;">{{d.notes}} </td> </tr>
+    	</table>
+     </div>
+    </script>
+</div>
+            

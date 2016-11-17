@@ -10,8 +10,11 @@
             <form-element label="ID" mod="product">
                 <input type="text" class="form-control" name="id" maxlength="15" uib-tooltip="max length 15 charaters"  placeholder="" ng-model="product.uid" ng-disabled=true focus/>
             </form-element>
-            <form-element label="Tower Model" mod="product">
-                <input type="text" class="form-control" name="gb_id" maxlength="20" uib-tooltip="max length 20 charaters" placeholder="" ng-model="product.tower_id" focus/> <!-- ng-disabled=true  -->
+            <!--<form-element label="Tower Model" mod="product">
+                <input type="text" class="form-control" name="tower_id" maxlength="20" uib-tooltip="max length 20 charaters" placeholder="" ng-model="product.tower_id" focus/> 
+            </form-element>-->
+            <form-element label="TUID" mod="product">
+                <input type="text" class="form-control" name="tuid" maxlength="20" ng-model="product.tuid" ng-disabled=true focus/> <!-- ng-disabled=true  -->
             </form-element>
             <form-element label="Pos ID" mod="product">
                 <input type="text" class="form-control" name="order" maxlength="6" uib-tooltip="max length 6 charaters" placeholder="" ng-model="product.pos_id" focus/>

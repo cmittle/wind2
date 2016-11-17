@@ -30,6 +30,19 @@ app
     };
 })
 
+.directive('mainSeals', function () {
+    'use strict';
+    return {
+        restrict: 'E',
+        controller: 'mainSealsCtrl', //copied from gearboxSealsCtrl intially
+        scope: {
+            towerModel: '@model',  //variable name in scope is towerModel (value on left side of this statement)
+            towerMfg: '@mfg'
+        },
+        templateUrl: 'partials/main_seals.html'  //copied from gearboxSealsCtrl intially
+    };
+})
+
 .directive('gearboxBearings', function () {
     'use strict';
     return {

@@ -3,6 +3,7 @@ app.controller('towerCompleteCtrl', function ($scope, $routeParams) {
     $scope.urlModel = $routeParams.model;  //model number passed in url
     $scope.showText = false;
     $scope.showMain = false;
+    $scope.showSeals = true;
 
     
     $scope.switchShowText = function () {
@@ -11,6 +12,10 @@ app.controller('towerCompleteCtrl', function ($scope, $routeParams) {
 
     $scope.switchShowMain = function () {
     	$scope.showMain = !$scope.showMain;
+    };
+    
+    $scope.switchShowSeals = function () {
+    	$scope.showSeals = !$scope.showSeals;
     };
     
 });

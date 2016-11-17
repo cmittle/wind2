@@ -245,6 +245,21 @@ app.config(['$routeProvider',
           }
     	}
     })
+    .when('/tower_model_edit', {
+      templateUrl: 'partials/towerModelEdit.html',
+      //controller: 'towerModelEditCtrl', //need to create this controller.
+      resolve:{  //this will check that the user has a token before loading the page.  Authentication of the token is done severside
+        "check":function($location){   
+            if(window.sessionStorage.accessToken != null){
+                //console.log("You Shall Pass");
+            }else{
+            	window.sessionStorage.targetedLocation = $location.$$path;  //Save target location so after login user can be sent there
+                $location.path('/login');    //redirect user to login
+                alert("Don't be ridiculous, you need to login before going anywhere");
+            }
+          }
+    	}
+    })
     .when('/dashboard', {
       title: 'User Dashboard',
       templateUrl: 'partials/dashboard.html',

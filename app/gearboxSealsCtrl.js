@@ -39,8 +39,8 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
     	   }).then(function successCallback(results) { //succesful HTTP response 
             	//this is the list of generic bearing part numbers with positions and display sequence etc... for this gearbox (gbid sent in GET parameters)
             	$scope.products = results.data;
-            	console.log("SEALS RESULTS");
-            	console.log(results.data);
+            	//console.log("SEALS RESULTS");
+            	//console.log(results.data);
             	//this removes duplicates and reduces to an array with only unique bearing_basic_id
             	$scope.removeDuplicates(results.data);  
                 //after cleaning list of duplicates above run this to retrieve bearing specific part numbers
@@ -65,8 +65,8 @@ app.controller('gearboxSealsCtrl', function ($scope, $uibModal, $filter, $http, 
 		          });	
 	        //this trims duplicates and makes a clean set without duplicates
 		$scope.sealBasicIdArray = new Set($scope.sealBasicIdArray);  
-		console.log("sealBasicIdArray with duplicates removes");
-		console.log($scope.sealBasicIdArray);
+		//console.log("sealBasicIdArray with duplicates removes");
+		//console.log($scope.sealBasicIdArray);
 	};
 
 
